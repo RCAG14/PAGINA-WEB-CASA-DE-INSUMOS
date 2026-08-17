@@ -1,13 +1,16 @@
 // Prisma schema — Casa de Insumos ERP/WMS
-// SQL Server, nombres de campo en snake_case tal como fueron especificados.
+// PostgreSQL (Supabase), nombres de campo en snake_case tal como fueron especificados.
 
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
+// Prisma 7 ya no acepta `url`/`directUrl` aquí: las cadenas de conexión viven
+// en prisma.config.ts (CLI/migraciones) y en el adapter de src/lib/prisma.ts
+// (Prisma Client en runtime). Ver ambos archivos.
 datasource db {
-  provider = "sqlserver"
+  provider = "postgresql"
 }
 
 model Clasificacion {
@@ -73,12 +76,12 @@ model Caja {
   rating      Decimal @default(0) @db.Decimal(2, 1)
   num_resenas Int     @default(0)
 
-  // Foto real de la caja/lote en Cloudinary. Si es null, la UI cae al ícono
-  // de clasificación (ver BoxVisual) en vez de romper el layout.
-  imagen_url        String?
-  imagen_public_id  String?
+  // Foto real de la caja/lote en Supabase Storage. Si es null, la UI cae al
+  // ícono de clasificación (ver BoxVisual) en vez de romper el layout.
+  imagen_url  String?
+  imagen_path String?
 
-  creado_en     DateTime @default(now())
+  creado_en      DateTime @default(now())
   actualizado_en DateTime @updatedAt
 
   detalles        DetalleCaja[]
@@ -96,7 +99,7 @@ model DetalleCaja {
   producto_id String
   producto    Producto @relation(fields: [producto_id], references: [id])
 
-  cantidad Int
+  cantidad  Int
   // Estado reportado del artículo devuelto (ej. "Como nuevo", "Función no verificada").
   condicion String
 
@@ -228,21 +231,21 @@ model NumeroContacto {
 
 // Contenido multimedia editable de la landing page (video/imágenes del Hero,
 // imagen de "Sobre nosotros" y banners de promociones), todo alojado en
-// Cloudinary. El administrador lo gestiona por completo desde
+// Supabase Storage. El administrador lo gestiona por completo desde
 // /admin/cajas/landing sin tocar código.
 model ContenidoLanding {
   id String @id @default(cuid())
 
-  // hero_video | hero_imagen | about_imagen | banner_promo
+  // hero_video | hero_imagen | about_imagen | banner_promo | logo
   tipo String
 
   // imagen | video — determina cómo se renderiza en el frontend.
   formato String
 
-  url                   String
-  // public_id de Cloudinary, necesario para poder borrar el asset remoto
-  // al reemplazar o eliminar el registro.
-  cloudinary_public_id String
+  url          String
+  // Path del objeto dentro del bucket de Supabase Storage, necesario para
+  // poder borrar el asset remoto al reemplazar o eliminar el registro.
+  storage_path String
 
   titulo     String?
   subtitulo  String?

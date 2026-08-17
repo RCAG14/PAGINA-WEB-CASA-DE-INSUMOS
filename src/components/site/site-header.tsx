@@ -9,8 +9,8 @@ import { useLogo } from "@/lib/logo-context";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/#catalogo", label: "Catálogo" },
-  { href: "/#como-funciona", label: "Cómo funciona" },
+  { href: "/catalogo#catalogo", label: "Catálogo" },
+  { href: "/catalogo#como-funciona", label: "Cómo funciona" },
 ];
 
 export function SiteHeader() {

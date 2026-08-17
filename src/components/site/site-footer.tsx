@@ -96,7 +96,7 @@ export async function SiteFooter() {
           {classifications.map((c) => (
             <Link
               key={c.slug}
-              href={`/#catalogo`}
+              href={`/catalogo#catalogo`}
               className="text-sm text-primary-foreground/80 hover:text-accent"
             >
               {c.label}
@@ -170,8 +170,8 @@ export async function SiteFooter() {
       <div className="border-t border-primary-foreground/10 px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
-            © 2026 Casa de Insumos — ERP/WMS en construcción, persistencia real vía Prisma + SQL
-            Server.
+            © 2026 Casa de Insumos — ERP/WMS en construcción, persistencia real vía Prisma +
+            PostgreSQL (Supabase).
           </p>
           {logo && (
             // eslint-disable-next-line @next/next/no-img-element

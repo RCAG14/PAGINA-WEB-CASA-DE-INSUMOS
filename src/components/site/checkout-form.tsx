@@ -90,7 +90,7 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
         <p className="text-sm text-muted-foreground">
           Agrega al menos una caja para continuar con el checkout.
         </p>
-        <Link href="/#catalogo" className={buttonVariants({})}>
+        <Link href="/catalogo" className={buttonVariants({})}>
           Ver catálogo
         </Link>
       </div>

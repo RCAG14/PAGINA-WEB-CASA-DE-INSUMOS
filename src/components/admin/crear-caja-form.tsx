@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { Plus, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 import { crearCajaAction } from "@/app/admin/cajas/inventario/actions";
-import { CloudinaryUploader, type CloudinaryAsset } from "@/components/admin/cloudinary-uploader";
+import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,7 +53,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
   const [pesoBruto, setPesoBruto] = useState("");
   const [dimensiones, setDimensiones] = useState("");
 
-  const [imagen, setImagen] = useState<CloudinaryAsset | null>(null);
+  const [imagen, setImagen] = useState<StorageAsset | null>(null);
 
   const [detalle, setDetalle] = useState<DetalleCajaInput[]>([{ ...EMPTY_ROW }]);
 
@@ -124,7 +124,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
               ? { cantidadMin, cantidadMax, valorMin, valorMax }
               : undefined,
           imagenUrl: imagen?.url ?? null,
-          imagenPublicId: imagen?.publicId ?? null,
+          imagenPath: imagen?.path ?? null,
         });
         router.push("/admin/cajas/inventario");
         router.refresh();
@@ -158,7 +158,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
           </div>
 
           <div className="sm:col-span-2">
-            <CloudinaryUploader
+            <StorageUploader
               label="Foto de la caja (opcional)"
               resourceType="image"
               folder="casa-de-insumos/productos"

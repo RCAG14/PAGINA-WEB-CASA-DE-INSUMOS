@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { toDecimalNumber } from "@/lib/data/decimal";
 import { slugify } from "@/lib/utils";
-import { deleteFromCloudinary } from "@/lib/cloudinary";
+import { deleteFromSupabaseStorage } from "@/lib/supabase";
 import type { Prisma } from "@/generated/prisma/client";
 import type { Box, BoxItemSpec, CategoryMeta, ClassificationIcon } from "@/lib/types";
 
@@ -129,9 +129,9 @@ export interface CrearCajaInput {
   detalle: DetalleCajaInput[];
   /** Usado cuando tipoVenta === "sorpresa". */
   rangoSorpresa?: RangoSorpresaInput;
-  /** Foto del lote ya subida a Cloudinary (opcional). */
+  /** Foto del lote ya subida a Supabase Storage (opcional). */
   imagenUrl?: string | null;
-  imagenPublicId?: string | null;
+  imagenPath?: string | null;
 }
 
 export async function crearCajaConDetalle(input: CrearCajaInput) {
@@ -158,7 +158,7 @@ export async function crearCajaConDetalle(input: CrearCajaInput) {
       precio_venta_caja: input.precioVentaCaja,
       stock_disponible: input.stockDisponible,
       imagen_url: input.imagenUrl ?? null,
-      imagen_public_id: input.imagenPublicId ?? null,
+      imagen_path: input.imagenPath ?? null,
       cantidad_estimada_min: esSorpresa ? input.rangoSorpresa?.cantidadMin : null,
       cantidad_estimada_max: esSorpresa ? input.rangoSorpresa?.cantidadMax : null,
       valor_estimado_min: esSorpresa ? input.rangoSorpresa?.valorMin : null,
@@ -200,15 +200,15 @@ export interface ActualizarCajaInput {
   costoTotal: number;
   precioVentaCaja: number;
   stockDisponible: number;
-  /** Foto del lote ya subida a Cloudinary (opcional). */
+  /** Foto del lote ya subida a Supabase Storage (opcional). */
   imagenUrl?: string | null;
-  imagenPublicId?: string | null;
+  imagenPath?: string | null;
 }
 
 export async function actualizarCajaCore(id: string, input: ActualizarCajaInput) {
   const anterior = await prisma.caja.findUnique({
     where: { id },
-    select: { imagen_public_id: true },
+    select: { imagen_path: true },
   });
 
   await prisma.caja.update({
@@ -223,21 +223,18 @@ export async function actualizarCajaCore(id: string, input: ActualizarCajaInput)
       precio_venta_caja: input.precioVentaCaja,
       stock_disponible: input.stockDisponible,
       imagen_url: input.imagenUrl ?? null,
-      imagen_public_id: input.imagenPublicId ?? null,
+      imagen_path: input.imagenPath ?? null,
     },
   });
 
-  if (
-    anterior?.imagen_public_id &&
-    anterior.imagen_public_id !== (input.imagenPublicId ?? null)
-  ) {
-    await deleteFromCloudinary(anterior.imagen_public_id, "image").catch(() => {});
+  if (anterior?.imagen_path && anterior.imagen_path !== (input.imagenPath ?? null)) {
+    await deleteFromSupabaseStorage(anterior.imagen_path).catch(() => {});
   }
 }
 
 export async function eliminarCaja(id: string) {
   const caja = await prisma.caja.delete({ where: { id } });
-  if (caja.imagen_public_id) {
-    await deleteFromCloudinary(caja.imagen_public_id, "image").catch(() => {});
+  if (caja.imagen_path) {
+    await deleteFromSupabaseStorage(caja.imagen_path).catch(() => {});
   }
 }

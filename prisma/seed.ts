@@ -1,35 +1,11 @@
-import { PrismaMssql } from "@prisma/adapter-mssql";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
-import type * as sql from "mssql";
-
-function parseSqlServerUrl(url: string): sql.config {
-  const withoutScheme = url.replace(/^sqlserver:\/\//i, "");
-  const [hostPort, ...pairs] = withoutScheme.split(";").filter(Boolean);
-  const [server, portStr] = hostPort.split(":");
-  const params: Record<string, string> = {};
-  for (const pair of pairs) {
-    const idx = pair.indexOf("=");
-    if (idx === -1) continue;
-    params[pair.slice(0, idx).trim().toLowerCase()] = pair.slice(idx + 1).trim();
-  }
-  return {
-    server,
-    port: portStr ? Number(portStr) : 1433,
-    database: params["database"],
-    user: params["user"],
-    password: params["password"],
-    options: {
-      encrypt: params["encrypt"] !== "false",
-      trustServerCertificate: params["trustservercertificate"] === "true",
-    },
-  };
-}
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL no está configurada.");
-const prisma = new PrismaClient({ adapter: new PrismaMssql(parseSqlServerUrl(url)) });
+const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
 
 const CLASIFICACIONES = [
   { slug: "electronica", nombre: "Electrónica y Tecnología", descripcion: "Retornos de dispositivos, audio y accesorios tecnológicos", icono: "electronica" },

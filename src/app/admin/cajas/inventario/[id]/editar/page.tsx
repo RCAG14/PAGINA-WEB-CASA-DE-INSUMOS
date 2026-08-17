@@ -32,7 +32,7 @@ export default async function EditarCajaPage(props: PageProps<"/admin/cajas/inve
             precio_venta_caja: toDecimalNumber(caja.precio_venta_caja),
             stock_disponible: caja.stock_disponible,
             imagen_url: caja.imagen_url,
-            imagen_public_id: caja.imagen_public_id,
+            imagen_path: caja.imagen_path,
           }}
           classifications={classifications}
         />

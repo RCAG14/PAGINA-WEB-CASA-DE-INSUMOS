@@ -16,14 +16,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { CloudinaryUploader, type CloudinaryAsset } from "@/components/admin/cloudinary-uploader";
+import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
 import { ProductPickerDialog } from "@/components/admin/product-picker-dialog";
 import type { FormatoMedia } from "@/lib/data/landing";
 import type { Box, CategoryMeta } from "@/lib/types";
 
 export interface ContenidoLandingFormValues {
   url: string;
-  cloudinaryPublicId: string;
+  storagePath: string;
   titulo: string;
   subtitulo: string;
   enlaceCta: string;
@@ -33,7 +33,7 @@ export interface ContenidoLandingFormValues {
 
 const EMPTY_VALUES: ContenidoLandingFormValues = {
   url: "",
-  cloudinaryPublicId: "",
+  storagePath: "",
   titulo: "",
   subtitulo: "",
   enlaceCta: "",
@@ -82,7 +82,7 @@ export function LandingMediaFormDialog({
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!values.url || !values.cloudinaryPublicId) {
+    if (!values.url || !values.storagePath) {
       setError("Sube un archivo antes de guardar.");
       return;
     }
@@ -103,19 +103,19 @@ export function LandingMediaFormDialog({
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
-            <CloudinaryUploader
+            <StorageUploader
               resourceType={formato === "video" ? "video" : "image"}
               folder={folder}
               value={
-                values.url && values.cloudinaryPublicId
-                  ? { url: values.url, publicId: values.cloudinaryPublicId }
+                values.url && values.storagePath
+                  ? { url: values.url, path: values.storagePath }
                   : null
               }
-              onChange={(asset: CloudinaryAsset | null) =>
+              onChange={(asset: StorageAsset | null) =>
                 setValues((cur) => ({
                   ...cur,
                   url: asset?.url ?? "",
-                  cloudinaryPublicId: asset?.publicId ?? "",
+                  storagePath: asset?.path ?? "",
                 }))
               }
             />
@@ -162,7 +162,7 @@ export function LandingMediaFormDialog({
                   <div className="flex gap-1.5">
                     <Input
                       id="cl-enlace-cta"
-                      placeholder="/#catalogo"
+                      placeholder="/catalogo"
                       value={values.enlaceCta}
                       onChange={(e) =>
                         setValues((cur) => ({ ...cur, enlaceCta: e.target.value }))

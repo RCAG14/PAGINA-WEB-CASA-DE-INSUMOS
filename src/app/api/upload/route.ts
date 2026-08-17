@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import {
-  deleteFromCloudinary,
-  uploadBufferToCloudinary,
-  type CloudinaryResourceType,
-} from "@/lib/cloudinary";
+import { deleteFromSupabaseStorage, uploadToSupabaseStorage } from "@/lib/supabase";
 
-// Carpetas Cloudinary permitidas — evita que el cliente suba a rutas arbitrarias.
+// Carpetas del bucket permitidas — evita que el cliente suba a rutas arbitrarias.
 const ALLOWED_FOLDERS = new Set([
   "casa-de-insumos/landing/hero",
   "casa-de-insumos/landing/about",
@@ -14,7 +10,7 @@ const ALLOWED_FOLDERS = new Set([
   "casa-de-insumos/productos",
 ]);
 
-const MAX_SIZE_BYTES: Record<CloudinaryResourceType, number> = {
+const MAX_SIZE_BYTES: Record<"image" | "video", number> = {
   image: 10 * 1024 * 1024,
   video: 100 * 1024 * 1024,
 };
@@ -51,28 +47,31 @@ export async function POST(request: Request) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   try {
-    const result = await uploadBufferToCloudinary(buffer, { folder, resourceType });
+    const result = await uploadToSupabaseStorage(buffer, {
+      folder,
+      fileName: file.name,
+      contentType: file.type,
+    });
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error subiendo a Cloudinary:", error);
-    return NextResponse.json({ error: "No se pudo subir el archivo a Cloudinary." }, { status: 502 });
+    console.error("Error subiendo a Supabase Storage:", error);
+    return NextResponse.json({ error: "No se pudo subir el archivo." }, { status: 502 });
   }
 }
 
 export async function DELETE(request: Request) {
   const body = await request.json().catch(() => null);
-  const publicId = body?.publicId;
-  const resourceType = body?.resourceType;
+  const path = body?.path;
 
-  if (typeof publicId !== "string" || (resourceType !== "image" && resourceType !== "video")) {
+  if (typeof path !== "string" || !path) {
     return NextResponse.json({ error: "Datos inválidos para eliminar el archivo." }, { status: 400 });
   }
 
   try {
-    await deleteFromCloudinary(publicId, resourceType);
+    await deleteFromSupabaseStorage(path);
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Error eliminando de Cloudinary:", error);
-    return NextResponse.json({ error: "No se pudo eliminar el archivo de Cloudinary." }, { status: 502 });
+    console.error("Error eliminando de Supabase Storage:", error);
+    return NextResponse.json({ error: "No se pudo eliminar el archivo." }, { status: 502 });
   }
 }

@@ -12,6 +12,7 @@ import {
 function revalidarTodo() {
   revalidatePath("/admin/cajas/landing");
   revalidatePath("/");
+  revalidatePath("/catalogo");
 }
 
 export async function crearContenidoLandingAction(input: ContenidoLandingInput) {

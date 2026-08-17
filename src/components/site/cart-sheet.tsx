@@ -49,7 +49,7 @@ export function CartSheet() {
             <SheetClose
               render={
                 <Link
-                  href="/#catalogo"
+                  href="/catalogo"
                   className={buttonVariants({ variant: "secondary", size: "sm" })}
                 />
               }

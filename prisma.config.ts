@@ -9,7 +9,10 @@ export default defineConfig({
     path: "prisma/migrations",
     seed: "tsx prisma/seed.ts",
   },
+  // Conexión DIRECTA (puerto 5432, sin pgbouncer) — la usan `prisma migrate` /
+  // `db push` / `studio`. Prisma Client en runtime usa DATABASE_URL (pooled)
+  // por separado, vía el adapter en src/lib/prisma.ts.
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: process.env["DIRECT_URL"],
   },
 });

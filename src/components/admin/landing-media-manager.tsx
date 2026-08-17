@@ -101,7 +101,7 @@ const SECTIONS: SectionConfig[] = [
 function toFormValues(item: ContenidoLanding): ContenidoLandingFormValues {
   return {
     url: item.url,
-    cloudinaryPublicId: item.cloudinary_public_id,
+    storagePath: item.storage_path,
     titulo: item.titulo ?? "",
     subtitulo: item.subtitulo ?? "",
     enlaceCta: item.enlace_cta ?? "",
@@ -158,7 +158,7 @@ export function LandingMediaManager({
                     </>
                   }
                   dialogTitle={`Nuevo — ${section.titulo}`}
-                  dialogDescription="El archivo se sube directamente a Cloudinary y queda listo para publicarse."
+                  dialogDescription="El archivo se sube directamente a Supabase Storage y queda listo para publicarse."
                   formato={section.formato}
                   folder={section.folder}
                   withCta={section.withCta}
@@ -170,7 +170,7 @@ export function LandingMediaManager({
                         tipo: section.tipo,
                         formato: section.formato,
                         url: values.url,
-                        cloudinaryPublicId: values.cloudinaryPublicId,
+                        storagePath: values.storagePath,
                         titulo: values.titulo || null,
                         subtitulo: values.subtitulo || null,
                         enlaceCta: values.enlaceCta || null,
@@ -279,7 +279,7 @@ export function LandingMediaManager({
                           trigger={<Button variant="outline" size="icon-xs" />}
                           triggerContent={<Pencil className="size-3" />}
                           dialogTitle={`Editar — ${section.titulo}`}
-                          dialogDescription="El archivo se sube directamente a Cloudinary y queda listo para publicarse."
+                          dialogDescription="El archivo se sube directamente a Supabase Storage y queda listo para publicarse."
                           formato={section.formato}
                           folder={section.folder}
                           withCta={section.withCta}
@@ -292,7 +292,7 @@ export function LandingMediaManager({
                                 tipo: section.tipo,
                                 formato: section.formato,
                                 url: values.url,
-                                cloudinaryPublicId: values.cloudinaryPublicId,
+                                storagePath: values.storagePath,
                                 titulo: values.titulo || null,
                                 subtitulo: values.subtitulo || null,
                                 enlaceCta: values.enlaceCta || null,

@@ -15,6 +15,7 @@ import {
 function revalidarTodo() {
   revalidatePath("/admin/cajas/configuracion");
   revalidatePath("/");
+  revalidatePath("/catalogo");
   revalidatePath("/checkout");
 }
 

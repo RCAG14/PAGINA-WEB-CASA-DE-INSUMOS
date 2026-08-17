@@ -5,29 +5,29 @@ import { ImagePlus, Loader2, Trash2, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export interface CloudinaryAsset {
+export interface StorageAsset {
   url: string;
-  publicId: string;
+  path: string;
 }
 
-interface CloudinaryUploaderProps {
-  value: CloudinaryAsset | null;
-  onChange: (asset: CloudinaryAsset | null) => void;
+interface StorageUploaderProps {
+  value: StorageAsset | null;
+  onChange: (asset: StorageAsset | null) => void;
   resourceType: "image" | "video";
-  /** Carpeta Cloudinary de destino — debe estar en la lista blanca de /api/upload. */
+  /** Carpeta del bucket de destino — debe estar en la lista blanca de /api/upload. */
   folder: string;
   label?: string;
   className?: string;
 }
 
-export function CloudinaryUploader({
+export function StorageUploader({
   value,
   onChange,
   resourceType,
   folder,
   label,
   className,
-}: CloudinaryUploaderProps) {
+}: StorageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,13 +54,13 @@ export function CloudinaryUploader({
         throw new Error(data?.error ?? "No se pudo subir el archivo.");
       }
 
-      onChange({ url: data.url, publicId: data.publicId });
+      onChange({ url: data.url, path: data.path });
 
       if (previous) {
         void fetch("/api/upload", {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ publicId: previous.publicId, resourceType }),
+          body: JSON.stringify({ path: previous.path }),
         }).catch(() => {});
       }
     } catch (err) {
@@ -77,7 +77,7 @@ export function CloudinaryUploader({
     void fetch("/api/upload", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ publicId: toDelete.publicId, resourceType }),
+      body: JSON.stringify({ path: toDelete.path }),
     }).catch(() => {});
   }
 
@@ -101,7 +101,7 @@ export function CloudinaryUploader({
               playsInline
             />
           ) : (
-            // Asset externo de Cloudinary sin dimensiones fijas conocidas de antemano en este preview.
+            // Asset externo de Supabase Storage sin dimensiones fijas conocidas de antemano en este preview.
             // eslint-disable-next-line @next/next/no-img-element
             <img src={value.url} alt="" className="h-full w-full object-cover" />
           )

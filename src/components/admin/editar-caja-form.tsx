@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { actualizarCajaAction } from "@/app/admin/cajas/inventario/actions";
-import { CloudinaryUploader, type CloudinaryAsset } from "@/components/admin/cloudinary-uploader";
+import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ interface CajaEditable {
   precio_venta_caja: number;
   stock_disponible: number;
   imagen_url: string | null;
-  imagen_public_id: string | null;
+  imagen_path: string | null;
 }
 
 export function EditarCajaForm({
@@ -53,9 +53,9 @@ export function EditarCajaForm({
   const [costoTotal, setCostoTotal] = useState(caja.costo_total);
   const [precioVentaCaja, setPrecioVentaCaja] = useState(caja.precio_venta_caja);
   const [stockDisponible, setStockDisponible] = useState(caja.stock_disponible);
-  const [imagen, setImagen] = useState<CloudinaryAsset | null>(
-    caja.imagen_url && caja.imagen_public_id
-      ? { url: caja.imagen_url, publicId: caja.imagen_public_id }
+  const [imagen, setImagen] = useState<StorageAsset | null>(
+    caja.imagen_url && caja.imagen_path
+      ? { url: caja.imagen_url, path: caja.imagen_path }
       : null
   );
 
@@ -75,7 +75,7 @@ export function EditarCajaForm({
           precioVentaCaja,
           stockDisponible,
           imagenUrl: imagen?.url ?? null,
-          imagenPublicId: imagen?.publicId ?? null,
+          imagenPath: imagen?.path ?? null,
         });
         router.push("/admin/cajas/inventario");
         router.refresh();
@@ -109,7 +109,7 @@ export function EditarCajaForm({
           </div>
 
           <div className="sm:col-span-2">
-            <CloudinaryUploader
+            <StorageUploader
               label="Foto de la caja (opcional)"
               resourceType="image"
               folder="casa-de-insumos/productos"

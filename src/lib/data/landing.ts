@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { deleteFromCloudinary, type CloudinaryResourceType } from "@/lib/cloudinary";
+import { deleteFromSupabaseStorage } from "@/lib/supabase";
 
 export type TipoContenidoLanding =
   | "hero_video"
@@ -9,15 +9,11 @@ export type TipoContenidoLanding =
   | "logo";
 export type FormatoMedia = "imagen" | "video";
 
-function formatoToResourceType(formato: string): CloudinaryResourceType {
-  return formato === "video" ? "video" : "image";
-}
-
 export interface ContenidoLandingInput {
   tipo: TipoContenidoLanding;
   formato: FormatoMedia;
   url: string;
-  cloudinaryPublicId: string;
+  storagePath: string;
   titulo?: string | null;
   subtitulo?: string | null;
   enlaceCta?: string | null;
@@ -54,6 +50,15 @@ export async function getBannersPromo() {
   return getContenidoLandingPorTipo("banner_promo");
 }
 
+/** Últimas `limit` ofertas/promociones activas, sin importar de qué servicio sean — usadas en la tira superior del portal (/). */
+export async function getUltimasOfertas(limit: number) {
+  return prisma.contenidoLanding.findMany({
+    where: { tipo: "banner_promo", activo: true },
+    orderBy: { creado_en: "desc" },
+    take: limit,
+  });
+}
+
 export async function getLogo() {
   const rows = await getContenidoLandingPorTipo("logo");
   return rows[0] ?? null;
@@ -66,7 +71,7 @@ export async function crearContenidoLanding(input: ContenidoLandingInput) {
       tipo: input.tipo,
       formato: input.formato,
       url: input.url,
-      cloudinary_public_id: input.cloudinaryPublicId,
+      storage_path: input.storagePath,
       titulo: input.titulo || null,
       subtitulo: input.subtitulo || null,
       enlace_cta: input.enlaceCta || null,
@@ -85,7 +90,7 @@ export async function actualizarContenidoLanding(id: string, input: ContenidoLan
     data: {
       formato: input.formato,
       url: input.url,
-      cloudinary_public_id: input.cloudinaryPublicId,
+      storage_path: input.storagePath,
       titulo: input.titulo || null,
       subtitulo: input.subtitulo || null,
       enlace_cta: input.enlaceCta || null,
@@ -94,12 +99,9 @@ export async function actualizarContenidoLanding(id: string, input: ContenidoLan
     },
   });
 
-  // Si el admin reemplazó el archivo (nuevo public_id), limpia el asset viejo en Cloudinary.
-  if (anterior && anterior.cloudinary_public_id !== input.cloudinaryPublicId) {
-    await deleteFromCloudinary(
-      anterior.cloudinary_public_id,
-      formatoToResourceType(anterior.formato)
-    ).catch(() => {});
+  // Si el admin reemplazó el archivo (nuevo path), limpia el asset viejo en Supabase Storage.
+  if (anterior && anterior.storage_path !== input.storagePath) {
+    await deleteFromSupabaseStorage(anterior.storage_path).catch(() => {});
   }
 }
 
@@ -109,7 +111,5 @@ export async function actualizarOrdenContenidoLanding(id: string, orden: number)
 
 export async function eliminarContenidoLanding(id: string) {
   const row = await prisma.contenidoLanding.delete({ where: { id } });
-  await deleteFromCloudinary(row.cloudinary_public_id, formatoToResourceType(row.formato)).catch(
-    () => {}
-  );
+  await deleteFromSupabaseStorage(row.storage_path).catch(() => {});
 }

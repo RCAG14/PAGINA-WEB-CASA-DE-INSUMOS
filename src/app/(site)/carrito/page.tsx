@@ -36,7 +36,7 @@ export default function CartPage() {
         <p className="text-sm text-muted-foreground">
           Explora el catálogo y arma tu pedido de cajas listadas o sorpresa.
         </p>
-        <Link href="/#catalogo" className={buttonVariants({})}>
+        <Link href="/catalogo" className={buttonVariants({})}>
           Ver catálogo
         </Link>
       </div>
@@ -146,7 +146,7 @@ export default function CartPage() {
             <ArrowRight className="size-4" />
           </Button>
           <Link
-            href="/#catalogo"
+            href="/catalogo"
             className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
           >
             Seguir explorando el catálogo

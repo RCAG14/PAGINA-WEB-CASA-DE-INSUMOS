@@ -19,10 +19,17 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Casa de Insumos | Cajas de Retorno de Amazon",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: "%s | Casa de Insumos",
+    default: "Casa de Insumos | Cajas de Retorno de Amazon",
+  },
   description:
     "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

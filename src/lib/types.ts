@@ -43,7 +43,7 @@ interface BaseBox {
   slug: string;
   nombre: string;
   clasificacion: CategoryMeta;
-  /** Foto real del lote en Cloudinary. Si es null, la UI usa el ícono de clasificación. */
+  /** Foto real del lote en Supabase Storage. Si es null, la UI usa el ícono de clasificación. */
   imagenUrl: string | null;
   precio: number;
   /** Suma real de precio_venta_sugerido * cantidad del detalle de la caja. */
