@@ -1,0 +1,158 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowRight, ShoppingCart, Trash2 } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { QuantityStepper } from "@/components/site/quantity-stepper";
+import { BoxTypeBadge } from "@/components/site/box-type-badge";
+import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { formatPrice } from "@/lib/format";
+import { useCart } from "@/lib/cart-context";
+import { useLogo } from "@/lib/logo-context";
+
+function LetterheadLogo({ url }: { url: string | null }) {
+  if (!url) return null;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={url}
+      alt="Casa de Insumos"
+      className="absolute right-4 top-6 h-9 w-auto object-contain sm:right-6 sm:h-11"
+    />
+  );
+}
+
+export default function CartPage() {
+  const { lines, subtotal, totalItems, removeLine, setQty, hydrated } = useCart();
+  const logoUrl = useLogo();
+
+  if (hydrated && lines.length === 0) {
+    return (
+      <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-4 px-4 py-24 text-center">
+        <LetterheadLogo url={logoUrl} />
+        <ShoppingCart className="size-10 text-muted-foreground" strokeWidth={1.2} />
+        <h1 className="font-heading text-xl font-semibold">Tu carrito está vacío</h1>
+        <p className="text-sm text-muted-foreground">
+          Explora el catálogo y arma tu pedido de cajas listadas o sorpresa.
+        </p>
+        <Link href="/#catalogo" className={buttonVariants({})}>
+          Ver catálogo
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <LetterheadLogo url={logoUrl} />
+      <div className="mb-8 flex flex-col gap-1">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
+          Carrito de compras
+        </span>
+        <h1 className="font-heading text-2xl font-semibold sm:text-3xl">
+          {totalItems > 0
+            ? `${totalItems} caja${totalItems === 1 ? "" : "s"} en tu pedido`
+            : "Cargando carrito..."}
+        </h1>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="border border-border">
+          <div className="hidden grid-cols-[1fr_140px_120px_110px_40px] gap-4 border-b border-border bg-muted/50 px-4 py-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground sm:grid">
+            <span>Caja</span>
+            <span>Tipo</span>
+            <span className="text-center">Cantidad</span>
+            <span className="text-right">Total</span>
+            <span />
+          </div>
+          <ul className="divide-y divide-border">
+            {lines.map((line) => {
+              const Icon = CLASSIFICATION_ICON_MAP[line.clasificacionIcono];
+              return (
+                <li
+                  key={line.boxId}
+                  className="grid grid-cols-1 gap-4 px-4 py-4 sm:grid-cols-[1fr_140px_120px_110px_40px] sm:items-center"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-14 shrink-0 items-center justify-center border border-border bg-muted">
+                      <Icon className="size-5 text-primary" strokeWidth={1.5} />
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <Link
+                        href={`/productos/${line.slug}`}
+                        className="text-sm font-medium hover:text-primary"
+                      >
+                        {line.nombre}
+                      </Link>
+                      <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+                        {line.skuCaja} · {line.clasificacionLabel}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <BoxTypeBadge tipo={line.tipo} />
+                  </div>
+
+                  <div className="flex justify-start sm:justify-center">
+                    <QuantityStepper
+                      value={line.cantidad}
+                      max={line.stock}
+                      onChange={(v) => setQty(line.boxId, v)}
+                    />
+                  </div>
+
+                  <div className="text-left font-mono-technical text-sm font-semibold text-primary sm:text-right">
+                    {formatPrice(line.precio * line.cantidad)}
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => removeLine(line.boxId)}
+                      aria-label="Quitar del carrito"
+                      className="flex size-8 items-center justify-center text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="size-4" />
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div className="flex h-fit flex-col gap-4 border border-border bg-card p-4">
+          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+            Resumen del pedido
+          </p>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Subtotal ({totalItems} cajas)</span>
+            <span className="font-mono-technical font-medium">{formatPrice(subtotal)}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Envío</span>
+            <span className="font-mono-technical text-muted-foreground">Coordinación</span>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <span className="font-medium">Total estimado</span>
+            <span className="font-mono-technical text-lg font-semibold text-primary">
+              {formatPrice(subtotal)}
+            </span>
+          </div>
+          <Button size="lg" render={<Link href="/checkout" />} nativeButton={false} className="w-full">
+            Comprar
+            <ArrowRight className="size-4" />
+          </Button>
+          <Link
+            href="/#catalogo"
+            className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
+          >
+            Seguir explorando el catálogo
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

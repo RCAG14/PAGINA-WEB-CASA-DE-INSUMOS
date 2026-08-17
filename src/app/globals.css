@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Marca -- Ingenieria de insumos: verde oscuro / verde claro / marfil */
+  --background: #f1ecdc;
+  --foreground: #1a2b20;
+  --card: #fbf9f1;
+  --card-foreground: #1a2b20;
+  --popover: #fbf9f1;
+  --popover-foreground: #1a2b20;
+  --primary: #1b4332;
+  --primary-foreground: #f6f2e6;
+  --secondary: #dcefe1;
+  --secondary-foreground: #163427;
+  --muted: #e8e1c9;
+  --muted-foreground: #5c5940;
+  --accent: #74c69d;
+  --accent-foreground: #123023;
+  --destructive: #a8452b;
+  --destructive-foreground: #f6f2e6;
+  --border: #d7cead;
+  --input: #d7cead;
+  --ring: #1b4332;
+  --chart-1: #1b4332;
+  --chart-2: #2d6a4f;
+  --chart-3: #52a176;
+  --chart-4: #95d5b2;
+  --chart-5: #b9ac7c;
+  --radius: 0.3rem;
+  --line: #cabf95;
+  --sidebar: #16281f;
+  --sidebar-foreground: #ede7d3;
+  --sidebar-primary: #74c69d;
+  --sidebar-primary-foreground: #123023;
+  --sidebar-accent: #21392c;
+  --sidebar-accent-foreground: #f6f2e6;
+  --sidebar-border: #2b4536;
+  --sidebar-ring: #74c69d;
+}
+
+.dark {
+  --background: #10201a;
+  --foreground: #ece6d2;
+  --card: #16281f;
+  --card-foreground: #ece6d2;
+  --popover: #16281f;
+  --popover-foreground: #ece6d2;
+  --primary: #95d5b2;
+  --primary-foreground: #10201a;
+  --secondary: #21392c;
+  --secondary-foreground: #ece6d2;
+  --muted: #21392c;
+  --muted-foreground: #a3ad9f;
+  --accent: #74c69d;
+  --accent-foreground: #10201a;
+  --destructive: #c76146;
+  --destructive-foreground: #10201a;
+  --border: #2b4536;
+  --input: #2b4536;
+  --ring: #95d5b2;
+  --chart-1: #95d5b2;
+  --chart-2: #74c69d;
+  --chart-3: #52a176;
+  --chart-4: #2d6a4f;
+  --chart-5: #b9ac7c;
+  --line: #2b4536;
+  --sidebar: #0d1a14;
+  --sidebar-foreground: #ece6d2;
+  --sidebar-primary: #95d5b2;
+  --sidebar-primary-foreground: #10201a;
+  --sidebar-accent: #1c3226;
+  --sidebar-accent-foreground: #ece6d2;
+  --sidebar-border: #21392c;
+  --sidebar-ring: #95d5b2;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading), var(--font-sans);
+  }
+
+  .font-mono-technical {
+    font-family: var(--font-mono), monospace;
+    font-feature-settings: "tnum" 1, "zero" 1;
+  }
+
+  .bg-grid-technical {
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .bg-blueprint-dark {
+    background-color: var(--primary);
+    background-image:
+      linear-gradient(to right, rgba(246, 242, 230, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(246, 242, 230, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
