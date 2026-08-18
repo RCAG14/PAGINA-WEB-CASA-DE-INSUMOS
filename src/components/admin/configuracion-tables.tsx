@@ -23,15 +23,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { RedSocial, NumeroContacto } from "@/generated/prisma/client";
-
-const PLATAFORMA_LABEL: Record<string, string> = {
-  instagram: "Instagram",
-  facebook: "Facebook",
-  tiktok: "TikTok",
-  youtube: "YouTube",
-  x: "X / Twitter",
-  otro: "Otro",
-};
+import { getPlataformaRedSocial } from "@/lib/redes-sociales";
 
 export function ConfiguracionTables({
   redesSociales,
@@ -102,7 +94,7 @@ export function ConfiguracionTables({
                         <Link2 className="size-3.5 text-primary" strokeWidth={1.5} />
                       </span>
                       <span className="text-sm font-medium">
-                        {PLATAFORMA_LABEL[r.plataforma] ?? r.plataforma}
+                        {getPlataformaRedSocial(r.plataforma)?.label ?? r.plataforma}
                       </span>
                     </div>
                   </TableCell>

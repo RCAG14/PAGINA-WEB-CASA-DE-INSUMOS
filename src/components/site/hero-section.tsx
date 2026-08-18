@@ -11,8 +11,8 @@ const TRUST_ICONS = [PackageCheck, ClipboardCheck, ScanBarcode, Boxes];
 
 export async function HeroSection() {
   const [heroVideo, heroImagenes, { dict }] = await Promise.all([
-    getHeroVideo(),
-    getHeroImagenes(),
+    getHeroVideo("cajas"),
+    getHeroImagenes("cajas"),
     getDictionary(),
   ]);
 

@@ -8,9 +8,12 @@ export type TipoContenidoLanding =
   | "banner_promo"
   | "logo";
 export type FormatoMedia = "imagen" | "video";
+/** Negocio al que pertenece el contenido. Ignorado para tipo="logo" (marca compartida). */
+export type SitioContenido = "cajas" | "webdev";
 
 export interface ContenidoLandingInput {
   tipo: TipoContenidoLanding;
+  sitio: SitioContenido;
   formato: FormatoMedia;
   url: string;
   storagePath: string;
@@ -25,29 +28,32 @@ export async function getContenidoLandingAdmin() {
   return prisma.contenidoLanding.findMany({ orderBy: [{ tipo: "asc" }, { orden: "asc" }] });
 }
 
-export async function getContenidoLandingPorTipo(tipo: TipoContenidoLanding) {
+export async function getContenidoLandingPorTipo(
+  tipo: TipoContenidoLanding,
+  sitio?: SitioContenido
+) {
   return prisma.contenidoLanding.findMany({
-    where: { tipo, activo: true },
+    where: { tipo, activo: true, ...(sitio ? { sitio } : {}) },
     orderBy: { orden: "asc" },
   });
 }
 
-export async function getHeroVideo() {
-  const rows = await getContenidoLandingPorTipo("hero_video");
+export async function getHeroVideo(sitio: SitioContenido) {
+  const rows = await getContenidoLandingPorTipo("hero_video", sitio);
   return rows[0] ?? null;
 }
 
-export async function getHeroImagenes() {
-  return getContenidoLandingPorTipo("hero_imagen");
+export async function getHeroImagenes(sitio: SitioContenido) {
+  return getContenidoLandingPorTipo("hero_imagen", sitio);
 }
 
 export async function getAboutImagen() {
-  const rows = await getContenidoLandingPorTipo("about_imagen");
+  const rows = await getContenidoLandingPorTipo("about_imagen", "cajas");
   return rows[0] ?? null;
 }
 
 export async function getBannersPromo() {
-  return getContenidoLandingPorTipo("banner_promo");
+  return getContenidoLandingPorTipo("banner_promo", "cajas");
 }
 
 /** Últimas `limit` ofertas/promociones activas, sin importar de qué servicio sean — usadas en la tira superior del portal (/). */
@@ -65,10 +71,13 @@ export async function getLogo() {
 }
 
 export async function crearContenidoLanding(input: ContenidoLandingInput) {
-  const count = await prisma.contenidoLanding.count({ where: { tipo: input.tipo } });
+  const count = await prisma.contenidoLanding.count({
+    where: { tipo: input.tipo, sitio: input.sitio },
+  });
   return prisma.contenidoLanding.create({
     data: {
       tipo: input.tipo,
+      sitio: input.sitio,
       formato: input.formato,
       url: input.url,
       storage_path: input.storagePath,

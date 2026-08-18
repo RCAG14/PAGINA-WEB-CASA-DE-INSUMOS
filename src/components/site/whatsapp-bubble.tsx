@@ -1,12 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Send, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { buildWhatsAppLink } from "@/lib/utils";
-import { useI18n } from "@/lib/i18n/locale-context";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -16,107 +8,22 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+const MENSAJE_WHATSAPP_FLOTANTE =
+  "vengo de la pagina, pregunto por casa insumos, quisiera mas información...";
+
+/** Enlace directo a WhatsApp con el número configurado — sin formulario previo. */
 export function WhatsAppBubble({ numero }: { numero: string | null }) {
-  const [open, setOpen] = useState(false);
-  const { dict } = useI18n();
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    function handlePointerDown(e: MouseEvent) {
-      if (!containerRef.current?.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handlePointerDown);
-    return () => document.removeEventListener("mousedown", handlePointerDown);
-  }, [open]);
-
   if (!numero) return null;
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const nombre = String(formData.get("nombre") ?? "").trim();
-    const telefono = String(formData.get("telefono") ?? "").trim();
-    if (!nombre || !telefono) return;
-
-    const mensaje = `Hola, soy ${nombre} (${telefono}). Quiero más información sobre Casa de Insumos.`;
-    window.open(buildWhatsAppLink(numero!, mensaje), "_blank", "noopener,noreferrer");
-    setOpen(false);
-    form.reset();
-  }
-
   return (
-    <div
-      ref={containerRef}
-      className="fixed bottom-5 left-4 z-50 flex flex-col items-start gap-3 sm:bottom-6 sm:left-6"
+    <a
+      href={buildWhatsAppLink(numero, MENSAJE_WHATSAPP_FLOTANTE)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chatear por WhatsApp"
+      className="fixed bottom-5 left-4 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 sm:bottom-6 sm:left-6"
     >
-      {open && (
-        <div className="w-72 border border-border bg-card shadow-lg sm:w-80">
-          <div className="flex items-center justify-between gap-2 border-b border-border bg-primary px-3 py-2.5">
-            <div className="flex items-center gap-2 text-primary-foreground">
-              <WhatsAppIcon className="size-4" />
-              <span className="font-mono-technical text-[11px] uppercase tracking-wider">
-                {dict.whatsappBubble.title}
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label={dict.whatsappBubble.close}
-              className="text-primary-foreground/70 hover:text-primary-foreground"
-            >
-              <X className="size-4" />
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-3.5">
-            <p className="text-xs text-muted-foreground">{dict.whatsappBubble.subtitle}</p>
-
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="wa-nombre" className="text-xs">
-                {dict.whatsappBubble.nameLabel}
-              </Label>
-              <Input
-                id="wa-nombre"
-                name="nombre"
-                required
-                placeholder={dict.whatsappBubble.namePlaceholder}
-                autoFocus
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="wa-telefono" className="text-xs">
-                {dict.whatsappBubble.phoneLabel}
-              </Label>
-              <Input
-                id="wa-telefono"
-                name="telefono"
-                type="tel"
-                required
-                placeholder={dict.whatsappBubble.phonePlaceholder}
-              />
-            </div>
-
-            <Button type="submit" className="mt-1 w-full">
-              <Send className="size-4" />
-              {dict.whatsappBubble.submit}
-            </Button>
-          </form>
-        </div>
-      )}
-
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? dict.whatsappBubble.close : dict.whatsappBubble.open}
-        className="flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
-      >
-        {open ? <X className="size-6" /> : <WhatsAppIcon className="size-6" />}
-      </button>
-    </div>
+      <WhatsAppIcon className="size-6" />
+    </a>
   );
 }

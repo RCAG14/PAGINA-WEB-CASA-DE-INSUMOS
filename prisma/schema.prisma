@@ -241,6 +241,10 @@ model ContenidoLanding {
   // hero_video | hero_imagen | about_imagen | banner_promo | logo
   tipo String
 
+  // cajas | webdev — a qué negocio pertenece este contenido. Se ignora para
+  // tipo="logo" (la marca es compartida entre ambos negocios).
+  sitio String @default("cajas")
+
   // imagen | video — determina cómo se renderiza en el frontend.
   formato String
 

@@ -4,6 +4,7 @@ import { AdminTopbar } from "@/components/admin/admin-topbar";
 import { StatCard } from "@/components/admin/stat-card";
 import { OrderStatusBadge } from "@/components/admin/order-status-badge";
 import { StockByCategoryChart } from "@/components/admin/stock-by-category-chart";
+import { TrafficAnalyticsSection } from "@/components/admin/traffic-analytics-section";
 import {
   Table,
   TableBody,
@@ -13,17 +14,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getDashboardStats, getStockPorClasificacion, getCajasStockBajo } from "@/lib/data/dashboard";
+import { getTraficoPorDia } from "@/lib/data/metricas";
 import { getPedidos } from "@/lib/data/pedidos";
 import { formatPrice } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function CajasDashboardPage() {
-  const [stats, stockPorCategoria, stockBajo, pedidos] = await Promise.all([
+  const [stats, stockPorCategoria, stockBajo, pedidos, trafico] = await Promise.all([
     getDashboardStats(),
     getStockPorClasificacion(),
     getCajasStockBajo(),
     getPedidos(),
+    getTraficoPorDia(30),
   ]);
 
   return (
@@ -163,6 +166,8 @@ export default async function CajasDashboardPage() {
             </Table>
           )}
         </div>
+
+        <TrafficAnalyticsSection dataCajas={trafico.cajas} dataWebdev={trafico.webdev} />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { toDecimalNumber } from "@/lib/data/decimal";
-import { enviarCotizacionPedido } from "@/lib/email/enviar-cotizacion-pedido";
+import { enviarDocumentoPedido } from "@/lib/email/enviar-documento-pedido";
 import type { AdminOrder, OrderStatus } from "@/lib/types";
 
 function generarCodigoPedido(secuencia: number) {
@@ -83,7 +83,7 @@ export async function crearPedido(input: CrearPedidoInput) {
 
   // El pedido nace en "Pendiente": se envía la cotización fuera de la
   // transacción para no bloquear el checkout si el correo tarda o falla.
-  await enviarCotizacionPedido(resultado.pedidoId);
+  await enviarDocumentoPedido(resultado.pedidoId, "cotizacion");
 
   return resultado;
 }
@@ -163,7 +163,12 @@ export async function actualizarEstadoPedido(id: string, nuevoEstado: OrderStatu
     });
   });
 
-  if (nuevoEstado === "Pendiente") {
-    await enviarCotizacionPedido(id);
+  // Cotización al entrar/volver a "Pendiente" o al pasar a "En Preparación";
+  // recibo de compra al marcar "Entregado". Ambos correos van solo al
+  // cliente (ver enviarDocumentoPedido).
+  if (nuevoEstado === "Pendiente" || nuevoEstado === "En Preparación") {
+    await enviarDocumentoPedido(id, "cotizacion");
+  } else if (nuevoEstado === "Entregado") {
+    await enviarDocumentoPedido(id, "recibo");
   }
 }

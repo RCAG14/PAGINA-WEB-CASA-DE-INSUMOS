@@ -1,39 +1,11 @@
 import Link from "next/link";
-import {
-  AtSign,
-  Camera,
-  Link2,
-  Mail,
-  MapPin,
-  Music2,
-  Square,
-  ThumbsUp,
-  Video,
-  type LucideIcon,
-} from "lucide-react";
+import { Link2, Mail, MapPin, Square } from "lucide-react";
 import { getClasificaciones } from "@/lib/data/clasificaciones";
 import { getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
 import { getSession } from "@/lib/auth/session";
-
-const PLATAFORMA_LABEL: Record<string, string> = {
-  instagram: "Instagram",
-  facebook: "Facebook",
-  tiktok: "TikTok",
-  youtube: "YouTube",
-  x: "X / Twitter",
-  otro: "Sitio",
-};
-
-const PLATAFORMA_ICON: Record<string, LucideIcon> = {
-  instagram: Camera,
-  facebook: ThumbsUp,
-  tiktok: Music2,
-  youtube: Video,
-  x: AtSign,
-  otro: Link2,
-};
+import { getPlataformaRedSocial, getRedSocialHref } from "@/lib/redes-sociales";
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
@@ -64,18 +36,20 @@ export async function SiteFooter() {
           {redesSociales.length > 0 && (
             <div className="flex flex-wrap gap-2 pt-1">
               {redesSociales.map((r) => {
-                const Icon = PLATAFORMA_ICON[r.plataforma] ?? Link2;
+                const plataforma = getPlataformaRedSocial(r.plataforma);
+                const Icon = plataforma?.icon ?? Link2;
+                const esCorreo = r.plataforma === "email";
                 return (
                   <a
                     key={r.id}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={PLATAFORMA_LABEL[r.plataforma] ?? r.plataforma}
+                    href={getRedSocialHref(r.plataforma, r.url)}
+                    target={esCorreo ? undefined : "_blank"}
+                    rel={esCorreo ? undefined : "noopener noreferrer"}
+                    aria-label={plataforma?.label ?? r.plataforma}
                     className="flex items-center gap-1.5 border border-primary-foreground/20 px-2.5 py-1.5 text-xs text-primary-foreground/80 transition-colors hover:border-accent hover:text-accent"
                   >
                     <Icon className="size-3.5" strokeWidth={1.5} />
-                    {PLATAFORMA_LABEL[r.plataforma] ?? r.plataforma}
+                    {plataforma?.label ?? r.plataforma}
                   </a>
                 );
               })}

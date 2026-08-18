@@ -33,15 +33,20 @@ const NAV_ITEMS = [
   { href: "/admin/configuracion/socios", label: "Socios", icon: Users },
 ];
 
-export function ConfiguracionSidebar() {
+export function ConfiguracionSidebar({ logoUrl }: { logoUrl?: string | null }) {
   const pathname = usePathname();
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1.5">
-          <span className="flex size-7 shrink-0 items-center justify-center border-2 border-sidebar-primary text-sidebar-primary">
-            <Square className="size-3.5" strokeWidth={2.5} />
+          <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden border-2 border-sidebar-primary text-sidebar-primary">
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoUrl} alt="Casa de Insumos" className="h-full w-full object-contain p-0.5" />
+            ) : (
+              <Square className="size-3.5" strokeWidth={2.5} />
+            )}
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
             <span className="font-heading text-xs font-bold uppercase tracking-wide text-sidebar-foreground">

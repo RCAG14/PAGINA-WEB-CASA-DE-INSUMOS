@@ -23,15 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { RedSocialInput } from "@/lib/data/contacto";
-
-const PLATAFORMAS = [
-  { value: "instagram", label: "Instagram" },
-  { value: "facebook", label: "Facebook" },
-  { value: "tiktok", label: "TikTok" },
-  { value: "youtube", label: "YouTube" },
-  { value: "x", label: "X / Twitter" },
-  { value: "otro", label: "Otro" },
-];
+import { PLATAFORMAS_REDES_SOCIALES } from "@/lib/redes-sociales";
 
 const EMPTY_VALUES: RedSocialInput = { plataforma: "instagram", url: "", activo: true };
 
@@ -49,6 +41,7 @@ export function RedSocialFormDialog({
   const [open, setOpen] = useState(false);
   const initial: RedSocialInput = redSocial ?? EMPTY_VALUES;
   const [values, setValues] = useState<RedSocialInput>(initial);
+  const esCorreo = values.plataforma === "email";
 
   function handleOpenChange(next: boolean) {
     setOpen(next);
@@ -84,11 +77,11 @@ export function RedSocialFormDialog({
               >
                 <SelectTrigger className="w-full">
                   <SelectValue>
-                    {() => PLATAFORMAS.find((p) => p.value === values.plataforma)?.label}
+                    {() => PLATAFORMAS_REDES_SOCIALES.find((p) => p.value === values.plataforma)?.label}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {PLATAFORMAS.map((p) => (
+                  {PLATAFORMAS_REDES_SOCIALES.map((p) => (
                     <SelectItem key={p.value} value={p.value}>
                       {p.label}
                     </SelectItem>
@@ -98,12 +91,14 @@ export function RedSocialFormDialog({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="rs-url" className="text-xs">Enlace (URL completa)</Label>
+              <Label htmlFor="rs-url" className="text-xs">
+                {esCorreo ? "Correo electrónico" : "Enlace (URL completa)"}
+              </Label>
               <Input
                 id="rs-url"
-                type="url"
+                type={esCorreo ? "email" : "url"}
                 required
-                placeholder="https://instagram.com/tu_usuario"
+                placeholder={esCorreo ? "contacto@casadeinsumos.com" : "https://instagram.com/tu_usuario"}
                 value={values.url}
                 onChange={(e) => setValues((cur) => ({ ...cur, url: e.target.value }))}
               />

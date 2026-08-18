@@ -28,6 +28,53 @@ export async function getVisitasEstimadas() {
   return { total, ultimos30Dias };
 }
 
+export interface PuntoTrafico {
+  fecha: string;
+  visitas: number;
+}
+
+const dayKey = (d: Date) => d.toISOString().slice(0, 10);
+
+/**
+ * Serie diaria de visitas de los últimos `dias`, separada por negocio a
+ * partir del prefijo de ruta (no hay tracking por sitio, así que se infiere:
+ * `/desarrollo-web/*` es Páginas Web, el resto es Cajas). Una sola consulta
+ * y agregación en memoria — el volumen de `metricas_visita` es chico y no
+ * hay precedente de `$queryRaw` en el proyecto.
+ */
+export async function getTraficoPorDia(
+  dias = 30
+): Promise<{ cajas: PuntoTrafico[]; webdev: PuntoTrafico[] }> {
+  const desde = new Date();
+  desde.setUTCHours(0, 0, 0, 0);
+  desde.setUTCDate(desde.getUTCDate() - (dias - 1));
+
+  const visitas = await prisma.metricaVisita.findMany({
+    where: { creado_en: { gte: desde } },
+    select: { ruta: true, creado_en: true },
+  });
+
+  const conteoCajas = new Map<string, number>();
+  const conteoWebdev = new Map<string, number>();
+  for (const v of visitas) {
+    const conteo = v.ruta.startsWith("/desarrollo-web") ? conteoWebdev : conteoCajas;
+    const key = dayKey(v.creado_en);
+    conteo.set(key, (conteo.get(key) ?? 0) + 1);
+  }
+
+  const cajas: PuntoTrafico[] = [];
+  const webdev: PuntoTrafico[] = [];
+  for (let i = 0; i < dias; i++) {
+    const d = new Date(desde);
+    d.setUTCDate(d.getUTCDate() + i);
+    const key = dayKey(d);
+    cajas.push({ fecha: key, visitas: conteoCajas.get(key) ?? 0 });
+    webdev.push({ fecha: key, visitas: conteoWebdev.get(key) ?? 0 });
+  }
+
+  return { cajas, webdev };
+}
+
 export interface ProductoMasVendido {
   cajaId: string;
   nombre: string;

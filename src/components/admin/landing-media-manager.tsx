@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -26,12 +26,14 @@ import {
   type ContenidoLandingFormValues,
 } from "@/components/admin/landing-media-form-dialog";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ContenidoLanding } from "@/generated/prisma/client";
-import type { FormatoMedia, TipoContenidoLanding } from "@/lib/data/landing";
+import type { FormatoMedia, SitioContenido, TipoContenidoLanding } from "@/lib/data/landing";
 import type { Box, CategoryMeta } from "@/lib/types";
 
 interface SectionConfig {
   tipo: TipoContenidoLanding;
+  sitio: SitioContenido;
   titulo: string;
   descripcion: string;
   formato: FormatoMedia;
@@ -41,20 +43,25 @@ interface SectionConfig {
   allowMultiple: boolean;
 }
 
-const SECTIONS: SectionConfig[] = [
-  {
-    tipo: "logo",
-    titulo: "Logo de la empresa",
-    descripcion:
-      'Reemplaza el ícono cuadrado junto a "Casa de Insumos" en el header, y aparece también en el pie de página, en la ficha de producto, el carrito y el checkout.',
-    formato: "imagen",
-    folder: "casa-de-insumos/landing/logo",
-    withCta: false,
-    icon: BadgeCheck,
-    allowMultiple: false,
-  },
+// El logo es una sección fija, fuera del selector de negocio: la marca es
+// compartida entre Venta de Cajas y Páginas Web.
+const LOGO_SECTION: SectionConfig = {
+  tipo: "logo",
+  sitio: "cajas",
+  titulo: "Logo de la empresa",
+  descripcion:
+    'Reemplaza el ícono cuadrado junto a "Casa de Insumos" en el header, y aparece también en el pie de página, en la ficha de producto, el carrito y el checkout. Es el mismo logo para ambos negocios.',
+  formato: "imagen",
+  folder: "casa-de-insumos/landing/logo",
+  withCta: false,
+  icon: BadgeCheck,
+  allowMultiple: false,
+};
+
+const CAJAS_SECTIONS: SectionConfig[] = [
   {
     tipo: "hero_video",
+    sitio: "cajas",
     titulo: "Video de fondo del Hero",
     descripcion:
       "Video en bucle de fondo del encabezado principal. Si hay uno activo, tiene prioridad sobre el carrusel de imágenes.",
@@ -66,6 +73,7 @@ const SECTIONS: SectionConfig[] = [
   },
   {
     tipo: "hero_imagen",
+    sitio: "cajas",
     titulo: "Carrusel de imágenes del Hero",
     descripcion:
       "Fondo del encabezado cuando no hay video activo. Rotan en el orden mostrado abajo.",
@@ -77,6 +85,7 @@ const SECTIONS: SectionConfig[] = [
   },
   {
     tipo: "about_imagen",
+    sitio: "cajas",
     titulo: 'Imagen de "Sobre nosotros"',
     descripcion: "Foto que acompaña el bloque de propuesta de valor de la página principal.",
     formato: "imagen",
@@ -87,6 +96,7 @@ const SECTIONS: SectionConfig[] = [
   },
   {
     tipo: "banner_promo",
+    sitio: "cajas",
     titulo: "Banners de promociones",
     descripcion:
       "Tarjetas promocionales con botón de llamada a la acción, mostradas antes del catálogo.",
@@ -94,6 +104,33 @@ const SECTIONS: SectionConfig[] = [
     folder: "casa-de-insumos/landing/banners",
     withCta: true,
     icon: Tag,
+    allowMultiple: true,
+  },
+];
+
+const WEBDEV_SECTIONS: SectionConfig[] = [
+  {
+    tipo: "hero_video",
+    sitio: "webdev",
+    titulo: "Video de fondo del Hero",
+    descripcion:
+      "Video en bucle de fondo del encabezado de Páginas Web. Si hay uno activo, tiene prioridad sobre el carrusel de imágenes.",
+    formato: "video",
+    folder: "casa-de-insumos/desarrollo-web/hero",
+    withCta: false,
+    icon: Clapperboard,
+    allowMultiple: false,
+  },
+  {
+    tipo: "hero_imagen",
+    sitio: "webdev",
+    titulo: "Carrusel de imágenes del Hero",
+    descripcion:
+      "Fondo del encabezado de Páginas Web cuando no hay video activo. Rotan en el orden mostrado abajo.",
+    formato: "imagen",
+    folder: "casa-de-insumos/desarrollo-web/hero",
+    withCta: false,
+    icon: GalleryHorizontal,
     allowMultiple: true,
   },
 ];
@@ -121,16 +158,30 @@ export function LandingMediaManager({
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
+  const [negocio, setNegocio] = useState<SitioContenido>("cajas");
 
   function refrescar() {
     router.refresh();
   }
 
+  const sectionsVisibles = [
+    LOGO_SECTION,
+    ...(negocio === "cajas" ? CAJAS_SECTIONS : WEBDEV_SECTIONS),
+  ];
+
   return (
-    <div className="flex flex-col gap-10">
-      {SECTIONS.map((section) => {
+    <div className="flex flex-col gap-6">
+      <Tabs value={negocio} onValueChange={(v) => setNegocio((v as SitioContenido) ?? "cajas")}>
+        <TabsList>
+          <TabsTrigger value="cajas">Venta de Cajas</TabsTrigger>
+          <TabsTrigger value="webdev">Páginas Web</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
+      <div className="flex flex-col gap-10">
+      {sectionsVisibles.map((section) => {
         const sectionItems = items
-          .filter((i) => i.tipo === section.tipo)
+          .filter((i) => i.tipo === section.tipo && i.sitio === section.sitio)
           .sort((a, b) => a.orden - b.orden);
         const canAdd = section.allowMultiple || sectionItems.length === 0;
 
@@ -168,6 +219,7 @@ export function LandingMediaManager({
                     startTransition(async () => {
                       await crearContenidoLandingAction({
                         tipo: section.tipo,
+                        sitio: section.sitio,
                         formato: section.formato,
                         url: values.url,
                         storagePath: values.storagePath,
@@ -290,6 +342,7 @@ export function LandingMediaManager({
                             startTransition(async () => {
                               await actualizarContenidoLandingAction(item.id, {
                                 tipo: section.tipo,
+                                sitio: section.sitio,
                                 formato: section.formato,
                                 url: values.url,
                                 storagePath: values.storagePath,
@@ -326,6 +379,7 @@ export function LandingMediaManager({
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

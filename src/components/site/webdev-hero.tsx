@@ -1,22 +1,32 @@
 import Link from "next/link";
 import { ArrowRight, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HeroBackground } from "@/components/site/hero-background";
 import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { getHeroImagenes, getHeroVideo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
 
 export async function WebDevHero() {
-  const { dict } = await getDictionary();
+  const [heroVideo, heroImagenes, { dict }] = await Promise.all([
+    getHeroVideo("webdev"),
+    getHeroImagenes("webdev"),
+    getDictionary(),
+  ]);
 
   return (
     <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden border-b border-primary-foreground/10">
+      <HeroBackground
+        video={heroVideo ? { url: heroVideo.url } : null}
+        imagenes={heroImagenes.map((i) => ({ url: i.url }))}
+      />
       <Link
         href="/"
-        className="absolute left-4 top-4 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/60 transition-colors hover:text-primary-foreground sm:left-6 sm:top-6"
+        className="absolute left-4 top-4 z-10 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/60 transition-colors hover:text-primary-foreground sm:left-6 sm:top-6"
       >
         {dict.webdev.backHome}
       </Link>
-      <LanguageSwitcher className="absolute right-4 top-4 text-primary-foreground sm:right-6 sm:top-6" />
+      <LanguageSwitcher className="absolute right-4 top-4 z-10 text-primary-foreground sm:right-6 sm:top-6" />
 
       <ScrollReveal className="relative mx-auto flex max-w-4xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
         <span className="flex size-14 shrink-0 items-center justify-center border-2 border-primary-foreground/70 bg-primary-foreground/5">

@@ -1,24 +1,22 @@
 import { prisma } from "@/lib/prisma";
 import { toDecimalNumber } from "@/lib/data/decimal";
-import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
 
-export interface LineaCotizacion {
+export interface LineaDocumento {
   nombre: string;
   cantidad: number;
   precioUnitario: number;
   subtotal: number;
 }
 
-export interface DatosCotizacionPedido {
+export interface DatosDocumentoPedido {
   codigoPedido: string;
   clienteNombre: string;
   clienteEmail: string;
   lugarEntrega: string;
   fecha: string;
-  lineas: LineaCotizacion[];
+  lineas: LineaDocumento[];
   total: number;
-  whatsapp: string | null;
   logoUrl: string | null;
 }
 
@@ -28,9 +26,10 @@ const fechaFormatter = new Intl.DateTimeFormat("es-BO", {
   year: "numeric",
 });
 
-export async function obtenerDatosCotizacionPedido(
+/** Datos compartidos por la cotización y el recibo de compra de un pedido. */
+export async function obtenerDatosDocumentoPedido(
   pedidoId: string
-): Promise<DatosCotizacionPedido | null> {
+): Promise<DatosDocumentoPedido | null> {
   const pedido = await prisma.pedido.findUnique({
     where: { id: pedidoId },
     include: { cliente: true, detalles: { include: { caja: true } } },
@@ -38,7 +37,7 @@ export async function obtenerDatosCotizacionPedido(
 
   if (!pedido || !pedido.cliente.email) return null;
 
-  const [whatsapp, logo] = await Promise.all([getNumeroWhatsappPrincipal(), getLogo()]);
+  const logo = await getLogo();
 
   return {
     codigoPedido: pedido.codigo_pedido,
@@ -56,7 +55,6 @@ export async function obtenerDatosCotizacionPedido(
       };
     }),
     total: toDecimalNumber(pedido.total_estimado),
-    whatsapp,
     logoUrl: logo?.url ?? null,
   };
 }
