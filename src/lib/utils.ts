@@ -13,3 +13,7 @@ export function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "")
 }
+
+export function buildWhatsAppLink(numero: string, mensaje: string) {
+  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`
+}

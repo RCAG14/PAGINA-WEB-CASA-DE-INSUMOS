@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { OffersStrip } from "@/components/site/offers-strip";
-import { PortalServicesGrid } from "@/components/site/portal-services-grid";
+import { LandingScreen } from "@/components/site/landing-screen";
+import { VisitTracker } from "@/components/site/visit-tracker";
 
 export const dynamic = "force-dynamic";
 
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
 export default function PortalPage() {
   return (
     <>
-      <OffersStrip />
-      <PortalServicesGrid />
+      <VisitTracker />
+      <LandingScreen />
     </>
   );
 }

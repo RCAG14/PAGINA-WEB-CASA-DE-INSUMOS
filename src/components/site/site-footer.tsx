@@ -15,6 +15,7 @@ import {
 import { getClasificaciones } from "@/lib/data/clasificaciones";
 import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
+import { buildWhatsAppLink } from "@/lib/utils";
 
 const PLATAFORMA_LABEL: Record<string, string> = {
   instagram: "Instagram",
@@ -36,11 +37,7 @@ const PLATAFORMA_ICON: Record<string, LucideIcon> = {
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
-
-function buildWhatsAppLink(numero: string) {
-  const mensaje = "Hola, quiero más información sobre Casa de Insumos.";
-  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-}
+const MENSAJE_WHATSAPP_GENERAL = "Hola, quiero más información sobre Casa de Insumos.";
 
 export async function SiteFooter() {
   const [classifications, redesSociales, whatsappNumero, logo] = await Promise.all([
@@ -111,7 +108,7 @@ export async function SiteFooter() {
 
           {whatsappNumero && (
             <a
-              href={buildWhatsAppLink(whatsappNumero)}
+              href={buildWhatsAppLink(whatsappNumero, MENSAJE_WHATSAPP_GENERAL)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex w-fit items-center gap-2 border border-accent bg-accent/15 px-3 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent/25"
@@ -131,7 +128,7 @@ export async function SiteFooter() {
             </a>
           )}
 
-          <Link href="/#servicios" className="text-sm text-primary-foreground/80 hover:text-accent">
+          <Link href="/catalogo#servicios" className="text-sm text-primary-foreground/80 hover:text-accent">
             Servicios
           </Link>
           <Link href="/carrito" className="text-sm text-primary-foreground/80 hover:text-accent">
