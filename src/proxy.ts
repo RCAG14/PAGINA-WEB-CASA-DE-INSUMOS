@@ -27,6 +27,12 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Los clientes autorregistrados (rol CLIENTE) tienen sesión válida pero no
+  // pertenecen al staff — nunca deben entrar a /admin.
+  if (session.rol !== "JEFE" && session.rol !== "SOCIO") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   // El Socio solo puede ver su propio dashboard de métricas.
   if (session.rol === "SOCIO" && !pathname.startsWith("/admin/socio")) {
     return NextResponse.redirect(new URL("/admin/socio", request.url));

@@ -12,7 +12,7 @@ export default async function AdminConfiguracionPage() {
 
   return (
     <>
-      <AdminTopbar title="Redes y Contacto" eyebrow="Gestión de Cajas Amazon y Retornos" />
+      <AdminTopbar title="Redes y Contacto" eyebrow="Configuración Global del Sistema" />
       <div className="flex flex-col gap-4 p-4 sm:p-6">
         <p className="max-w-2xl text-sm text-muted-foreground">
           Configura los enlaces de redes sociales que se muestran en la tienda y los números de

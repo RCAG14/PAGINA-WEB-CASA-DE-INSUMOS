@@ -1,4 +1,7 @@
+"use client";
+
 import { ListChecks, ShieldQuestion } from "lucide-react";
+import { useI18n } from "@/lib/i18n/locale-context";
 import { cn } from "@/lib/utils";
 import type { Box } from "@/lib/types";
 
@@ -9,6 +12,7 @@ export function BoxTypeBadge({
   tipo: Box["tipo"];
   className?: string;
 }) {
+  const { dict } = useI18n();
   const isSurprise = tipo === "sorpresa";
   return (
     <span
@@ -25,7 +29,7 @@ export function BoxTypeBadge({
       ) : (
         <ListChecks className="size-3" />
       )}
-      {isSurprise ? "Caja sorpresa" : "Caja listada"}
+      {isSurprise ? dict.boxTypeBadge.surprise : dict.boxTypeBadge.listed}
     </span>
   );
 }

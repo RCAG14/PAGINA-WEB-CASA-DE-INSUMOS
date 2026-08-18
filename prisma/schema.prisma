@@ -127,15 +127,17 @@ model Cliente {
   @@map("clientes")
 }
 
-// Cuentas de acceso al panel administrador (staff). Los clientes NO inician
-// sesión: se rastrean únicamente vía el modelo Cliente de arriba.
+// Cuentas de acceso a la plataforma: staff (panel administrador) y clientes
+// registrados (login público). El modelo Cliente de arriba sigue existiendo
+// aparte, solo para el tracking de pedidos del checkout (sin contraseña).
 model Usuario {
   id            String @id @default(cuid())
   nombre        String
   username      String @unique
   password_hash String
 
-  // JEFE (control total) | SOCIO (solo lectura y reportes)
+  // JEFE (control total del panel) | SOCIO (solo lectura y reportes) |
+  // CLIENTE (cuenta pública autorregistrada, sin acceso a /admin)
   rol String
 
   activo    Boolean  @default(true)
@@ -232,7 +234,7 @@ model NumeroContacto {
 // Contenido multimedia editable de la landing page (video/imágenes del Hero,
 // imagen de "Sobre nosotros" y banners de promociones), todo alojado en
 // Supabase Storage. El administrador lo gestiona por completo desde
-// /admin/cajas/landing sin tocar código.
+// /admin/configuracion/landing sin tocar código.
 model ContenidoLanding {
   id String @id @default(cuid())
 

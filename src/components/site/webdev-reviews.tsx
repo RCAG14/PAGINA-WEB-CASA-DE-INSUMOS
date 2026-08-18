@@ -1,7 +1,10 @@
 import { Star } from "lucide-react";
+import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
-export function WebDevReviews() {
+export async function WebDevReviews() {
+  const { dict } = await getDictionary();
+
   return (
     <section
       id="resenas"
@@ -12,13 +15,13 @@ export function WebDevReviews() {
           <Star className="size-6" strokeWidth={1.5} />
         </span>
         <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-          Reseñas de clientes
+          {dict.webdev.reviews.eyebrow}
         </span>
         <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-          Todavía no publicamos reseñas de este servicio
+          {dict.webdev.reviews.title}
         </h2>
         <span className="w-fit border border-dashed border-accent bg-accent/10 px-3 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider text-primary">
-          Próximamente
+          {dict.webdev.reviews.comingSoon}
         </span>
       </ScrollReveal>
     </section>

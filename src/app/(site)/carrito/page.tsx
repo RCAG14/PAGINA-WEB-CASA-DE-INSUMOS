@@ -6,10 +6,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { QuantityStepper } from "@/components/site/quantity-stepper";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
-import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
 import { useLogo } from "@/lib/logo-context";
+import { useI18n } from "@/lib/i18n/locale-context";
 
 function LetterheadLogo({ url }: { url: string | null }) {
   if (!url) return null;
@@ -26,18 +27,17 @@ function LetterheadLogo({ url }: { url: string | null }) {
 export default function CartPage() {
   const { lines, subtotal, totalItems, removeLine, setQty, hydrated } = useCart();
   const logoUrl = useLogo();
+  const { dict } = useI18n();
 
   if (hydrated && lines.length === 0) {
     return (
       <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-4 px-4 py-24 text-center">
         <LetterheadLogo url={logoUrl} />
         <ShoppingCart className="size-10 text-muted-foreground" strokeWidth={1.2} />
-        <h1 className="font-heading text-xl font-semibold">Tu carrito está vacío</h1>
-        <p className="text-sm text-muted-foreground">
-          Explora el catálogo y arma tu pedido de cajas listadas o sorpresa.
-        </p>
+        <h1 className="font-heading text-xl font-semibold">{dict.cartPage.emptyTitle}</h1>
+        <p className="text-sm text-muted-foreground">{dict.cartPage.emptyDesc}</p>
         <Link href="/catalogo" className={buttonVariants({})}>
-          Ver catálogo
+          {dict.cartPage.viewCatalog}
         </Link>
       </div>
     );
@@ -48,22 +48,22 @@ export default function CartPage() {
       <LetterheadLogo url={logoUrl} />
       <div className="mb-8 flex flex-col gap-1">
         <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-          Carrito de compras
+          {dict.cartPage.eyebrow}
         </span>
         <h1 className="font-heading text-2xl font-semibold sm:text-3xl">
           {totalItems > 0
-            ? `${totalItems} caja${totalItems === 1 ? "" : "s"} en tu pedido`
-            : "Cargando carrito..."}
+            ? `${totalItems} ${totalItems === 1 ? dict.catalogBrowser.boxWord : dict.catalogBrowser.boxesWord} ${dict.cartPage.boxSuffix}`
+            : dict.cartPage.loadingCart}
         </h1>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="border border-border">
           <div className="hidden grid-cols-[1fr_140px_120px_110px_40px] gap-4 border-b border-border bg-muted/50 px-4 py-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground sm:grid">
-            <span>Caja</span>
-            <span>Tipo</span>
-            <span className="text-center">Cantidad</span>
-            <span className="text-right">Total</span>
+            <span>{dict.cartPage.headerBox}</span>
+            <span>{dict.cartPage.headerType}</span>
+            <span className="text-center">{dict.cartPage.headerQty}</span>
+            <span className="text-right">{dict.cartPage.headerTotal}</span>
             <span />
           </div>
           <ul className="divide-y divide-border">
@@ -110,7 +110,7 @@ export default function CartPage() {
                   <div className="flex justify-end">
                     <button
                       onClick={() => removeLine(line.boxId)}
-                      aria-label="Quitar del carrito"
+                      aria-label={dict.cartPage.removeFromCart}
                       className="flex size-8 items-center justify-center text-muted-foreground hover:text-destructive"
                     >
                       <Trash2 className="size-4" />
@@ -124,32 +124,36 @@ export default function CartPage() {
 
         <div className="flex h-fit flex-col gap-4 border border-border bg-card p-4">
           <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-            Resumen del pedido
+            {dict.cartPage.summaryTitle}
           </p>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Subtotal ({totalItems} cajas)</span>
+            <span className="text-muted-foreground">
+              {dict.cartPage.subtotalPrefix} ({totalItems} {dict.cartPage.boxesSuffix})
+            </span>
             <span className="font-mono-technical font-medium">{formatPrice(subtotal)}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Envío</span>
-            <span className="font-mono-technical text-muted-foreground">Coordinación</span>
+            <span className="text-muted-foreground">{dict.cartPage.shipping}</span>
+            <span className="font-mono-technical text-muted-foreground">
+              {dict.cartPage.shippingValue}
+            </span>
           </div>
           <Separator />
           <div className="flex items-center justify-between">
-            <span className="font-medium">Total estimado</span>
+            <span className="font-medium">{dict.cartPage.total}</span>
             <span className="font-mono-technical text-lg font-semibold text-primary">
               {formatPrice(subtotal)}
             </span>
           </div>
           <Button size="lg" render={<Link href="/checkout" />} nativeButton={false} className="w-full">
-            Comprar
+            {dict.cartPage.buy}
             <ArrowRight className="size-4" />
           </Button>
           <Link
             href="/catalogo"
             className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
           >
-            Seguir explorando el catálogo
+            {dict.cartPage.continueBrowsing}
           </Link>
         </div>
       </div>

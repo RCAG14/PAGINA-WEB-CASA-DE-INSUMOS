@@ -9,7 +9,7 @@ import {
   eliminarClasificacionAction,
 } from "@/app/admin/cajas/clasificaciones/actions";
 import { ClassificationFormDialog } from "@/components/admin/classification-form-dialog";
-import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {

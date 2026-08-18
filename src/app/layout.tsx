@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LocaleProvider } from "@/lib/i18n/locale-context";
+import { getLocale } from "@/lib/i18n/locale";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -32,14 +34,18 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const locale = await getLocale();
+
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <TooltipProvider delay={150}>{children}</TooltipProvider>
+        <LocaleProvider initialLocale={locale}>
+          <TooltipProvider delay={150}>{children}</TooltipProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

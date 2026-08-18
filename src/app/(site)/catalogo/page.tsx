@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { HeroSection } from "@/components/site/hero-section";
 import { AboutSection } from "@/components/site/about-section";
 import { ServicesSection } from "@/components/site/services-section";
 import { PromoBanners } from "@/components/site/promo-banners";
-import { CatalogBrowser } from "@/components/site/catalog-browser";
-import { getCajas } from "@/lib/data/cajas";
-import { getClasificaciones } from "@/lib/data/clasificaciones";
+import { CatalogSection } from "@/components/site/catalog-section";
+import { CatalogBrowserSkeleton } from "@/components/site/catalog-browser-skeleton";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { getDictionary } from "@/lib/i18n/locale";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogoPage() {
-  const [boxes, classifications] = await Promise.all([getCajas(), getClasificaciones()]);
+  const { dict } = await getDictionary();
 
   return (
     <>
@@ -33,20 +35,18 @@ export default async function CatalogoPage() {
       <ServicesSection />
       <PromoBanners />
       <section id="catalogo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6">
-        <div className="mb-8 flex flex-col gap-2">
+        <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            02 — Catálogo
+            {dict.catalogPage.eyebrow}
           </span>
           <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-            Cajas de retorno disponibles
+            {dict.catalogPage.title}
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            Filtra por tipo de caja y clasificación. Las cajas <strong>listadas</strong> muestran
-            el manifiesto técnico exacto del contenido; las cajas <strong>sorpresa</strong>{" "}
-            confirman solo la clasificación general, con mayor potencial de margen.
-          </p>
-        </div>
-        <CatalogBrowser boxes={boxes} classifications={classifications} />
+          <p className="max-w-2xl text-sm text-muted-foreground">{dict.catalogPage.description}</p>
+        </ScrollReveal>
+        <Suspense fallback={<CatalogBrowserSkeleton />}>
+          <CatalogSection />
+        </Suspense>
       </section>
     </>
   );

@@ -1,26 +1,30 @@
+import { getDictionary } from "@/lib/i18n/locale";
 import type { BoxSpecs } from "@/lib/types";
 
-const ROWS: { key: keyof BoxSpecs; label: string }[] = [
-  { key: "skuCaja", label: "SKU de caja" },
-  { key: "manifiesto", label: "N.º de manifiesto de lote" },
-  { key: "origen", label: "Origen de la mercancía" },
-  { key: "centroRetorno", label: "Centro de retorno" },
-  { key: "certificacionAduanera", label: "Certificación de seguridad aduanera" },
-  { key: "gradoLiquidacion", label: "Grado de liquidación" },
-  { key: "pesoBruto", label: "Peso bruto" },
-  { key: "dimensiones", label: "Dimensiones (L x A x H)" },
+const ROW_KEYS: (keyof BoxSpecs)[] = [
+  "skuCaja",
+  "manifiesto",
+  "origen",
+  "centroRetorno",
+  "certificacionAduanera",
+  "gradoLiquidacion",
+  "pesoBruto",
+  "dimensiones",
 ];
 
-export function SpecSheet({ specs }: { specs: BoxSpecs }) {
+export async function SpecSheet({ specs }: { specs: BoxSpecs }) {
+  const { dict } = await getDictionary();
+  const rows = ROW_KEYS.map((key) => ({ key, label: dict.specSheet.rows[key] }));
+
   return (
     <div className="border border-border">
       <div className="border-b border-border bg-primary px-3 py-2">
         <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
-          Ficha técnica y de logística internacional
+          {dict.specSheet.title}
         </p>
       </div>
       <dl>
-        {ROWS.map((row, i) => (
+        {rows.map((row, i) => (
           <div
             key={row.key}
             className={`flex items-center justify-between gap-4 px-3 py-2.5 ${

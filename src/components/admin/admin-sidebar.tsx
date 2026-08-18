@@ -6,10 +6,8 @@ import {
   Boxes,
   ClipboardList,
   ExternalLink,
-  GalleryHorizontalEnd,
   LayoutDashboard,
   LayoutGrid,
-  Share2,
   Square,
   Tags,
   Users,
@@ -33,13 +31,6 @@ const NAV_ITEMS = [
   { href: "/admin/cajas/clasificaciones", label: "Gestión de Clasificaciones", icon: Tags },
   { href: "/admin/cajas/pedidos", label: "Pedidos", icon: ClipboardList },
   { href: "/admin/cajas/clientes", label: "Clientes", icon: Users },
-  {
-    href: "/admin/cajas/landing",
-    label: "Imágenes Promocionales / Landing Page",
-    icon: GalleryHorizontalEnd,
-  },
-  { href: "/admin/cajas/configuracion", label: "Redes y Contacto", icon: Share2 },
-  { href: "/admin/cajas/socios", label: "Socios", icon: Users },
 ];
 
 export function AdminSidebar() {

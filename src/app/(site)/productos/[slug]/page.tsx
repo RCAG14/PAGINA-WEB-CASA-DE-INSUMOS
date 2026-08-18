@@ -21,12 +21,17 @@ import { FloatingLogo } from "@/components/site/floating-logo";
 import { getCajaBySlug } from "@/lib/data/cajas";
 import { getLogo } from "@/lib/data/landing";
 import { formatPrice } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/locale";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProductPage(props: PageProps<"/productos/[slug]">) {
   const { slug } = await props.params;
-  const [box, logo] = await Promise.all([getCajaBySlug(slug), getLogo()]);
+  const [box, logo, { dict }] = await Promise.all([
+    getCajaBySlug(slug),
+    getLogo(),
+    getDictionary(),
+  ]);
 
   if (!box) notFound();
 
@@ -41,7 +46,7 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/" />}>Inicio</BreadcrumbLink>
+            <BreadcrumbLink render={<Link href="/" />}>{dict.productPage.breadcrumbHome}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -60,7 +65,7 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
         <div className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
           <BoxVisual box={box} className="aspect-square" iconClassName="size-14" />
           <p className="text-center text-xs text-muted-foreground">
-            Representación esquemática del contenido — no es fotografía real del producto.
+            {dict.productPage.representationNote}
           </p>
         </div>
 
@@ -85,7 +90,7 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
                 ))}
               </div>
               <span>
-                {box.rating.toFixed(1)} · {box.numResenas} reseñas verificadas
+                {box.rating.toFixed(1)} · {box.numResenas} {dict.productPage.reviewsSuffix}
               </span>
             </div>
 
@@ -98,13 +103,13 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
           {margen !== null && (
             <div className="flex flex-wrap items-center gap-3 border border-dashed border-accent bg-accent/10 px-3 py-2.5">
               <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-                Valor retail estimado
+                {dict.productPage.retailValueLabel}
               </span>
               <span className="font-mono-technical text-sm text-muted-foreground line-through">
                 {formatPrice(box.valorRetailEstimado)}
               </span>
               <span className="ml-auto font-mono-technical text-sm font-bold text-primary">
-                Margen potencial +{margen}%
+                {dict.productPage.marginPotential} +{margen}%
               </span>
             </div>
           )}

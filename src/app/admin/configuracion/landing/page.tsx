@@ -17,7 +17,7 @@ export default async function AdminLandingPage() {
     <>
       <AdminTopbar
         title="Imágenes Promocionales / Landing Page"
-        eyebrow="Gestión de Cajas Amazon y Retornos"
+        eyebrow="Configuración Global del Sistema"
       />
       <div className="flex flex-col gap-4 p-4 sm:p-6">
         <p className="max-w-2xl text-sm text-muted-foreground">

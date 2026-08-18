@@ -7,69 +7,41 @@ import {
   Server,
 } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { getDictionary } from "@/lib/i18n/locale";
 
-const TIPOS = [
-  {
-    icon: LayoutTemplate,
-    titulo: "Sitios web",
-    descripcion: "Landing pages, sitios institucionales y catálogos digitales.",
-  },
-  {
-    icon: Server,
-    titulo: "Sistemas web",
-    descripcion: "Plataformas a medida con lógica de negocio propia y base de datos.",
-  },
-  {
-    icon: LayoutDashboard,
-    titulo: "Dashboards",
-    descripcion: "Paneles de control con métricas, reportes y gestión en tiempo real.",
-  },
-  {
-    icon: Bot,
-    titulo: "Chatbots",
-    descripcion: "Atención automatizada por WhatsApp o web para consultas y ventas.",
-  },
-  {
-    icon: CalendarCheck,
-    titulo: "Ventas y reservas",
-    descripcion: "Sistemas de venta online, turnos y reservas para cualquier rubro.",
-  },
-  {
-    icon: Layers,
-    titulo: "Y más, a medida",
-    descripcion: "Cada negocio es distinto — evaluamos tu caso y proponemos la solución.",
-  },
-] as const;
+const ICONS = [LayoutTemplate, Server, LayoutDashboard, Bot, CalendarCheck, Layers];
 
-export function WebDevTypes() {
+export async function WebDevTypes() {
+  const { dict } = await getDictionary();
+
   return (
     <section id="tipos" className="flex min-h-screen items-center border-b border-border bg-card">
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            Qué desarrollamos
+            {dict.webdev.types.eyebrow}
           </span>
           <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-            Un desarrollo para cada tipo de negocio
+            {dict.webdev.types.title}
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            No trabajamos solo para revendedores de cajas de retorno: construimos plataformas
-            para cualquier rubro que necesite presencia digital o un sistema propio.
-          </p>
+          <p className="max-w-2xl text-sm text-muted-foreground">{dict.webdev.types.description}</p>
         </ScrollReveal>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TIPOS.map((tipo, i) => (
-            <ScrollReveal key={tipo.titulo} delayMs={i * 80}>
-              <div className="flex h-full flex-col gap-3 border border-border bg-background p-4">
-                <span className="flex size-10 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
-                  <tipo.icon className="size-5" strokeWidth={1.5} />
-                </span>
-                <h3 className="font-heading text-sm font-semibold leading-snug">{tipo.titulo}</h3>
-                <p className="text-xs text-muted-foreground">{tipo.descripcion}</p>
-              </div>
-            </ScrollReveal>
-          ))}
+          {dict.webdev.types.items.map((tipo, i) => {
+            const Icon = ICONS[i];
+            return (
+              <ScrollReveal key={tipo.titulo} delayMs={i * 80}>
+                <div className="flex h-full flex-col gap-3 border border-border bg-background p-4">
+                  <span className="flex size-10 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+                    <Icon className="size-5" strokeWidth={1.5} />
+                  </span>
+                  <h3 className="font-heading text-sm font-semibold leading-snug">{tipo.titulo}</h3>
+                  <p className="text-xs text-muted-foreground">{tipo.descripcion}</p>
+                </div>
+              </ScrollReveal>
+            );
+          })}
         </div>
       </div>
     </section>

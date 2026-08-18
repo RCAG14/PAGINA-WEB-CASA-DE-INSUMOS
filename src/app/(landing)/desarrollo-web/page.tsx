@@ -7,6 +7,8 @@ import { WebDevPortfolio } from "@/components/site/webdev-portfolio";
 import { WebDevAffiliates } from "@/components/site/webdev-affiliates";
 import { WebDevReviews } from "@/components/site/webdev-reviews";
 import { WebDevContact } from "@/components/site/webdev-contact";
+import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
+import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DesarrolloWebPage() {
+export default async function DesarrolloWebPage() {
+  const whatsappNumero = await getNumeroWhatsappPrincipal();
+
   return (
     <>
       <VisitTracker />
@@ -35,6 +39,7 @@ export default function DesarrolloWebPage() {
       <WebDevAffiliates />
       <WebDevReviews />
       <WebDevContact />
+      <WhatsAppBubble numero={whatsappNumero} />
     </>
   );
 }

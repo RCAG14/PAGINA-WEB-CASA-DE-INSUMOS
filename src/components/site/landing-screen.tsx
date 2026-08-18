@@ -3,7 +3,6 @@ import {
   Camera,
   Link2,
   Mail,
-  MessageCircle,
   Music2,
   Square,
   ThumbsUp,
@@ -12,10 +11,14 @@ import {
 } from "lucide-react";
 import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
-import { buildWhatsAppLink } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/locale";
 import { LandingServiceButtons } from "@/components/site/landing-service-buttons";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
+import { AccountNav } from "@/components/site/account-nav";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { ScrollDownButton } from "@/components/site/scroll-down-button";
+import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
+import { getSession } from "@/lib/auth/session";
 
 const PLATAFORMA_LABEL: Record<string, string> = {
   instagram: "Instagram",
@@ -36,18 +39,25 @@ const PLATAFORMA_ICON: Record<string, LucideIcon> = {
 };
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
-const MENSAJE_WHATSAPP = "Hola, quiero más información sobre Casa de Insumos.";
 
 export async function LandingScreen() {
-  const [logo, redesSociales, whatsappNumero] = await Promise.all([
+  const [logo, redesSociales, whatsappNumero, { dict }, session] = await Promise.all([
     getLogo(),
     getRedesSociales(),
     getNumeroWhatsappPrincipal(),
+    getDictionary(),
+    getSession(),
   ]);
 
   return (
     <div className="flex flex-col">
       <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden border-b border-primary-foreground/10">
+        <LanguageSwitcher className="absolute left-4 top-4 text-primary-foreground sm:left-6 sm:top-6" />
+        <AccountNav
+          session={session ? { nombre: session.nombre, rol: session.rol } : null}
+          className="absolute right-4 top-4 text-primary-foreground sm:right-6 sm:top-6"
+        />
+
         <ScrollReveal className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
           <span className="flex size-16 shrink-0 items-center justify-center overflow-hidden border-2 border-primary-foreground/70 bg-primary-foreground/5">
             {logo ? (
@@ -67,16 +77,15 @@ export async function LandingScreen() {
             Casa de Insumos
           </h1>
           <p className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground/70 sm:text-sm">
-            Distribución técnica por caja
+            {dict.homeLanding.tagline}
           </p>
           <p className="max-w-xl text-base text-primary-foreground/80 sm:text-lg">
-            Cajas de retorno de Amazon, cotizaciones, importaciones y desarrollo web a medida
-            para revendedores e importadores.
+            {dict.homeLanding.description}
           </p>
 
           <ScrollDownButton
             targetId="landing-servicios"
-            label="Servicios"
+            label={dict.homeLanding.scrollToServices}
             className="mt-4 text-primary-foreground"
           />
         </ScrollReveal>
@@ -89,10 +98,10 @@ export async function LandingScreen() {
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
           <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
             <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-              Nuestros servicios
+              {dict.homeLanding.servicesEyebrow}
             </span>
             <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-              Elegí lo que necesitás
+              {dict.homeLanding.servicesTitle}
             </h2>
           </ScrollReveal>
           <LandingServiceButtons />
@@ -106,17 +115,6 @@ export async function LandingScreen() {
           </span>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {whatsappNumero && (
-              <a
-                href={buildWhatsAppLink(whatsappNumero, MENSAJE_WHATSAPP)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 border border-accent bg-accent/15 px-3 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent/25"
-              >
-                <MessageCircle className="size-4" strokeWidth={1.5} />
-                WhatsApp directo
-              </a>
-            )}
             {CONTACT_EMAIL && (
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
@@ -154,6 +152,8 @@ export async function LandingScreen() {
           </p>
         </ScrollReveal>
       </footer>
+
+      <WhatsAppBubble numero={whatsappNumero} />
     </div>
   );
 }

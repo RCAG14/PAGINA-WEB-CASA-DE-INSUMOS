@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 
-export type Rol = "JEFE" | "SOCIO";
+export type Rol = "JEFE" | "SOCIO" | "CLIENTE";
 
 export interface SessionPayload extends JWTPayload {
   userId: string;

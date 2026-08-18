@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { eliminarCajaAction } from "@/app/admin/cajas/inventario/actions";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
-import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

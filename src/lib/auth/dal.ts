@@ -3,10 +3,17 @@ import { cache } from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 
-/** Verifica que haya una sesión válida; si no, redirige al login. Memoizado por render. */
+/**
+ * Verifica que haya una sesión de staff válida (JEFE o SOCIO); si no, redirige al
+ * login. Los clientes autorregistrados (rol CLIENTE) también tienen sesión válida
+ * pero no pertenecen al staff, por eso se rechazan aquí igual que si no hubiera
+ * sesión — defensa en profundidad detrás del proxy. Memoizado por render.
+ */
 export const verifySession = cache(async () => {
   const session = await getSession();
-  if (!session) redirect("/admin/login");
+  if (!session || (session.rol !== "JEFE" && session.rol !== "SOCIO")) {
+    redirect("/admin/login");
+  }
   return session;
 });
 

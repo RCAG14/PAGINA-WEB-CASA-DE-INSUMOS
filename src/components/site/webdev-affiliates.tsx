@@ -1,12 +1,16 @@
 import { Handshake, MessageCircle } from "lucide-react";
 import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { buildWhatsAppLink } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 const MENSAJE_AFILIADOS = "Hola, quiero información sobre el programa de afiliados de desarrollo web.";
 
 export async function WebDevAffiliates() {
-  const whatsappNumero = await getNumeroWhatsappPrincipal();
+  const [whatsappNumero, { dict }] = await Promise.all([
+    getNumeroWhatsappPrincipal(),
+    getDictionary(),
+  ]);
 
   return (
     <section
@@ -18,15 +22,12 @@ export async function WebDevAffiliates() {
           <Handshake className="size-6" strokeWidth={1.5} />
         </span>
         <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-          Programa de afiliados
+          {dict.webdev.affiliates.eyebrow}
         </span>
         <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-          ¿Conocés negocios que necesitan un desarrollo a medida?
+          {dict.webdev.affiliates.title}
         </h2>
-        <p className="max-w-xl text-sm text-muted-foreground">
-          Sumate como afiliado y referí clientes para nuestros proyectos de desarrollo web.
-          Escribinos para conocer las condiciones y cómo funciona.
-        </p>
+        <p className="max-w-xl text-sm text-muted-foreground">{dict.webdev.affiliates.description}</p>
 
         {whatsappNumero ? (
           <a
@@ -36,11 +37,11 @@ export async function WebDevAffiliates() {
             className="flex items-center gap-2 border border-accent bg-accent/15 px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/25"
           >
             <MessageCircle className="size-4" strokeWidth={1.5} />
-            Quiero ser afiliado
+            {dict.webdev.affiliates.cta}
           </a>
         ) : (
           <span className="border border-dashed border-accent bg-accent/10 px-4 py-2 font-mono-technical text-[11px] uppercase tracking-wider text-primary">
-            Configurá un número de contacto para recibir consultas
+            {dict.webdev.affiliates.fallback}
           </span>
         )}
       </ScrollReveal>

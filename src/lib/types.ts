@@ -102,3 +102,11 @@ export interface AdminOrder {
   items: number;
   estado: OrderStatus;
 }
+
+export const ORDER_STATUSES: OrderStatus[] = [
+  "Pendiente",
+  "En Preparación",
+  "Enviado",
+  "Entregado",
+  "Cancelado",
+];

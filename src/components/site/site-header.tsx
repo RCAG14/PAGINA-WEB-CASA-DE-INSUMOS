@@ -5,24 +5,33 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, Square, X } from "lucide-react";
 import { CartSheet } from "@/components/site/cart-sheet";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
+import { AccountNav, type AccountNavSession } from "@/components/site/account-nav";
 import { useLogo } from "@/lib/logo-context";
-import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/locale-context";
 
-const NAV_LINKS = [
-  { href: "/catalogo#catalogo", label: "Catálogo" },
-  { href: "/catalogo#como-funciona", label: "Cómo funciona" },
-];
-
-export function SiteHeader() {
+export function SiteHeader({ session }: { session: AccountNavSession | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const logoUrl = useLogo();
+  const { dict } = useI18n();
+
+  // El catálogo integra su propio volver + carrito directamente sobre el
+  // hero (ver hero-section.tsx), sin navbar completo ni opción de login.
+  if (pathname === "/catalogo") {
+    return null;
+  }
+
+  const navLinks = [
+    { href: "/catalogo#catalogo", label: dict.header.navCatalog },
+    { href: "/catalogo#como-funciona", label: dict.header.navHowItWorks },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
       <div className="border-b border-border bg-primary py-1.5">
         <p className="mx-auto max-w-6xl px-4 text-center font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/80 sm:px-6">
-          Manifiestos verificados · Certificación aduanera · Envíos internacionales documentados
+          {dict.header.bar}
         </p>
       </div>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
@@ -41,13 +50,13 @@ export function SiteHeader() {
               Casa de Insumos
             </span>
             <span className="font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground">
-              Distribución técnica por caja
+              {dict.header.tagline}
             </span>
           </span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -59,20 +68,13 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/admin"
-            className={cn(
-              "hidden font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary sm:block",
-              pathname?.startsWith("/admin") && "text-primary"
-            )}
-          >
-            Admin
-          </Link>
+          <LanguageSwitcher className="hidden text-muted-foreground sm:flex" />
+          <AccountNav session={session} className="hidden text-muted-foreground sm:flex" />
           <CartSheet />
           <button
             className="flex size-9 items-center justify-center border border-border md:hidden"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Abrir menú"
+            aria-label={dict.header.openMenu}
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -81,7 +83,7 @@ export function SiteHeader() {
 
       {open && (
         <nav className="flex flex-col border-t border-border bg-background md:hidden">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -91,13 +93,10 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            onClick={() => setOpen(false)}
-            className="px-4 py-3 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground hover:text-primary"
-          >
-            Admin
-          </Link>
+          <AccountNav session={session} variant="stacked" />
+          <div className="px-4 py-3">
+            <LanguageSwitcher className="text-muted-foreground" />
+          </div>
         </nav>
       )}
     </header>

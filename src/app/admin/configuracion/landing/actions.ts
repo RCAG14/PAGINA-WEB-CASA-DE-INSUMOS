@@ -10,7 +10,7 @@ import {
 } from "@/lib/data/landing";
 
 function revalidarTodo() {
-  revalidatePath("/admin/cajas/landing");
+  revalidatePath("/admin/configuracion/landing");
   revalidatePath("/");
   revalidatePath("/catalogo");
 }

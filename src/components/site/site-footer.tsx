@@ -5,7 +5,6 @@ import {
   Link2,
   Mail,
   MapPin,
-  MessageCircle,
   Music2,
   Square,
   ThumbsUp,
@@ -13,9 +12,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { getClasificaciones } from "@/lib/data/clasificaciones";
-import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
+import { getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
-import { buildWhatsAppLink } from "@/lib/utils";
+import { getDictionary } from "@/lib/i18n/locale";
+import { getSession } from "@/lib/auth/session";
 
 const PLATAFORMA_LABEL: Record<string, string> = {
   instagram: "Instagram",
@@ -37,15 +37,16 @@ const PLATAFORMA_ICON: Record<string, LucideIcon> = {
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
-const MENSAJE_WHATSAPP_GENERAL = "Hola, quiero más información sobre Casa de Insumos.";
 
 export async function SiteFooter() {
-  const [classifications, redesSociales, whatsappNumero, logo] = await Promise.all([
+  const [classifications, redesSociales, logo, { dict }, session] = await Promise.all([
     getClasificaciones(),
     getRedesSociales(),
-    getNumeroWhatsappPrincipal(),
     getLogo(),
+    getDictionary(),
+    getSession(),
   ]);
+  const isStaff = session?.rol === "JEFE" || session?.rol === "SOCIO";
 
   return (
     <footer className="border-t border-border bg-primary text-primary-foreground">
@@ -59,11 +60,7 @@ export async function SiteFooter() {
               Casa de Insumos
             </span>
           </div>
-          <p className="max-w-sm text-sm text-primary-foreground/70">
-            Venta de cajas de retorno de Amazon por lote, con manifiesto técnico verificado o
-            selección sorpresa clasificada por categoría, más servicios de cotización,
-            importación y desarrollo web a medida.
-          </p>
+          <p className="max-w-sm text-sm text-primary-foreground/70">{dict.footer.description}</p>
           {redesSociales.length > 0 && (
             <div className="flex flex-wrap gap-2 pt-1">
               {redesSociales.map((r) => {
@@ -88,7 +85,7 @@ export async function SiteFooter() {
 
         <div className="flex flex-col gap-2">
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
-            Clasificaciones
+            {dict.footer.classificationsTitle}
           </p>
           {classifications.map((c) => (
             <Link
@@ -103,20 +100,8 @@ export async function SiteFooter() {
 
         <div className="flex flex-col gap-3">
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
-            Contacto rápido
+            {dict.footer.quickContactTitle}
           </p>
-
-          {whatsappNumero && (
-            <a
-              href={buildWhatsAppLink(whatsappNumero, MENSAJE_WHATSAPP_GENERAL)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-fit items-center gap-2 border border-accent bg-accent/15 px-3 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent/25"
-            >
-              <MessageCircle className="size-4" strokeWidth={1.5} />
-              WhatsApp directo
-            </a>
-          )}
 
           {CONTACT_EMAIL && (
             <a
@@ -129,14 +114,16 @@ export async function SiteFooter() {
           )}
 
           <Link href="/catalogo#servicios" className="text-sm text-primary-foreground/80 hover:text-accent">
-            Servicios
+            {dict.footer.servicesLink}
           </Link>
           <Link href="/carrito" className="text-sm text-primary-foreground/80 hover:text-accent">
-            Carrito
+            {dict.footer.cartLink}
           </Link>
-          <Link href="/admin" className="text-sm text-primary-foreground/80 hover:text-accent">
-            Panel administrador
-          </Link>
+          {isStaff && (
+            <Link href="/admin" className="text-sm text-primary-foreground/80 hover:text-accent">
+              {dict.footer.adminLink}
+            </Link>
+          )}
         </div>
       </div>
 
@@ -144,10 +131,10 @@ export async function SiteFooter() {
         <div className="mx-auto flex max-w-6xl flex-col gap-3">
           <p className="flex items-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
             <MapPin className="size-3.5" strokeWidth={1.5} />
-            Ubicación de la bodega
+            {dict.footer.locationTitle}
           </p>
           {MAPS_EMBED_URL ? (
-            <div className="h-56 w-full overflow-hidden border border-primary-foreground/15 grayscale-[20%] sm:h-64">
+            <div className="h-56 w-full overflow-hidden border border-primary-foreground/15 grayscale-20 sm:h-64">
               <iframe
                 src={MAPS_EMBED_URL}
                 title="Ubicación de Casa de Insumos"
@@ -158,7 +145,7 @@ export async function SiteFooter() {
             </div>
           ) : (
             <div className="flex h-32 w-full items-center justify-center border border-dashed border-primary-foreground/20 px-4 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/40">
-              Configura NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL en tu .env para mostrar el mapa
+              {dict.footer.mapPlaceholder}
             </div>
           )}
         </div>
@@ -167,8 +154,7 @@ export async function SiteFooter() {
       <div className="border-t border-primary-foreground/10 px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
-            © 2026 Casa de Insumos — ERP/WMS en construcción, persistencia real vía Prisma +
-            PostgreSQL (Supabase).
+            {dict.footer.copyright}
           </p>
           {logo && (
             // eslint-disable-next-line @next/next/no-img-element

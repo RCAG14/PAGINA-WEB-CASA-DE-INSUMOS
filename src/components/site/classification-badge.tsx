@@ -1,4 +1,4 @@
-import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { cn } from "@/lib/utils";
 import type { CategoryMeta } from "@/lib/types";
 

@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CLASSIFICATION_ICON_OPTIONS } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_OPTIONS } from "@/lib/classification-icons";
 import { slugify } from "@/lib/utils";
 import type { CategoryMeta, ClassificationIcon } from "@/lib/types";
 

@@ -20,7 +20,7 @@ import {
   crearContenidoLandingAction,
   eliminarContenidoLandingAction,
   reordenarContenidoLandingAction,
-} from "@/app/admin/cajas/landing/actions";
+} from "@/app/admin/configuracion/landing/actions";
 import {
   LandingMediaFormDialog,
   type ContenidoLandingFormValues,

@@ -2,27 +2,36 @@ import Link from "next/link";
 import { ArrowRight, Boxes, ClipboardCheck, PackageCheck, ScanBarcode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroBackground } from "@/components/site/hero-background";
+import { CartSheet } from "@/components/site/cart-sheet";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { getHeroImagenes, getHeroVideo } from "@/lib/data/landing";
+import { getDictionary } from "@/lib/i18n/locale";
 
-const STATS = [
-  { label: "Margen potencial promedio", value: "+180%" },
-  { label: "Clasificaciones activas", value: "8" },
-  { label: "Origen verificado", value: "6+ países UE/UK" },
-  { label: "Lotes con certificación aduanera", value: "100%" },
-];
-
-const TRUST_ITEMS = [
-  { icon: PackageCheck, label: "Manifiesto verificado por lote" },
-  { icon: ClipboardCheck, label: "Certificación de seguridad aduanera" },
-  { icon: ScanBarcode, label: "Trazabilidad de origen y centro de retorno" },
-  { icon: Boxes, label: "Clasificación transparente por categoría" },
-];
+const TRUST_ICONS = [PackageCheck, ClipboardCheck, ScanBarcode, Boxes];
 
 export async function HeroSection() {
-  const [heroVideo, heroImagenes] = await Promise.all([getHeroVideo(), getHeroImagenes()]);
+  const [heroVideo, heroImagenes, { dict }] = await Promise.all([
+    getHeroVideo(),
+    getHeroImagenes(),
+    getDictionary(),
+  ]);
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-primary">
+      <Link
+        href="/"
+        className="absolute left-4 top-4 z-10 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/60 transition-colors hover:text-primary-foreground sm:left-6 sm:top-6"
+      >
+        {dict.webdev.backHome}
+      </Link>
+      <LanguageSwitcher
+        className="absolute right-14 top-4 z-10 text-primary-foreground sm:right-16 sm:top-6"
+      />
+      {/* Fijo (no absolute): a diferencia del resto de los controles del hero,
+          el carrito debe seguir visible durante todo el scroll del catálogo. */}
+      <div className="fixed right-4 top-4 z-50 sm:right-6 sm:top-6">
+        <CartSheet />
+      </div>
       <HeroBackground
         video={heroVideo ? { url: heroVideo.url } : null}
         imagenes={heroImagenes.map((i) => ({ url: i.url }))}
@@ -30,16 +39,13 @@ export async function HeroSection() {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-20">
         <div className="flex flex-col gap-6">
           <span className="animate-in fade-in-0 slide-in-from-bottom-2 inline-flex w-fit items-center gap-2 border border-dashed border-primary-foreground/40 px-2.5 py-1 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/80 duration-700 fill-mode-backwards">
-            Cajas de retorno de Amazon · Liquidación por lote · Ed. 2026
+            {dict.hero.badge}
           </span>
           <h1 className="animate-in fade-in-0 slide-in-from-bottom-3 max-w-xl font-heading text-3xl font-semibold leading-tight text-primary-foreground duration-700 delay-100 fill-mode-backwards sm:text-4xl lg:text-5xl">
-            Cajas de retorno de Amazon con potencial de electrónica, joyería y artículos de alto
-            valor a precio de liquidación.
+            {dict.hero.title}
           </h1>
           <p className="animate-in fade-in-0 slide-in-from-bottom-3 max-w-lg text-sm text-primary-foreground/75 duration-700 delay-200 fill-mode-backwards sm:text-base">
-            Compra por lote con manifiesto verificado o arriesga con una caja sorpresa de mayor
-            margen. Cada ficha técnica documenta origen, certificación aduanera y valor retail
-            estimado para que calcules tu rentabilidad de reventa antes de comprar.
+            {dict.hero.description}
           </p>
           <div className="animate-in fade-in-0 slide-in-from-bottom-3 flex flex-wrap gap-3 duration-700 delay-300 fill-mode-backwards">
             <Button
@@ -49,7 +55,7 @@ export async function HeroSection() {
               variant="secondary"
               className="group"
             >
-              Ver catálogo
+              {dict.hero.ctaCatalog}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
             <Button
@@ -59,12 +65,12 @@ export async function HeroSection() {
               variant="outline"
               className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              Cómo funciona
+              {dict.hero.ctaHowItWorks}
             </Button>
           </div>
 
           <dl className="animate-in fade-in-0 mt-4 grid grid-cols-2 gap-px overflow-hidden border border-primary-foreground/15 duration-700 delay-500 fill-mode-backwards sm:grid-cols-4">
-            {STATS.map((s) => (
+            {dict.hero.stats.map((s) => (
               <div
                 key={s.label}
                 className="bg-primary-foreground/5 px-3 py-3 backdrop-blur-sm"
@@ -82,7 +88,7 @@ export async function HeroSection() {
 
         <div
           id="como-funciona"
-          className="animate-in fade-in-0 slide-in-from-right-4 relative border border-primary-foreground/15 bg-primary-foreground/[0.04] p-5 duration-700 delay-200 fill-mode-backwards"
+          className="animate-in fade-in-0 slide-in-from-right-4 relative border border-primary-foreground/15 bg-primary-foreground/4 p-5 duration-700 delay-200 fill-mode-backwards"
         >
           <span className="absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-accent" />
           <span className="absolute right-0 top-0 h-4 w-4 border-r-2 border-t-2 border-accent" />
@@ -90,21 +96,24 @@ export async function HeroSection() {
           <span className="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-accent" />
 
           <p className="mb-4 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/60">
-            Ficha de trazabilidad — cómo funciona
+            {dict.hero.trustLabel}
           </p>
           <ul className="flex flex-col gap-3">
-            {TRUST_ITEMS.map((item, i) => (
-              <li
-                key={item.label}
-                className="flex items-center gap-3 border border-primary-foreground/10 bg-primary/40 px-3 py-2.5"
-              >
-                <span className="flex size-7 shrink-0 items-center justify-center border border-accent/50 font-mono-technical text-[11px] text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <item.icon className="size-4 shrink-0 text-accent" strokeWidth={1.5} />
-                <span className="text-sm text-primary-foreground/90">{item.label}</span>
-              </li>
-            ))}
+            {dict.hero.trustItems.map((label, i) => {
+              const Icon = TRUST_ICONS[i];
+              return (
+                <li
+                  key={label}
+                  className="flex items-center gap-3 border border-primary-foreground/10 bg-primary/40 px-3 py-2.5"
+                >
+                  <span className="flex size-7 shrink-0 items-center justify-center border border-accent/50 font-mono-technical text-[11px] text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <Icon className="size-4 shrink-0 text-accent" strokeWidth={1.5} />
+                  <span className="text-sm text-primary-foreground/90">{label}</span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

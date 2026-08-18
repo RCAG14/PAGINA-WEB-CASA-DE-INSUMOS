@@ -1,24 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getBannersPromo } from "@/lib/data/landing";
+import { getDictionary } from "@/lib/i18n/locale";
 
 export async function PromoBanners() {
-  const banners = await getBannersPromo();
+  const [banners, { dict }] = await Promise.all([getBannersPromo(), getDictionary()]);
   if (banners.length === 0) return null;
 
   return (
     <section className="border-b border-border bg-card">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="mb-6 flex flex-col gap-1">
+        <ScrollReveal className="mb-6 flex flex-col items-center gap-1 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            Promociones activas
+            {dict.promo.eyebrow}
           </span>
-          <h2 className="font-heading text-xl font-semibold sm:text-2xl">Ofertas del momento</h2>
-        </div>
+          <h2 className="font-heading text-xl font-semibold sm:text-2xl">{dict.promo.title}</h2>
+        </ScrollReveal>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {banners.map((banner) => {
+          {banners.map((banner, i) => {
             const content = (
               <div className="group relative aspect-[16/9] w-full overflow-hidden border border-border">
                 <Image
@@ -49,12 +51,14 @@ export async function PromoBanners() {
               </div>
             );
 
-            return banner.enlace_cta ? (
-              <Link key={banner.id} href={banner.enlace_cta}>
-                {content}
-              </Link>
-            ) : (
-              <div key={banner.id}>{content}</div>
+            return (
+              <ScrollReveal key={banner.id} delayMs={i * 80}>
+                {banner.enlace_cta ? (
+                  <Link href={banner.enlace_cta}>{content}</Link>
+                ) : (
+                  <div>{content}</div>
+                )}
+              </ScrollReveal>
             );
           })}
         </div>

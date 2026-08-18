@@ -31,6 +31,25 @@ export async function crearSocio(input: CrearSocioInput) {
   });
 }
 
+export interface CrearClienteInput {
+  nombre: string;
+  username: string;
+  password: string;
+}
+
+/** Autorregistro público — crea una cuenta con rol CLIENTE (sin acceso a /admin). */
+export async function crearCliente(input: CrearClienteInput) {
+  const passwordHash = await hashPassword(input.password);
+  return prisma.usuario.create({
+    data: {
+      nombre: input.nombre,
+      username: input.username,
+      password_hash: passwordHash,
+      rol: "CLIENTE" as Rol,
+    },
+  });
+}
+
 export async function alternarActivoUsuario(id: string, activo: boolean) {
   await prisma.usuario.update({ where: { id }, data: { activo } });
 }

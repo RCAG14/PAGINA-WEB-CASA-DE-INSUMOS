@@ -12,17 +12,17 @@ import { verifyJefe } from "@/lib/auth/dal";
 export async function crearSocioAction(input: CrearSocioInput) {
   await verifyJefe();
   await crearSocio(input);
-  revalidatePath("/admin/cajas/socios");
+  revalidatePath("/admin/configuracion/socios");
 }
 
 export async function alternarActivoSocioAction(id: string, activo: boolean) {
   await verifyJefe();
   await alternarActivoUsuario(id, activo);
-  revalidatePath("/admin/cajas/socios");
+  revalidatePath("/admin/configuracion/socios");
 }
 
 export async function eliminarSocioAction(id: string) {
   await verifyJefe();
   await eliminarUsuario(id);
-  revalidatePath("/admin/cajas/socios");
+  revalidatePath("/admin/configuracion/socios");
 }

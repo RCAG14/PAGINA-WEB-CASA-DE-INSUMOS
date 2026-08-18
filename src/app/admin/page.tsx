@@ -5,10 +5,11 @@ import {
   Calculator,
   Lock,
   MonitorCog,
+  Settings,
   Square,
   Users,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { verifySession } from "@/lib/auth/dal";
 
 const MODULES = [
@@ -137,6 +138,28 @@ export default async function AdminPortalPage() {
             )}
           </div>
         ))}
+      </div>
+
+      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-3">
+          <span className="flex size-9 shrink-0 items-center justify-center border border-border text-muted-foreground">
+            <Settings className="size-4" strokeWidth={1.5} />
+          </span>
+          <div className="flex flex-col gap-0.5">
+            <h2 className="font-heading text-sm font-semibold">Configuración global del sistema</h2>
+            <p className="max-w-md text-xs text-muted-foreground">
+              Landing/imágenes promocionales, redes sociales y contacto, y socios comerciales —
+              ajustes que aplican a toda la plataforma, no a un solo módulo.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/admin/configuracion"
+          className={buttonVariants({ variant: "outline", className: "w-fit shrink-0" })}
+        >
+          Ir a Configuración
+          <ArrowRight className="size-4" />
+        </Link>
       </div>
     </div>
   );

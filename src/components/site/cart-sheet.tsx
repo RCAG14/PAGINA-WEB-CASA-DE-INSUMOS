@@ -13,19 +13,26 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { CLASSIFICATION_ICON_MAP } from "@/components/site/box-visual";
+import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n/locale-context";
 
 export function CartSheet() {
   const { lines, subtotal, totalItems, removeLine, setQty } = useCart();
+  const { dict } = useI18n();
 
   return (
     <Sheet>
       <SheetTrigger
         render={
-          <Button variant="outline" size="icon" aria-label="Abrir carrito" className="relative" />
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label={dict.cartSheet.openCart}
+            className="relative"
+          />
         }
       >
         <ShoppingCart className="size-4" />
@@ -38,14 +45,14 @@ export function CartSheet() {
       <SheetContent className="w-full sm:max-w-md">
         <SheetHeader className="border-b border-border">
           <SheetTitle className="font-mono-technical text-sm uppercase tracking-wider">
-            Carrito ({totalItems})
+            {dict.cartSheet.title} ({totalItems})
           </SheetTitle>
         </SheetHeader>
 
         {lines.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-2 px-4 text-center">
             <ShoppingCart className="size-8 text-muted-foreground" strokeWidth={1.2} />
-            <p className="text-sm text-muted-foreground">Tu carrito está vacío.</p>
+            <p className="text-sm text-muted-foreground">{dict.cartSheet.empty}</p>
             <SheetClose
               render={
                 <Link
@@ -55,7 +62,7 @@ export function CartSheet() {
               }
               nativeButton={false}
             >
-              Ver catálogo
+              {dict.cartSheet.viewCatalog}
             </SheetClose>
           </div>
         ) : (
@@ -79,7 +86,7 @@ export function CartSheet() {
                           </Link>
                           <button
                             onClick={() => removeLine(line.boxId)}
-                            aria-label="Quitar del carrito"
+                            aria-label={dict.cartSheet.removeFromCart}
                             className="text-muted-foreground hover:text-destructive"
                           >
                             <Trash2 className="size-3.5" />
@@ -95,7 +102,7 @@ export function CartSheet() {
                               onClick={() => setQty(line.boxId, line.cantidad - 1)}
                               disabled={line.cantidad <= 1}
                               className="flex size-6 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
-                              aria-label="Disminuir cantidad"
+                              aria-label={dict.cartSheet.decreaseQty}
                             >
                               <Minus className="size-3" />
                             </button>
@@ -106,7 +113,7 @@ export function CartSheet() {
                               onClick={() => setQty(line.boxId, line.cantidad + 1)}
                               disabled={line.cantidad >= line.stock}
                               className="flex size-6 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
-                              aria-label="Aumentar cantidad"
+                              aria-label={dict.cartSheet.increaseQty}
                             >
                               <Plus className="size-3" />
                             </button>
@@ -124,7 +131,7 @@ export function CartSheet() {
 
             <SheetFooter className="border-t border-border">
               <div className="flex items-center justify-between font-mono-technical text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">{dict.cartSheet.subtotal}</span>
                 <span className="font-semibold text-primary">{formatPrice(subtotal)}</span>
               </div>
               <Separator />
@@ -134,7 +141,7 @@ export function CartSheet() {
                 }
                 nativeButton={false}
               >
-                Ver carrito completo
+                {dict.cartSheet.viewFullCart}
               </SheetClose>
               <SheetClose
                 render={
@@ -145,7 +152,7 @@ export function CartSheet() {
                 }
                 nativeButton={false}
               >
-                Comprar
+                {dict.cartSheet.buy}
               </SheetClose>
             </SheetFooter>
           </>

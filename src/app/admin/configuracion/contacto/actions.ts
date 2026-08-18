@@ -13,7 +13,7 @@ import {
 } from "@/lib/data/contacto";
 
 function revalidarTodo() {
-  revalidatePath("/admin/cajas/configuracion");
+  revalidatePath("/admin/configuracion/contacto");
   revalidatePath("/");
   revalidatePath("/catalogo");
   revalidatePath("/checkout");

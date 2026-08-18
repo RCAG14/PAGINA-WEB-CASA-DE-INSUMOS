@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowUpRight, LayoutTemplate } from "lucide-react";
 import { getTrabajosRealizados } from "@/lib/data/desarrollo";
+import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 export async function WebDevPortfolio() {
-  const trabajos = await getTrabajosRealizados();
+  const [trabajos, { dict }] = await Promise.all([getTrabajosRealizados(), getDictionary()]);
   if (trabajos.length === 0) return null;
 
   return (
@@ -15,10 +16,10 @@ export async function WebDevPortfolio() {
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            Trabajos realizados
+            {dict.webdev.portfolio.eyebrow}
           </span>
           <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-            Algunos proyectos que desarrollamos
+            {dict.webdev.portfolio.title}
           </h2>
         </ScrollReveal>
 

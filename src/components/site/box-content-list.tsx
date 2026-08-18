@@ -7,31 +7,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/locale";
 import type { BoxItemSpec } from "@/lib/types";
 
-export function BoxContentList({ items }: { items: BoxItemSpec[] }) {
+export async function BoxContentList({ items }: { items: BoxItemSpec[] }) {
+  const { dict } = await getDictionary();
+
   return (
     <div className="border border-border">
       <div className="border-b border-border bg-primary px-3 py-2">
         <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
-          Manifiesto técnico de contenido — {items.length} artículo
-          {items.length === 1 ? "" : "s"}
+          {dict.boxContentList.title} — {items.length}{" "}
+          {items.length === 1 ? dict.boxContentList.itemSuffix : dict.boxContentList.itemsSuffix}
         </p>
       </div>
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
-              Artículo
+              {dict.boxContentList.headerItem}
             </TableHead>
             <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
-              Condición reportada
+              {dict.boxContentList.headerCondition}
             </TableHead>
             <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
-              Cantidad
+              {dict.boxContentList.headerQty}
             </TableHead>
             <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
-              Precio sugerido
+              {dict.boxContentList.headerPrice}
             </TableHead>
           </TableRow>
         </TableHeader>

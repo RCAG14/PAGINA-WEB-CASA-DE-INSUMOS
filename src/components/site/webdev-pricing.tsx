@@ -3,12 +3,14 @@ import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { getPaquetesDesarrollo } from "@/lib/data/desarrollo";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 export async function WebDevPricing() {
-  const [paquetes, whatsappNumero] = await Promise.all([
+  const [paquetes, whatsappNumero, { dict }] = await Promise.all([
     getPaquetesDesarrollo(),
     getNumeroWhatsappPrincipal(),
+    getDictionary(),
   ]);
 
   if (paquetes.length === 0) return null;
@@ -21,14 +23,13 @@ export async function WebDevPricing() {
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            Paquetes
+            {dict.webdev.pricing.eyebrow}
           </span>
           <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-            Elegí el alcance que necesitás
+            {dict.webdev.pricing.title}
           </h2>
           <p className="max-w-2xl text-sm text-muted-foreground">
-            Precios referenciales — la cotización final se ajusta según el alcance exacto de tu
-            proyecto.
+            {dict.webdev.pricing.description}
           </p>
         </ScrollReveal>
 
@@ -45,7 +46,7 @@ export async function WebDevPricing() {
                 >
                   {paquete.destacado && (
                     <span className="w-fit bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground">
-                      Recomendado
+                      {dict.webdev.pricing.recommended}
                     </span>
                   )}
                   <div>
@@ -78,11 +79,11 @@ export async function WebDevPricing() {
                           : "border border-border text-foreground hover:border-primary hover:text-primary"
                       )}
                     >
-                      Cotizar por WhatsApp
+                      {dict.webdev.pricing.quoteCta}
                     </a>
                   ) : (
                     <span className="border border-dashed border-accent bg-accent/10 px-4 py-2 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary">
-                      Configurá un número de contacto para cotizar
+                      {dict.webdev.pricing.quoteFallback}
                     </span>
                   )}
                 </div>

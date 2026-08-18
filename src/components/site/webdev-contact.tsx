@@ -4,14 +4,13 @@ import {
   Link2,
   Mail,
   MapPin,
-  MessageCircle,
   Music2,
   ThumbsUp,
   Video,
   type LucideIcon,
 } from "lucide-react";
-import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
-import { buildWhatsAppLink } from "@/lib/utils";
+import { getRedesSociales } from "@/lib/data/contacto";
+import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 const PLATAFORMA_LABEL: Record<string, string> = {
@@ -34,36 +33,21 @@ const PLATAFORMA_ICON: Record<string, LucideIcon> = {
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
-const MENSAJE_WHATSAPP = "Hola, quiero más información sobre desarrollo web a medida.";
 
 export async function WebDevContact() {
-  const [whatsappNumero, redesSociales] = await Promise.all([
-    getNumeroWhatsappPrincipal(),
-    getRedesSociales(),
-  ]);
+  const [redesSociales, { dict }] = await Promise.all([getRedesSociales(), getDictionary()]);
 
   return (
     <section className="flex min-h-screen items-center bg-primary text-primary-foreground">
       <ScrollReveal className="mx-auto flex w-full max-w-3xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
         <span className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground/70">
-          Contacto
+          {dict.webdev.contact.eyebrow}
         </span>
         <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-          Contanos tu proyecto
+          {dict.webdev.contact.title}
         </h2>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
-          {whatsappNumero && (
-            <a
-              href={buildWhatsAppLink(whatsappNumero, MENSAJE_WHATSAPP)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 border border-accent bg-accent/15 px-3 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent/25"
-            >
-              <MessageCircle className="size-4" strokeWidth={1.5} />
-              WhatsApp directo
-            </a>
-          )}
           {CONTACT_EMAIL && (
             <a
               href={`mailto:${CONTACT_EMAIL}`}
@@ -99,7 +83,7 @@ export async function WebDevContact() {
         <div className="mt-4 flex w-full flex-col gap-3">
           <p className="flex items-center justify-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
             <MapPin className="size-3.5" strokeWidth={1.5} />
-            Ubicación
+            {dict.webdev.contact.locationLabel}
           </p>
           {MAPS_EMBED_URL ? (
             <div className="h-56 w-full overflow-hidden border border-primary-foreground/15 grayscale-20 sm:h-64">
@@ -113,13 +97,13 @@ export async function WebDevContact() {
             </div>
           ) : (
             <div className="flex h-32 w-full items-center justify-center border border-dashed border-primary-foreground/20 px-4 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/40">
-              Configura NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL en tu .env para mostrar el mapa
+              {dict.webdev.contact.mapPlaceholder}
             </div>
           )}
         </div>
 
         <p className="mt-2 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
-          © 2026 Casa de Insumos
+          {dict.webdev.contact.copyright}
         </p>
       </ScrollReveal>
     </section>

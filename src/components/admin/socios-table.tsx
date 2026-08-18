@@ -7,7 +7,7 @@ import {
   alternarActivoSocioAction,
   crearSocioAction,
   eliminarSocioAction,
-} from "@/app/admin/cajas/socios/actions";
+} from "@/app/admin/configuracion/socios/actions";
 import { SocioFormDialog } from "@/components/admin/socio-form-dialog";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";

@@ -9,7 +9,7 @@ export default async function AdminSociosPage() {
 
   return (
     <>
-      <AdminTopbar title="Socios" eyebrow="Gestión de Cajas Amazon y Retornos" />
+      <AdminTopbar title="Socios" eyebrow="Configuración Global del Sistema" />
       <div className="flex flex-col gap-4 p-4 sm:p-6">
         <p className="max-w-2xl text-sm text-muted-foreground">
           Genera accesos para tus socios comerciales. Entran a un dashboard de solo lectura con

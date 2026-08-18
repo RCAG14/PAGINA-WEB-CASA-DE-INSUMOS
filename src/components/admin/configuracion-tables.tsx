@@ -10,7 +10,7 @@ import {
   crearRedSocialAction,
   eliminarNumeroContactoAction,
   eliminarRedSocialAction,
-} from "@/app/admin/cajas/configuracion/actions";
+} from "@/app/admin/configuracion/contacto/actions";
 import { RedSocialFormDialog } from "@/components/admin/red-social-form-dialog";
 import { NumeroContactoFormDialog } from "@/components/admin/numero-contacto-form-dialog";
 import { Button } from "@/components/ui/button";

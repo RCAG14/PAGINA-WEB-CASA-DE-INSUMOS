@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { QuantityStepper } from "@/components/site/quantity-stepper";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n/locale-context";
 import type { Box } from "@/lib/types";
 
 export function AddToCartPanel({ box }: { box: Box }) {
   const { addBox } = useCart();
+  const { dict } = useI18n();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const outOfStock = box.stock === 0;
@@ -24,10 +26,10 @@ export function AddToCartPanel({ box }: { box: Box }) {
     <div className="flex flex-col gap-4 border border-border bg-card p-4">
       <div className="flex items-center justify-between">
         <span className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-          Cantidad
+          {dict.addToCartPanel.quantity}
         </span>
         <span className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-          {box.stock} en stock
+          {box.stock} {dict.addToCartPanel.inStockSuffix}
         </span>
       </div>
 
@@ -46,14 +48,14 @@ export function AddToCartPanel({ box }: { box: Box }) {
         variant={added ? "secondary" : "default"}
       >
         {outOfStock ? (
-          "Sin stock disponible"
+          dict.addToCartPanel.outOfStock
         ) : added ? (
           <>
-            <Check className="size-4" /> Agregada al carrito
+            <Check className="size-4" /> {dict.addToCartPanel.added}
           </>
         ) : (
           <>
-            <ShoppingCart className="size-4" /> Agregar al carrito
+            <ShoppingCart className="size-4" /> {dict.addToCartPanel.addToCart}
           </>
         )}
       </Button>

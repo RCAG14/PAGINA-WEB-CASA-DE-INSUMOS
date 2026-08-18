@@ -1,8 +1,10 @@
 import { HelpCircle, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/locale";
 import type { SurpriseBox } from "@/lib/types";
 
-export function MysteryPanel({ box }: { box: SurpriseBox }) {
+export async function MysteryPanel({ box }: { box: SurpriseBox }) {
+  const { dict } = await getDictionary();
   const placeholders = Array.from({ length: Math.min(box.cantidadEstimadaMax, 12) });
 
   return (
@@ -10,14 +12,14 @@ export function MysteryPanel({ box }: { box: SurpriseBox }) {
       <div className="flex items-center gap-2 border-b border-dashed border-accent bg-primary px-3 py-2">
         <Lock className="size-3.5 text-primary-foreground" />
         <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
-          Contenido exacto reservado hasta el despacho
+          {dict.mysteryPanel.reservedNotice}
         </p>
       </div>
 
       <div className="flex flex-col gap-5 p-4">
         <div>
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-            Clasificación confirmada
+            {dict.mysteryPanel.confirmedClassification}
           </p>
           <p className="font-heading text-lg font-semibold text-primary">
             {box.clasificacion.label}
@@ -26,35 +28,36 @@ export function MysteryPanel({ box }: { box: SurpriseBox }) {
 
         <div>
           <p className="mb-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-            Rango de contenido posible
+            {dict.mysteryPanel.rangeLabel}
           </p>
           <div className="grid grid-cols-2 gap-3">
             <div className="border-2 border-accent bg-accent/15 p-3">
               <div className="mb-1 flex items-center gap-1.5">
                 <ShieldCheck className="size-3.5 text-primary" />
                 <span className="font-mono-technical text-[10px] font-bold uppercase tracking-wider text-primary">
-                  Mínimo garantizado
+                  {dict.mysteryPanel.minGuaranteed}
                 </span>
               </div>
               <p className="font-heading text-xl font-semibold text-primary">
                 {formatPrice(box.valorEstimadoMin)}
               </p>
               <p className="text-xs text-muted-foreground">
-                {box.cantidadEstimadaMin} artículos como mínimo
+                {box.cantidadEstimadaMin} {dict.mysteryPanel.minItemsSuffix}
               </p>
             </div>
             <div className="border border-border p-3">
               <div className="mb-1 flex items-center gap-1.5">
                 <Sparkles className="size-3.5 text-muted-foreground" />
                 <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-                  Máximo potencial
+                  {dict.mysteryPanel.maxPotential}
                 </span>
               </div>
               <p className="font-heading text-xl font-semibold">
                 {formatPrice(box.valorEstimadoMax)}
               </p>
               <p className="text-xs text-muted-foreground">
-                hasta {box.cantidadEstimadaMax} artículos
+                {dict.mysteryPanel.maxItemsPrefix} {box.cantidadEstimadaMax}{" "}
+                {dict.mysteryPanel.maxItemsSuffix}
               </p>
             </div>
           </div>
@@ -62,7 +65,7 @@ export function MysteryPanel({ box }: { box: SurpriseBox }) {
 
         <div>
           <p className="mb-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-            Artículos sin revelar
+            {dict.mysteryPanel.undisclosedLabel}
           </p>
           <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
             {placeholders.map((_, i) => (
@@ -74,10 +77,7 @@ export function MysteryPanel({ box }: { box: SurpriseBox }) {
               </div>
             ))}
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">
-            El desglose exacto de artículos, condición y valor por unidad se registra en el
-            manifiesto interno y se reserva hasta el despacho.
-          </p>
+          <p className="mt-2 text-xs text-muted-foreground">{dict.mysteryPanel.footnote}</p>
         </div>
       </div>
     </div>

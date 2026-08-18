@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { toDecimalNumber } from "@/lib/data/decimal";
+import { enviarCotizacionPedido } from "@/lib/email/enviar-cotizacion-pedido";
 import type { AdminOrder, OrderStatus } from "@/lib/types";
 
 function generarCodigoPedido(secuencia: number) {
@@ -18,7 +19,7 @@ export interface CrearPedidoInput {
 }
 
 export async function crearPedido(input: CrearPedidoInput) {
-  return prisma.$transaction(async (tx) => {
+  const resultado = await prisma.$transaction(async (tx) => {
     // Si el cliente ya compró antes con el mismo correo, se reutiliza su
     // registro (para acumular historial de compras) en vez de duplicarlo.
     const datosCliente = {
@@ -79,6 +80,12 @@ export async function crearPedido(input: CrearPedidoInput) {
 
     return { codigoPedido: pedido.codigo_pedido, pedidoId: pedido.id };
   });
+
+  // El pedido nace en "Pendiente": se envía la cotización fuera de la
+  // transacción para no bloquear el checkout si el correo tarda o falla.
+  await enviarCotizacionPedido(resultado.pedidoId);
+
+  return resultado;
 }
 
 export async function getPedidos(): Promise<AdminOrder[]> {
@@ -96,4 +103,67 @@ export async function getPedidos(): Promise<AdminOrder[]> {
     items: p.detalles.reduce((acc, d) => acc + d.cantidad, 0),
     estado: p.estado as OrderStatus,
   }));
+}
+
+export async function actualizarEstadoPedido(id: string, nuevoEstado: OrderStatus) {
+  const pedido = await prisma.pedido.findUniqueOrThrow({
+    where: { id },
+    include: { detalles: true },
+  });
+
+  if (pedido.estado === nuevoEstado) return;
+
+  // El estado se puede corregir en cualquier momento (p.ej. si se marcó
+  // "Entregado" o "Cancelado" por error). Solo Cancelado afecta el stock,
+  // así que se ajusta la reserva al entrar o salir de ese estado.
+  const entrandoACancelado = nuevoEstado === "Cancelado";
+  const saliendoDeCancelado = pedido.estado === "Cancelado";
+
+  await prisma.$transaction(async (tx) => {
+    if (entrandoACancelado) {
+      for (const detalle of pedido.detalles) {
+        await tx.caja.update({
+          where: { id: detalle.caja_id },
+          data: { stock_disponible: { increment: detalle.cantidad } },
+        });
+        await tx.movimientoInventario.create({
+          data: {
+            tipo_entidad: "Caja",
+            entidad_id: detalle.caja_id,
+            cantidad_cambio: detalle.cantidad,
+            motivo: "Cancelacion",
+          },
+        });
+      }
+    } else if (saliendoDeCancelado) {
+      for (const detalle of pedido.detalles) {
+        const resultado = await tx.caja.updateMany({
+          where: { id: detalle.caja_id, stock_disponible: { gte: detalle.cantidad } },
+          data: { stock_disponible: { decrement: detalle.cantidad } },
+        });
+        if (resultado.count === 0) {
+          throw new Error(
+            "No hay stock suficiente para volver a reservar este pedido cancelado."
+          );
+        }
+        await tx.movimientoInventario.create({
+          data: {
+            tipo_entidad: "Caja",
+            entidad_id: detalle.caja_id,
+            cantidad_cambio: -detalle.cantidad,
+            motivo: "Reserva",
+          },
+        });
+      }
+    }
+
+    await tx.pedido.update({
+      where: { id },
+      data: { estado: nuevoEstado },
+    });
+  });
+
+  if (nuevoEstado === "Pendiente") {
+    await enviarCotizacionPedido(id);
+  }
 }
