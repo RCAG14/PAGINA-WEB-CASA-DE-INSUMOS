@@ -30,7 +30,8 @@ const MODULES = [
     titulo: "Desarrollo de Software y Páginas Web",
     descripcion: "Seguimiento de proyectos de desarrollo a medida para clientes externos.",
     icon: MonitorCog,
-    activo: false,
+    href: "/admin/desarrollo-web",
+    activo: true,
   },
   {
     titulo: "Administración de Personal y RRHH",

@@ -261,3 +261,53 @@ model ContenidoLanding {
 
   @@map("contenido_landing")
 }
+
+// Paquetes de precio del servicio de Desarrollo Web a Medida (/desarrollo-web).
+// El administrador los gestiona desde /admin/desarrollo-web sin tocar
+// código. El botón de cotización de cada paquete arma un mensaje de WhatsApp
+// personalizado con el nombre del paquete.
+model PaqueteDesarrollo {
+  id String @id @default(cuid())
+
+  nombre  String @unique
+  tagline String
+  precio  Decimal @db.Decimal(10, 2)
+
+  // Una línea por ítem del checklist de features mostrado en la tarjeta.
+  features String[]
+
+  // Se resalta visualmente como la opción recomendada en la landing.
+  destacado Boolean @default(false)
+  activo    Boolean @default(true)
+  orden     Int     @default(0)
+
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  @@map("paquetes_desarrollo")
+}
+
+// Trabajos realizados (portfolio) mostrados en /desarrollo-web, gestionados
+// desde /admin/desarrollo-web. Imagen opcional alojada en Supabase
+// Storage — si es null, la UI cae a un ícono según la categoría.
+model TrabajoRealizado {
+  id String @id @default(cuid())
+
+  titulo String
+  // Rubro del cliente — texto libre, ej. "Restaurante", "Inmobiliaria", "Clínica".
+  categoria   String
+  descripcion String
+
+  imagen_url  String?
+  imagen_path String?
+  // Enlace opcional al sitio/demo del trabajo mostrado.
+  enlace      String?
+
+  activo Boolean @default(true)
+  orden  Int     @default(0)
+
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  @@map("trabajos_realizados")
+}

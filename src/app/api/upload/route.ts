@@ -8,6 +8,7 @@ const ALLOWED_FOLDERS = new Set([
   "casa-de-insumos/landing/banners",
   "casa-de-insumos/landing/logo",
   "casa-de-insumos/productos",
+  "casa-de-insumos/desarrollo-web/trabajos",
 ]);
 
 const MAX_SIZE_BYTES: Record<"image" | "video", number> = {

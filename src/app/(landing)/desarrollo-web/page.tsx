@@ -3,6 +3,7 @@ import { VisitTracker } from "@/components/site/visit-tracker";
 import { WebDevHero } from "@/components/site/webdev-hero";
 import { WebDevTypes } from "@/components/site/webdev-types";
 import { WebDevPricing } from "@/components/site/webdev-pricing";
+import { WebDevPortfolio } from "@/components/site/webdev-portfolio";
 import { WebDevAffiliates } from "@/components/site/webdev-affiliates";
 import { WebDevReviews } from "@/components/site/webdev-reviews";
 import { WebDevContact } from "@/components/site/webdev-contact";
@@ -30,6 +31,7 @@ export default function DesarrolloWebPage() {
       <WebDevHero />
       <WebDevTypes />
       <WebDevPricing />
+      <WebDevPortfolio />
       <WebDevAffiliates />
       <WebDevReviews />
       <WebDevContact />

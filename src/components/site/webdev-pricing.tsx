@@ -1,56 +1,17 @@
 import { Check } from "lucide-react";
 import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
+import { getPaquetesDesarrollo } from "@/lib/data/desarrollo";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
-// Precios y alcance de referencia — ajustar aquí antes de publicar en producción.
-// El plan "destacado" se resalta visualmente como la opción recomendada.
-const PAQUETES = [
-  {
-    nombre: "Básico",
-    precio: 1500,
-    tagline: "Presencia digital simple y profesional.",
-    features: [
-      "Sitio web de hasta 5 páginas",
-      "Diseño responsive (mobile y desktop)",
-      "Formulario de contacto",
-      "Optimización SEO básica",
-      "1 mes de soporte post-entrega",
-    ],
-    destacado: false,
-  },
-  {
-    nombre: "Estándar",
-    precio: 3500,
-    tagline: "Sitio o sistema a medida con panel propio.",
-    features: [
-      "Todo lo del plan Básico",
-      "Hasta 10 páginas o módulos",
-      "Panel de administración de contenido",
-      "Integración con WhatsApp",
-      "Analítica de visitas",
-      "3 meses de soporte post-entrega",
-    ],
-    destacado: true,
-  },
-  {
-    nombre: "Premium",
-    precio: 7000,
-    tagline: "Sistema web completo, a tu medida.",
-    features: [
-      "Todo lo del plan Estándar",
-      "Dashboard con roles de usuario",
-      "Integraciones a medida (pagos, chatbot, reservas)",
-      "Base de datos y backend a medida",
-      "Soporte prioritario 6 meses",
-    ],
-    destacado: false,
-  },
-] as const;
-
 export async function WebDevPricing() {
-  const whatsappNumero = await getNumeroWhatsappPrincipal();
+  const [paquetes, whatsappNumero] = await Promise.all([
+    getPaquetesDesarrollo(),
+    getNumeroWhatsappPrincipal(),
+  ]);
+
+  if (paquetes.length === 0) return null;
 
   return (
     <section
@@ -72,10 +33,10 @@ export async function WebDevPricing() {
         </ScrollReveal>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          {PAQUETES.map((paquete, i) => {
+          {paquetes.map((paquete, i) => {
             const mensaje = `Hola, quiero cotizar el paquete ${paquete.nombre} de desarrollo web.`;
             return (
-              <ScrollReveal key={paquete.nombre} delayMs={i * 100}>
+              <ScrollReveal key={paquete.id} delayMs={i * 100}>
                 <div
                   className={cn(
                     "flex h-full flex-col gap-4 border bg-card p-6",

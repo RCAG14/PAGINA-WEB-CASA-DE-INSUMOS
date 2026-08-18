@@ -427,6 +427,99 @@ async function main() {
       console.log(`Usuario "${ADMIN_USERNAME}" creado con la contraseña de SEED_ADMIN_PASSWORD.`);
     }
   }
+
+  console.log("Sembrando paquetes de Desarrollo Web a Medida...");
+  const PAQUETES_DESARROLLO = [
+    {
+      nombre: "Básico",
+      tagline: "Presencia digital simple y profesional.",
+      precio: 1500,
+      features: [
+        "Sitio web de hasta 5 páginas",
+        "Diseño responsive (mobile y desktop)",
+        "Formulario de contacto",
+        "Optimización SEO básica",
+        "1 mes de soporte post-entrega",
+      ],
+      destacado: false,
+      orden: 0,
+    },
+    {
+      nombre: "Estándar",
+      tagline: "Sitio o sistema a medida con panel propio.",
+      precio: 3500,
+      features: [
+        "Todo lo del plan Básico",
+        "Hasta 10 páginas o módulos",
+        "Panel de administración de contenido",
+        "Integración con WhatsApp",
+        "Analítica de visitas",
+        "3 meses de soporte post-entrega",
+      ],
+      destacado: true,
+      orden: 1,
+    },
+    {
+      nombre: "Premium",
+      tagline: "Sistema web completo, a tu medida.",
+      precio: 7000,
+      features: [
+        "Todo lo del plan Estándar",
+        "Dashboard con roles de usuario",
+        "Integraciones a medida (pagos, chatbot, reservas)",
+        "Base de datos y backend a medida",
+        "Soporte prioritario 6 meses",
+      ],
+      destacado: false,
+      orden: 2,
+    },
+  ];
+  for (const paquete of PAQUETES_DESARROLLO) {
+    await prisma.paqueteDesarrollo.upsert({
+      where: { nombre: paquete.nombre },
+      update: {},
+      create: paquete,
+    });
+  }
+
+  console.log("Sembrando ejemplos de Trabajos Realizados...");
+  const trabajosExistentes = await prisma.trabajoRealizado.count();
+  if (trabajosExistentes === 0) {
+    const TRABAJOS_EJEMPLO = [
+      {
+        titulo: "Página web para restaurante (ejemplo)",
+        categoria: "Restaurante",
+        descripcion:
+          "Landing con menú digital, galería de platos y reserva de mesas por WhatsApp. Contenido de relleno — reemplazar con un caso real.",
+        orden: 0,
+      },
+      {
+        titulo: "Sitio para inmobiliaria (ejemplo)",
+        categoria: "Inmobiliaria",
+        descripcion:
+          "Catálogo de propiedades con filtros por zona y precio, ficha técnica por inmueble. Contenido de relleno — reemplazar con un caso real.",
+        orden: 1,
+      },
+      {
+        titulo: "Sistema de reservas para clínica (ejemplo)",
+        categoria: "Salud",
+        descripcion:
+          "Agenda de turnos online con recordatorios automáticos por WhatsApp. Contenido de relleno — reemplazar con un caso real.",
+        orden: 2,
+      },
+      {
+        titulo: "Tienda online para retail (ejemplo)",
+        categoria: "Retail",
+        descripcion:
+          "Catálogo de productos con carrito y checkout, panel de administración de inventario. Contenido de relleno — reemplazar con un caso real.",
+        orden: 3,
+      },
+    ];
+    await prisma.trabajoRealizado.createMany({ data: TRABAJOS_EJEMPLO });
+  } else {
+    console.log("Ya hay trabajos realizados cargados, no se agregan ejemplos.");
+  }
+
   console.log("Inicia sesión en /admin/login.");
 }
 
