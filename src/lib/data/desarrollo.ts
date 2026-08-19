@@ -1,6 +1,14 @@
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { toDecimalNumber } from "@/lib/data/decimal";
 import { deleteFromSupabaseStorage } from "@/lib/supabase";
+
+function throwFriendlyUniqueError(error: unknown, message: string): never {
+  if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+    throw new Error(message);
+  }
+  throw error;
+}
 
 export interface PaqueteDesarrolloInput {
   nombre: string;
@@ -35,11 +43,19 @@ export async function getPaquetesDesarrollo() {
 
 export async function crearPaqueteDesarrollo(input: PaqueteDesarrolloInput) {
   const count = await prisma.paqueteDesarrollo.count();
-  return prisma.paqueteDesarrollo.create({ data: { ...input, orden: count } });
+  try {
+    return await prisma.paqueteDesarrollo.create({ data: { ...input, orden: count } });
+  } catch (error) {
+    throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
+  }
 }
 
 export async function actualizarPaqueteDesarrollo(id: string, input: PaqueteDesarrolloInput) {
-  return prisma.paqueteDesarrollo.update({ where: { id }, data: input });
+  try {
+    return await prisma.paqueteDesarrollo.update({ where: { id }, data: input });
+  } catch (error) {
+    throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
+  }
 }
 
 export async function eliminarPaqueteDesarrollo(id: string) {

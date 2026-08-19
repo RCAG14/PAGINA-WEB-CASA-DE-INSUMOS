@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Usuario } from "@/generated/prisma/client";
+import { toast, getErrorMessage } from "@/lib/toast";
 
 export function SociosTable({ socios }: { socios: Usuario[] }) {
   const router = useRouter();
@@ -27,6 +28,21 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
 
   function refrescar() {
     router.refresh();
+  }
+
+  function run(action: () => Promise<unknown>, successMsg: string, errorTitle: string) {
+    startTransition(async () => {
+      try {
+        await action();
+        refrescar();
+        toast.success(successMsg);
+      } catch (err) {
+        toast.error({
+          title: errorTitle,
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      }
+    });
   }
 
   return (
@@ -50,6 +66,7 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
           onSubmit={async (values) => {
             await crearSocioAction(values);
             refrescar();
+            toast.success("Cuenta de socio creada correctamente.");
           }}
         />
       </div>
@@ -96,10 +113,11 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
                   <Switch
                     checked={s.activo}
                     onCheckedChange={(v) =>
-                      startTransition(async () => {
-                        await alternarActivoSocioAction(s.id, v);
-                        refrescar();
-                      })
+                      run(
+                        () => alternarActivoSocioAction(s.id, v),
+                        v ? "Socio activado." : "Socio desactivado.",
+                        "No se pudo cambiar el estado del socio"
+                      )
                     }
                   />
                 </TableCell>
@@ -111,10 +129,11 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
                       aria-label="Eliminar socio"
                       className="text-muted-foreground hover:text-destructive"
                       onClick={() =>
-                        startTransition(async () => {
-                          await eliminarSocioAction(s.id);
-                          refrescar();
-                        })
+                        run(
+                          () => eliminarSocioAction(s.id),
+                          `"${s.nombre}" se eliminó correctamente.`,
+                          "No se pudo eliminar el socio"
+                        )
                       }
                     >
                       <Trash2 className="size-3.5" />

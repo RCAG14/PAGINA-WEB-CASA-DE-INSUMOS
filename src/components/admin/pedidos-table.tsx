@@ -29,6 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/format";
+import { toast, getErrorMessage } from "@/lib/toast";
 import { ORDER_STATUSES, type AdminOrder, type OrderStatus } from "@/lib/types";
 
 interface PendingAction {
@@ -42,21 +43,23 @@ export function PedidosTable({ pedidos }: { pedidos: AdminOrder[] }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
 
   function handleConfirm() {
     if (!pendingAction) return;
-    const { id, nuevoEstado } = pendingAction;
-    setError(null);
+    const { id, codigoPedido, nuevoEstado } = pendingAction;
     setUpdatingId(id);
     setPendingAction(null);
     startTransition(async () => {
       try {
         await actualizarEstadoPedidoAction(id, nuevoEstado);
         router.refresh();
-      } catch {
-        setError("No se pudo actualizar el estado del pedido. Intentá de nuevo.");
+        toast.success(`Pedido ${codigoPedido} actualizado a "${nuevoEstado}".`);
+      } catch (err) {
+        toast.error({
+          title: "No se pudo actualizar el estado del pedido",
+          description: getErrorMessage(err, "Intentá de nuevo en unos segundos."),
+        });
       } finally {
         setUpdatingId(null);
       }
@@ -68,11 +71,6 @@ export function PedidosTable({ pedidos }: { pedidos: AdminOrder[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {error && (
-        <p className="border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-          {error}
-        </p>
-      )}
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
