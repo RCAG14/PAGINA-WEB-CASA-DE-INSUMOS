@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import type { CategoryMeta, ClassificationIcon } from "@/lib/types";
 
 interface ClasificacionRow {
@@ -32,8 +33,15 @@ export interface ClasificacionInput {
 }
 
 export async function crearClasificacion(input: ClasificacionInput) {
-  const row = await prisma.clasificacion.create({ data: input });
-  return toCategoryMeta(row);
+  try {
+    const row = await prisma.clasificacion.create({ data: input });
+    return toCategoryMeta(row);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      throw new Error("Ya existe una clasificación con ese nombre.");
+    }
+    throw error;
+  }
 }
 
 export async function actualizarClasificacion(
@@ -45,7 +53,16 @@ export async function actualizarClasificacion(
 }
 
 export async function eliminarClasificacion(id: string) {
-  await prisma.clasificacion.delete({ where: { id } });
+  try {
+    await prisma.clasificacion.delete({ where: { id } });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+      throw new Error(
+        "Hay cajas que todavía usan esta clasificación. Reasígnalas antes de eliminarla."
+      );
+    }
+    throw error;
+  }
 }
 
 export async function contarCajasPorClasificacion(clasificacionId: string) {

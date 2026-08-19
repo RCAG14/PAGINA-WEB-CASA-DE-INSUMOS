@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast, getErrorMessage } from "@/lib/toast";
 import { formatPrice } from "@/lib/format";
 import type { CategoryMeta } from "@/lib/types";
 import type { DetalleCajaInput } from "@/lib/data/cajas";
@@ -128,8 +129,11 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
         });
         router.push("/admin/cajas/inventario");
         router.refresh();
-      } catch {
-        setError("No se pudo crear la caja. Verifica la conexión a la base de datos.");
+        toast.success(`"${nombre}" se creó correctamente.`);
+      } catch (err) {
+        const message = getErrorMessage(err, "Verifica la conexión a la base de datos.");
+        setError(message);
+        toast.error({ title: "No se pudo crear la caja", description: message });
       }
     });
   }

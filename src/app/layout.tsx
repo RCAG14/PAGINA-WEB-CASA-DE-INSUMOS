@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { getLocale } from "@/lib/i18n/locale";
 import { SITE_URL } from "@/lib/site-url";
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <LocaleProvider initialLocale={locale}>
           <TooltipProvider delay={150}>{children}</TooltipProvider>
         </LocaleProvider>
+        <Toaster />
       </body>
     </html>
   );

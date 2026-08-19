@@ -12,6 +12,7 @@ import {
 import { TrabajoFormDialog } from "@/components/admin/trabajo-form-dialog";
 import { Button } from "@/components/ui/button";
 import type { TrabajoRealizado } from "@/generated/prisma/client";
+import { toast, getErrorMessage } from "@/lib/toast";
 
 export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) {
   const router = useRouter();
@@ -19,6 +20,21 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
 
   function refrescar() {
     router.refresh();
+  }
+
+  function run(action: () => Promise<unknown>, errorTitle: string, successMsg?: string) {
+    startTransition(async () => {
+      try {
+        await action();
+        refrescar();
+        if (successMsg) toast.success(successMsg);
+      } catch (err) {
+        toast.error({
+          title: errorTitle,
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      }
+    });
   }
 
   return (
@@ -40,12 +56,13 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
               <Plus className="size-4" /> Añadir
             </>
           }
-          onSubmit={(values) => {
-            startTransition(async () => {
-              await crearTrabajoRealizadoAction(values);
-              refrescar();
-            });
-          }}
+          onSubmit={(values) =>
+            run(
+              () => crearTrabajoRealizadoAction(values),
+              "No se pudo crear el trabajo",
+              "Trabajo creado correctamente."
+            )
+          }
         />
       </div>
 
@@ -98,18 +115,19 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                     size="icon-xs"
                     aria-label="Mover arriba"
                     disabled={i === 0}
-                    onClick={() =>
-                      startTransition(async () => {
-                        const prev = trabajos[i - 1];
-                        await reordenarTrabajoRealizadoAction(
-                          trabajo.id,
-                          trabajo.orden,
-                          prev.id,
-                          prev.orden
-                        );
-                        refrescar();
-                      })
-                    }
+                    onClick={() => {
+                      const prev = trabajos[i - 1];
+                      run(
+                        () =>
+                          reordenarTrabajoRealizadoAction(
+                            trabajo.id,
+                            trabajo.orden,
+                            prev.id,
+                            prev.orden
+                          ),
+                        "No se pudo reordenar el trabajo"
+                      );
+                    }}
                   >
                     <ArrowUp className="size-3" />
                   </Button>
@@ -118,18 +136,19 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                     size="icon-xs"
                     aria-label="Mover abajo"
                     disabled={i === trabajos.length - 1}
-                    onClick={() =>
-                      startTransition(async () => {
-                        const next = trabajos[i + 1];
-                        await reordenarTrabajoRealizadoAction(
-                          trabajo.id,
-                          trabajo.orden,
-                          next.id,
-                          next.orden
-                        );
-                        refrescar();
-                      })
-                    }
+                    onClick={() => {
+                      const next = trabajos[i + 1];
+                      run(
+                        () =>
+                          reordenarTrabajoRealizadoAction(
+                            trabajo.id,
+                            trabajo.orden,
+                            next.id,
+                            next.orden
+                          ),
+                        "No se pudo reordenar el trabajo"
+                      );
+                    }}
                   >
                     <ArrowDown className="size-3" />
                   </Button>
@@ -149,12 +168,13 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                     }}
                     trigger={<Button variant="outline" size="icon-xs" />}
                     triggerContent={<Pencil className="size-3" />}
-                    onSubmit={(values) => {
-                      startTransition(async () => {
-                        await actualizarTrabajoRealizadoAction(trabajo.id, values);
-                        refrescar();
-                      });
-                    }}
+                    onSubmit={(values) =>
+                      run(
+                        () => actualizarTrabajoRealizadoAction(trabajo.id, values),
+                        "No se pudo actualizar el trabajo",
+                        "Trabajo actualizado correctamente."
+                      )
+                    }
                   />
                   <Button
                     variant="ghost"
@@ -162,10 +182,11 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                     aria-label="Eliminar"
                     className="text-muted-foreground hover:text-destructive"
                     onClick={() =>
-                      startTransition(async () => {
-                        await eliminarTrabajoRealizadoAction(trabajo.id);
-                        refrescar();
-                      })
+                      run(
+                        () => eliminarTrabajoRealizadoAction(trabajo.id),
+                        "No se pudo eliminar el trabajo",
+                        `"${trabajo.titulo}" se eliminó correctamente.`
+                      )
                     }
                   >
                     <Trash2 className="size-3" />

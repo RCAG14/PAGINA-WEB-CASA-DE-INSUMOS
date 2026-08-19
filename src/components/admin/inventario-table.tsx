@@ -5,6 +5,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { eliminarCajaAction } from "@/app/admin/cajas/inventario/actions";
+import { toast, getErrorMessage } from "@/lib/toast";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
 import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -51,12 +52,21 @@ export function InventarioTable({
     });
   }, [boxes, search, categoria]);
 
-  function handleDelete(id: string) {
+  function handleDelete(id: string, nombre: string) {
     setDeletingId(id);
     startTransition(async () => {
-      await eliminarCajaAction(id);
-      router.refresh();
-      setDeletingId(null);
+      try {
+        await eliminarCajaAction(id);
+        router.refresh();
+        toast.success(`"${nombre}" se eliminó correctamente.`);
+      } catch (err) {
+        toast.error({
+          title: "No se pudo eliminar el producto",
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      } finally {
+        setDeletingId(null);
+      }
     });
   }
 
@@ -186,7 +196,7 @@ export function InventarioTable({
                         size="icon-sm"
                         aria-label="Eliminar caja"
                         disabled={isPending && deletingId === box.id}
-                        onClick={() => handleDelete(box.id)}
+                        onClick={() => handleDelete(box.id, box.nombre)}
                         className="text-muted-foreground hover:text-destructive"
                       >
                         <Trash2 className="size-3.5" />

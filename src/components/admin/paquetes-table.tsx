@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/format";
+import { toast, getErrorMessage } from "@/lib/toast";
 import type { getPaquetesDesarrolloAdmin } from "@/lib/data/desarrollo";
 
 type PaqueteDesarrolloRow = Awaited<ReturnType<typeof getPaquetesDesarrolloAdmin>>[number];
@@ -28,14 +29,29 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
   const router = useRouter();
   const [, startTransition] = useTransition();
 
+  function run(action: () => Promise<unknown>, errorTitle: string, successMsg?: string) {
+    startTransition(async () => {
+      try {
+        await action();
+        router.refresh();
+        if (successMsg) toast.success(successMsg);
+      } catch (err) {
+        toast.error({
+          title: errorTitle,
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      }
+    });
+  }
+
   function mover(index: number, direccion: -1 | 1) {
     const vecino = paquetes[index + direccion];
     const actual = paquetes[index];
     if (!vecino) return;
-    startTransition(async () => {
-      await reordenarPaqueteDesarrolloAction(actual.id, actual.orden, vecino.id, vecino.orden);
-      router.refresh();
-    });
+    run(
+      () => reordenarPaqueteDesarrolloAction(actual.id, actual.orden, vecino.id, vecino.orden),
+      "No se pudo reordenar el paquete"
+    );
   }
 
   return (
@@ -57,12 +73,13 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
               <Plus className="size-4" /> Añadir
             </>
           }
-          onSubmit={(values) => {
-            startTransition(async () => {
-              await crearPaqueteDesarrolloAction(values);
-              router.refresh();
-            });
-          }}
+          onSubmit={(values) =>
+            run(
+              () => crearPaqueteDesarrolloAction(values),
+              "No se pudo crear el paquete",
+              "Paquete creado correctamente."
+            )
+          }
         />
       </div>
 
@@ -151,22 +168,24 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                       }}
                       trigger={<Button variant="outline" size="icon-sm" />}
                       triggerContent={<Pencil className="size-3.5" />}
-                      onSubmit={(values) => {
-                        startTransition(async () => {
-                          await actualizarPaqueteDesarrolloAction(p.id, values);
-                          router.refresh();
-                        });
-                      }}
+                      onSubmit={(values) =>
+                        run(
+                          () => actualizarPaqueteDesarrolloAction(p.id, values),
+                          "No se pudo actualizar el paquete",
+                          "Paquete actualizado correctamente."
+                        )
+                      }
                     />
                     <Button
                       variant="ghost"
                       size="icon-sm"
                       aria-label="Eliminar paquete"
                       onClick={() =>
-                        startTransition(async () => {
-                          await eliminarPaqueteDesarrolloAction(p.id);
-                          router.refresh();
-                        })
+                        run(
+                          () => eliminarPaqueteDesarrolloAction(p.id),
+                          "No se pudo eliminar el paquete",
+                          `"${p.nombre}" se eliminó correctamente.`
+                        )
                       }
                       className="text-muted-foreground hover:text-destructive"
                     >

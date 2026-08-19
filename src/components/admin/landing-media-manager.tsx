@@ -30,6 +30,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ContenidoLanding } from "@/generated/prisma/client";
 import type { FormatoMedia, SitioContenido, TipoContenidoLanding } from "@/lib/data/landing";
 import type { Box, CategoryMeta } from "@/lib/types";
+import { toast, getErrorMessage } from "@/lib/toast";
 
 interface SectionConfig {
   tipo: TipoContenidoLanding;
@@ -164,6 +165,21 @@ export function LandingMediaManager({
     router.refresh();
   }
 
+  function run(action: () => Promise<unknown>, errorTitle: string, successMsg?: string) {
+    startTransition(async () => {
+      try {
+        await action();
+        refrescar();
+        if (successMsg) toast.success(successMsg);
+      } catch (err) {
+        toast.error({
+          title: errorTitle,
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      }
+    });
+  }
+
   const sectionsVisibles = [
     LOGO_SECTION,
     ...(negocio === "cajas" ? CAJAS_SECTIONS : WEBDEV_SECTIONS),
@@ -215,23 +231,25 @@ export function LandingMediaManager({
                   withCta={section.withCta}
                   boxes={section.withCta ? boxes : undefined}
                   classifications={section.withCta ? classifications : undefined}
-                  onSubmit={(values) => {
-                    startTransition(async () => {
-                      await crearContenidoLandingAction({
-                        tipo: section.tipo,
-                        sitio: section.sitio,
-                        formato: section.formato,
-                        url: values.url,
-                        storagePath: values.storagePath,
-                        titulo: values.titulo || null,
-                        subtitulo: values.subtitulo || null,
-                        enlaceCta: values.enlaceCta || null,
-                        textoCta: values.textoCta || null,
-                        activo: values.activo,
-                      });
-                      refrescar();
-                    });
-                  }}
+                  onSubmit={(values) =>
+                    run(
+                      () =>
+                        crearContenidoLandingAction({
+                          tipo: section.tipo,
+                          sitio: section.sitio,
+                          formato: section.formato,
+                          url: values.url,
+                          storagePath: values.storagePath,
+                          titulo: values.titulo || null,
+                          subtitulo: values.subtitulo || null,
+                          enlaceCta: values.enlaceCta || null,
+                          textoCta: values.textoCta || null,
+                          activo: values.activo,
+                        }),
+                      "No se pudo crear el contenido",
+                      "Contenido creado correctamente."
+                    )
+                  }
                 />
               )}
             </div>
@@ -287,18 +305,19 @@ export function LandingMediaManager({
                               size="icon-xs"
                               aria-label="Mover arriba"
                               disabled={i === 0}
-                              onClick={() =>
-                                startTransition(async () => {
-                                  const prev = sectionItems[i - 1];
-                                  await reordenarContenidoLandingAction(
-                                    item.id,
-                                    item.orden,
-                                    prev.id,
-                                    prev.orden
-                                  );
-                                  refrescar();
-                                })
-                              }
+                              onClick={() => {
+                                const prev = sectionItems[i - 1];
+                                run(
+                                  () =>
+                                    reordenarContenidoLandingAction(
+                                      item.id,
+                                      item.orden,
+                                      prev.id,
+                                      prev.orden
+                                    ),
+                                  "No se pudo reordenar el contenido"
+                                );
+                              }}
                             >
                               <ArrowUp className="size-3" />
                             </Button>
@@ -307,18 +326,19 @@ export function LandingMediaManager({
                               size="icon-xs"
                               aria-label="Mover abajo"
                               disabled={i === sectionItems.length - 1}
-                              onClick={() =>
-                                startTransition(async () => {
-                                  const next = sectionItems[i + 1];
-                                  await reordenarContenidoLandingAction(
-                                    item.id,
-                                    item.orden,
-                                    next.id,
-                                    next.orden
-                                  );
-                                  refrescar();
-                                })
-                              }
+                              onClick={() => {
+                                const next = sectionItems[i + 1];
+                                run(
+                                  () =>
+                                    reordenarContenidoLandingAction(
+                                      item.id,
+                                      item.orden,
+                                      next.id,
+                                      next.orden
+                                    ),
+                                  "No se pudo reordenar el contenido"
+                                );
+                              }}
                             >
                               <ArrowDown className="size-3" />
                             </Button>
@@ -338,23 +358,25 @@ export function LandingMediaManager({
                           boxes={section.withCta ? boxes : undefined}
                           classifications={section.withCta ? classifications : undefined}
                           item={toFormValues(item)}
-                          onSubmit={(values) => {
-                            startTransition(async () => {
-                              await actualizarContenidoLandingAction(item.id, {
-                                tipo: section.tipo,
-                                sitio: section.sitio,
-                                formato: section.formato,
-                                url: values.url,
-                                storagePath: values.storagePath,
-                                titulo: values.titulo || null,
-                                subtitulo: values.subtitulo || null,
-                                enlaceCta: values.enlaceCta || null,
-                                textoCta: values.textoCta || null,
-                                activo: values.activo,
-                              });
-                              refrescar();
-                            });
-                          }}
+                          onSubmit={(values) =>
+                            run(
+                              () =>
+                                actualizarContenidoLandingAction(item.id, {
+                                  tipo: section.tipo,
+                                  sitio: section.sitio,
+                                  formato: section.formato,
+                                  url: values.url,
+                                  storagePath: values.storagePath,
+                                  titulo: values.titulo || null,
+                                  subtitulo: values.subtitulo || null,
+                                  enlaceCta: values.enlaceCta || null,
+                                  textoCta: values.textoCta || null,
+                                  activo: values.activo,
+                                }),
+                              "No se pudo actualizar el contenido",
+                              "Contenido actualizado correctamente."
+                            )
+                          }
                         />
                         <Button
                           variant="ghost"
@@ -362,10 +384,11 @@ export function LandingMediaManager({
                           aria-label="Eliminar"
                           className="text-muted-foreground hover:text-destructive"
                           onClick={() =>
-                            startTransition(async () => {
-                              await eliminarContenidoLandingAction(item.id);
-                              refrescar();
-                            })
+                            run(
+                              () => eliminarContenidoLandingAction(item.id),
+                              "No se pudo eliminar el contenido",
+                              "Contenido eliminado correctamente."
+                            )
                           }
                         >
                           <Trash2 className="size-3" />

@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/table";
 import type { RedSocial, NumeroContacto } from "@/generated/prisma/client";
 import { getPlataformaRedSocial } from "@/lib/redes-sociales";
+import { toast, getErrorMessage } from "@/lib/toast";
 
 export function ConfiguracionTables({
   redesSociales,
@@ -37,6 +38,21 @@ export function ConfiguracionTables({
 
   function refrescar() {
     router.refresh();
+  }
+
+  function run(action: () => Promise<unknown>, successMsg: string, errorTitle: string) {
+    startTransition(async () => {
+      try {
+        await action();
+        refrescar();
+        toast.success(successMsg);
+      } catch (err) {
+        toast.error({
+          title: errorTitle,
+          description: getErrorMessage(err, "Intenta nuevamente en unos segundos."),
+        });
+      }
+    });
   }
 
   return (
@@ -58,12 +74,13 @@ export function ConfiguracionTables({
                 <Plus className="size-4" /> Añadir
               </>
             }
-            onSubmit={(values) => {
-              startTransition(async () => {
-                await crearRedSocialAction(values);
-                refrescar();
-              });
-            }}
+            onSubmit={(values) =>
+              run(
+                () => crearRedSocialAction(values),
+                "Red social creada correctamente.",
+                "No se pudo crear la red social"
+              )
+            }
           />
         </div>
 
@@ -118,22 +135,24 @@ export function ConfiguracionTables({
                         redSocial={r}
                         trigger={<Button variant="outline" size="icon-sm" />}
                         triggerContent={<Pencil className="size-3.5" />}
-                        onSubmit={(values) => {
-                          startTransition(async () => {
-                            await actualizarRedSocialAction(r.id, values);
-                            refrescar();
-                          });
-                        }}
+                        onSubmit={(values) =>
+                          run(
+                            () => actualizarRedSocialAction(r.id, values),
+                            "Red social actualizada correctamente.",
+                            "No se pudo actualizar la red social"
+                          )
+                        }
                       />
                       <Button
                         variant="ghost"
                         size="icon-sm"
                         aria-label="Eliminar red social"
                         onClick={() =>
-                          startTransition(async () => {
-                            await eliminarRedSocialAction(r.id);
-                            refrescar();
-                          })
+                          run(
+                            () => eliminarRedSocialAction(r.id),
+                            "Red social eliminada correctamente.",
+                            "No se pudo eliminar la red social"
+                          )
                         }
                         className="text-muted-foreground hover:text-destructive"
                       >
@@ -173,12 +192,13 @@ export function ConfiguracionTables({
                 <Plus className="size-4" /> Añadir
               </>
             }
-            onSubmit={(values) => {
-              startTransition(async () => {
-                await crearNumeroContactoAction(values);
-                refrescar();
-              });
-            }}
+            onSubmit={(values) =>
+              run(
+                () => crearNumeroContactoAction(values),
+                "Número de contacto creado correctamente.",
+                "No se pudo crear el número"
+              )
+            }
           />
         </div>
 
@@ -236,22 +256,24 @@ export function ConfiguracionTables({
                         numeroContacto={n}
                         trigger={<Button variant="outline" size="icon-sm" />}
                         triggerContent={<Pencil className="size-3.5" />}
-                        onSubmit={(values) => {
-                          startTransition(async () => {
-                            await actualizarNumeroContactoAction(n.id, values);
-                            refrescar();
-                          });
-                        }}
+                        onSubmit={(values) =>
+                          run(
+                            () => actualizarNumeroContactoAction(n.id, values),
+                            "Número de contacto actualizado correctamente.",
+                            "No se pudo actualizar el número"
+                          )
+                        }
                       />
                       <Button
                         variant="ghost"
                         size="icon-sm"
                         aria-label="Eliminar número"
                         onClick={() =>
-                          startTransition(async () => {
-                            await eliminarNumeroContactoAction(n.id);
-                            refrescar();
-                          })
+                          run(
+                            () => eliminarNumeroContactoAction(n.id),
+                            "Número de contacto eliminado correctamente.",
+                            "No se pudo eliminar el número"
+                          )
                         }
                         className="text-muted-foreground hover:text-destructive"
                       >

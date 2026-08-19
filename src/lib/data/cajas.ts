@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { toDecimalNumber } from "@/lib/data/decimal";
 import { slugify } from "@/lib/utils";
 import { deleteFromSupabaseStorage } from "@/lib/supabase";
-import type { Prisma } from "@/generated/prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import type { Box, BoxItemSpec, CategoryMeta, ClassificationIcon } from "@/lib/types";
 
 const cajaInclude = {
@@ -138,9 +138,11 @@ export async function crearCajaConDetalle(input: CrearCajaInput) {
   const slug = `${slugify(input.nombre)}-${Date.now().toString(36).slice(-4)}`;
   const esSorpresa = input.tipoVenta === "sorpresa";
 
-  const caja = await prisma.caja.create({
-    data: {
-      nombre: input.nombre,
+  let caja;
+  try {
+    caja = await prisma.caja.create({
+      data: {
+        nombre: input.nombre,
       slug,
       sku_lote: input.skuLote,
       clasificacion_id: input.clasificacionId,
@@ -176,8 +178,14 @@ export async function crearCajaConDetalle(input: CrearCajaInput) {
               },
             })),
           },
-    },
-  });
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      throw new Error("Ya existe una caja con ese SKU de lote.");
+    }
+    throw error;
+  }
 
   await prisma.movimientoInventario.create({
     data: {
@@ -211,21 +219,28 @@ export async function actualizarCajaCore(id: string, input: ActualizarCajaInput)
     select: { imagen_path: true },
   });
 
-  await prisma.caja.update({
-    where: { id },
-    data: {
-      nombre: input.nombre,
-      sku_lote: input.skuLote,
-      clasificacion_id: input.clasificacionId,
-      tipo_venta: input.tipoVenta,
-      descripcion_corta: input.descripcionCorta,
-      costo_total: input.costoTotal,
-      precio_venta_caja: input.precioVentaCaja,
-      stock_disponible: input.stockDisponible,
-      imagen_url: input.imagenUrl ?? null,
-      imagen_path: input.imagenPath ?? null,
-    },
-  });
+  try {
+    await prisma.caja.update({
+      where: { id },
+      data: {
+        nombre: input.nombre,
+        sku_lote: input.skuLote,
+        clasificacion_id: input.clasificacionId,
+        tipo_venta: input.tipoVenta,
+        descripcion_corta: input.descripcionCorta,
+        costo_total: input.costoTotal,
+        precio_venta_caja: input.precioVentaCaja,
+        stock_disponible: input.stockDisponible,
+        imagen_url: input.imagenUrl ?? null,
+        imagen_path: input.imagenPath ?? null,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      throw new Error("Ya existe una caja con ese SKU de lote.");
+    }
+    throw error;
+  }
 
   if (anterior?.imagen_path && anterior.imagen_path !== (input.imagenPath ?? null)) {
     await deleteFromSupabaseStorage(anterior.imagen_path).catch(() => {});
@@ -233,7 +248,17 @@ export async function actualizarCajaCore(id: string, input: ActualizarCajaInput)
 }
 
 export async function eliminarCaja(id: string) {
-  const caja = await prisma.caja.delete({ where: { id } });
+  let caja;
+  try {
+    caja = await prisma.caja.delete({ where: { id } });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+      throw new Error(
+        "No se puede eliminar este producto porque tiene pedidos asociados."
+      );
+    }
+    throw error;
+  }
   if (caja.imagen_path) {
     await deleteFromSupabaseStorage(caja.imagen_path).catch(() => {});
   }
