@@ -67,7 +67,7 @@ export function TrabajoFormDialog({
               {trabajo ? "Editar trabajo" : "Nuevo trabajo"}
             </DialogTitle>
             <DialogDescription>
-              Se muestra en la sección "Trabajos realizados" de /desarrollo-web. La imagen es
+              Se muestra en la sección &quot;Trabajos realizados&quot; de /desarrollo-web. La imagen es
               opcional.
             </DialogDescription>
           </DialogHeader>
