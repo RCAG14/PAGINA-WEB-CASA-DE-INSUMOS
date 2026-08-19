@@ -1,5 +1,6 @@
 import { AdminTopbar } from "@/components/admin/admin-topbar";
 import { PedidosTable } from "@/components/admin/pedidos-table";
+import { Panel } from "@/components/admin/panel";
 import { getPedidos } from "@/lib/data/pedidos";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ export default async function AdminPedidosPage() {
         <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
           {pedidos.length.toString().padStart(2, "0")} pedidos registrados en la base de datos
         </p>
-        <div className="border border-border bg-card">
+        <Panel>
           {pedidos.length === 0 ? (
             <p className="py-16 text-center text-sm text-muted-foreground">
               Todavía no hay pedidos. Se crean automáticamente desde el checkout de la tienda.
@@ -22,7 +23,7 @@ export default async function AdminPedidosPage() {
           ) : (
             <PedidosTable pedidos={pedidos} />
           )}
-        </div>
+        </Panel>
       </div>
     </>
   );

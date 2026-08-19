@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ShoppingCart, Trash2 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -15,12 +16,15 @@ import { useI18n } from "@/lib/i18n/locale-context";
 function LetterheadLogo({ url }: { url: string | null }) {
   if (!url) return null;
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={url}
-      alt="Casa de Insumos"
-      className="absolute right-4 top-6 h-9 w-auto object-contain sm:right-6 sm:h-11"
-    />
+    <span className="absolute right-4 top-6 flex items-center rounded-lg bg-sidebar-foreground/95 px-2 py-1.5 shadow-elevation-sm sm:right-6">
+      <Image
+        src={url}
+        alt="Casa de Insumos"
+        width={160}
+        height={40}
+        className="h-8 w-auto object-contain sm:h-10"
+      />
+    </span>
   );
 }
 
@@ -58,8 +62,8 @@ export default function CartPage() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="border border-border">
-          <div className="hidden grid-cols-[1fr_140px_120px_110px_40px] gap-4 border-b border-border bg-muted/50 px-4 py-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground sm:grid">
+        <div className="overflow-hidden rounded-xl border border-border/60 bg-card/60 shadow-elevation-sm">
+          <div className="hidden grid-cols-[1fr_140px_120px_110px_40px] gap-4 border-b border-border/60 bg-muted/50 px-4 py-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground sm:grid">
             <span>{dict.cartPage.headerBox}</span>
             <span>{dict.cartPage.headerType}</span>
             <span className="text-center">{dict.cartPage.headerQty}</span>
@@ -75,13 +79,13 @@ export default function CartPage() {
                   className="grid grid-cols-1 gap-4 px-4 py-4 sm:grid-cols-[1fr_140px_120px_110px_40px] sm:items-center"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex size-14 shrink-0 items-center justify-center border border-border bg-muted">
+                    <div className="flex size-14 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted">
                       <Icon className="size-5 text-primary" strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col gap-0.5">
                       <Link
                         href={`/productos/${line.slug}`}
-                        className="text-sm font-medium hover:text-primary"
+                        className="text-sm font-medium transition-colors hover:text-primary"
                       >
                         {line.nombre}
                       </Link>
@@ -111,7 +115,7 @@ export default function CartPage() {
                     <button
                       onClick={() => removeLine(line.boxId)}
                       aria-label={dict.cartPage.removeFromCart}
-                      className="flex size-8 items-center justify-center text-muted-foreground hover:text-destructive"
+                      className="flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                     >
                       <Trash2 className="size-4" />
                     </button>
@@ -122,7 +126,7 @@ export default function CartPage() {
           </ul>
         </div>
 
-        <div className="flex h-fit flex-col gap-4 border border-border bg-card p-4">
+        <div className="flex h-fit flex-col gap-4 rounded-xl border border-border/60 bg-card/80 p-4 shadow-elevation-sm backdrop-blur-md">
           <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
             {dict.cartPage.summaryTitle}
           </p>
@@ -151,7 +155,7 @@ export default function CartPage() {
           </Button>
           <Link
             href="/catalogo"
-            className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
+            className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
           >
             {dict.cartPage.continueBrowsing}
           </Link>

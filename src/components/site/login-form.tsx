@@ -21,16 +21,16 @@ export function LoginForm() {
     <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden">
       <Link
         href="/"
-        className="absolute left-4 top-4 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/60 transition-colors hover:text-primary-foreground sm:left-6 sm:top-6"
+        className="absolute left-4 top-4 font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/60 transition-colors hover:text-sidebar-foreground sm:left-6 sm:top-6"
       >
         {dict.webdev.backHome}
       </Link>
-      <LanguageSwitcher className="absolute right-4 top-4 text-primary-foreground sm:right-6 sm:top-6" />
+      <LanguageSwitcher className="absolute right-4 top-4 text-sidebar-foreground sm:right-6 sm:top-6" />
 
       <div className="relative mx-auto w-full max-w-sm px-4 py-16 sm:px-6">
-        <div className="border border-primary-foreground/15 bg-card p-6">
+        <div className="rounded-xl border border-sidebar-foreground/15 bg-card/90 p-6 shadow-elevation-xl backdrop-blur-md">
           <div className="mb-6 flex flex-col items-center gap-2 text-center">
-            <span className="flex size-10 items-center justify-center border-2 border-primary text-primary">
+            <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <LogIn className="size-5" strokeWidth={2.5} />
             </span>
             <h1 className="font-heading text-lg font-bold">{dict.auth.loginTitle}</h1>
@@ -38,11 +38,11 @@ export function LoginForm() {
 
           <form action={formAction} className="flex flex-col gap-4">
             {state?.error && (
-              <Alert className="border-red-600 bg-red-50">
-                <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-red-600">
+              <Alert className="border-destructive/50 bg-destructive/10">
+                <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-destructive">
                   {dict.auth.loginErrorTitle}
                 </AlertTitle>
-                <AlertDescription className="text-xs text-red-600">{state.error}</AlertDescription>
+                <AlertDescription className="text-xs text-destructive">{state.error}</AlertDescription>
               </Alert>
             )}
 

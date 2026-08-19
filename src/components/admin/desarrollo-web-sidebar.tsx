@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Code2, ExternalLink, LayoutGrid, Square } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
@@ -20,15 +22,30 @@ const NAV_ITEMS = [
   { href: "/admin/desarrollo-web", label: "Paquetes y Trabajos", icon: Code2 },
 ];
 
-export function DesarrolloWebSidebar() {
+export function DesarrolloWebSidebar({ logoUrl }: { logoUrl?: string | null }) {
   const pathname = usePathname();
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1.5">
-          <span className="flex size-7 shrink-0 items-center justify-center border-2 border-sidebar-primary text-sidebar-primary">
-            <Square className="size-3.5" strokeWidth={2.5} />
+        <div className="flex items-center gap-2 py-1.5">
+          <span
+            className={cn(
+              "relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg text-sidebar-primary shadow-glow-primary",
+              logoUrl ? "bg-sidebar-foreground/95" : "bg-sidebar-primary/15"
+            )}
+          >
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt="Casa de Insumos"
+                fill
+                sizes="32px"
+                className="object-contain p-0.5"
+              />
+            ) : (
+              <Square className="size-4" strokeWidth={2.5} />
+            )}
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
             <span className="font-heading text-xs font-bold uppercase tracking-wide text-sidebar-foreground">

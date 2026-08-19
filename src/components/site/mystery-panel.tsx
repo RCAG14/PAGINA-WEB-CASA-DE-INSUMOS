@@ -8,10 +8,10 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
   const placeholders = Array.from({ length: Math.min(box.cantidadEstimadaMax, 12) });
 
   return (
-    <div className="border border-dashed border-accent bg-accent/5">
-      <div className="flex items-center gap-2 border-b border-dashed border-accent bg-primary px-3 py-2">
-        <Lock className="size-3.5 text-primary-foreground" />
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+    <div className="overflow-hidden rounded-xl border border-dashed border-accent bg-accent/5 shadow-elevation-sm">
+      <div className="flex items-center gap-2 border-b border-dashed border-accent bg-sidebar px-3 py-2">
+        <Lock className="size-3.5 text-sidebar-foreground" />
+        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
           {dict.mysteryPanel.reservedNotice}
         </p>
       </div>
@@ -31,7 +31,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
             {dict.mysteryPanel.rangeLabel}
           </p>
           <div className="grid grid-cols-2 gap-3">
-            <div className="border-2 border-accent bg-accent/15 p-3">
+            <div className="rounded-lg border-2 border-accent bg-accent/15 p-3 shadow-glow-accent">
               <div className="mb-1 flex items-center gap-1.5">
                 <ShieldCheck className="size-3.5 text-primary" />
                 <span className="font-mono-technical text-[10px] font-bold uppercase tracking-wider text-primary">
@@ -45,7 +45,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
                 {box.cantidadEstimadaMin} {dict.mysteryPanel.minItemsSuffix}
               </p>
             </div>
-            <div className="border border-border p-3">
+            <div className="rounded-lg border border-border/60 p-3">
               <div className="mb-1 flex items-center gap-1.5">
                 <Sparkles className="size-3.5 text-muted-foreground" />
                 <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -71,7 +71,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
             {placeholders.map((_, i) => (
               <div
                 key={i}
-                className="flex aspect-square items-center justify-center border border-dashed border-accent/70 bg-background"
+                className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-accent/70 bg-background"
               >
                 <HelpCircle className="size-4 text-accent" strokeWidth={1.5} />
               </div>

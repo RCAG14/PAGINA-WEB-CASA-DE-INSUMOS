@@ -141,17 +141,17 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
       {error && (
-        <Alert className="border-red-600 bg-red-50">
-          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-red-600">
+        <Alert className="border-destructive/50 bg-destructive/10">
+          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-destructive">
             No se pudo crear la caja
           </AlertTitle>
-          <AlertDescription className="text-xs text-red-600">{error}</AlertDescription>
+          <AlertDescription className="text-xs text-destructive">{error}</AlertDescription>
         </Alert>
       )}
 
-      <section className="border border-border">
-        <div className="border-b border-border bg-primary px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+      <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+        <div className="border-b border-border bg-sidebar px-3 py-2">
+          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
             01 — Definición de la caja
           </p>
         </div>
@@ -285,9 +285,9 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
         </div>
       </section>
 
-      <section className="border border-border">
-        <div className="border-b border-border bg-primary px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+      <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+        <div className="border-b border-border bg-sidebar px-3 py-2">
+          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
             02 — Manifiesto y logística internacional
           </p>
         </div>
@@ -334,9 +334,9 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
       </section>
 
       {tipoVenta === "listada" ? (
-        <section className="border border-border">
-          <div className="flex items-center justify-between border-b border-border bg-primary px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+        <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+          <div className="flex items-center justify-between border-b border-border bg-sidebar px-3 py-2">
+            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
               03 — Detalle de productos (distribución del costo)
             </p>
             <Button type="button" size="sm" variant="secondary" onClick={addRow}>
@@ -428,9 +428,9 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
           </div>
         </section>
       ) : (
-        <section className="border border-border">
-          <div className="border-b border-border bg-primary px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+        <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+          <div className="border-b border-border bg-sidebar px-3 py-2">
+            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
               03 — Rango de contenido sorpresa
             </p>
           </div>
@@ -439,7 +439,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
             posible para que el cliente sepa qué esperar en el peor y mejor caso.
           </p>
           <div className="grid gap-4 p-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-3 border-2 border-accent bg-accent/10 p-4">
+            <div className="flex flex-col gap-3 rounded-lg border-2 border-accent bg-accent/10 p-4">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="size-4 text-primary" />
                 <span className="font-mono-technical text-[10px] font-bold uppercase tracking-wider text-primary">
@@ -469,7 +469,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 border border-border p-4">
+            <div className="flex flex-col gap-3 rounded-lg border border-border/60 p-4">
               <div className="flex items-center gap-1.5">
                 <Sparkles className="size-4 text-muted-foreground" />
                 <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">

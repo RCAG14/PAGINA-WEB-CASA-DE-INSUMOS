@@ -23,7 +23,13 @@ export function StockByCategoryChart({
   return (
     <ChartContainer config={chartConfig} className="aspect-auto h-64 w-full">
       <BarChart data={data} margin={{ left: 0, right: 12, top: 8 }}>
-        <CartesianGrid vertical={false} stroke="var(--border)" />
+        <defs>
+          <linearGradient id="stockGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--accent)" />
+            <stop offset="100%" stopColor="var(--color-stock)" />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeOpacity={0.5} />
         <XAxis
           dataKey="categoria"
           tickLine={false}
@@ -38,7 +44,7 @@ export function StockByCategoryChart({
         />
         <YAxis tickLine={false} axisLine={false} fontSize={10} width={30} />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="stock" fill="var(--color-stock)" radius={[2, 2, 0, 0]} maxBarSize={44} />
+        <Bar dataKey="stock" fill="url(#stockGradient)" radius={[6, 6, 0, 0]} maxBarSize={44} />
       </BarChart>
     </ChartContainer>
   );

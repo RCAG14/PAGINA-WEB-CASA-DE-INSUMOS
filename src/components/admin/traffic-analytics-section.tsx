@@ -9,6 +9,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Panel, PanelHeader } from "@/components/admin/panel";
 import type { PuntoTrafico } from "@/lib/data/metricas";
 
 const chartConfig = {
@@ -28,7 +29,13 @@ function TrafficChart({ data }: { data: PuntoTrafico[] }) {
   return (
     <ChartContainer config={chartConfig} className="aspect-auto h-64 w-full">
       <AreaChart data={data} margin={{ left: 0, right: 12, top: 8 }}>
-        <CartesianGrid vertical={false} stroke="var(--border)" />
+        <defs>
+          <linearGradient id="trafficGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--color-visitas)" stopOpacity={0.45} />
+            <stop offset="100%" stopColor="var(--color-visitas)" stopOpacity={0.02} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} stroke="var(--border)" strokeOpacity={0.5} />
         <XAxis
           dataKey="fecha"
           tickLine={false}
@@ -46,8 +53,7 @@ function TrafficChart({ data }: { data: PuntoTrafico[] }) {
         <Area
           dataKey="visitas"
           type="monotone"
-          fill="var(--color-visitas)"
-          fillOpacity={0.15}
+          fill="url(#trafficGradient)"
           stroke="var(--color-visitas)"
           strokeWidth={2}
         />
@@ -58,12 +64,12 @@ function TrafficChart({ data }: { data: PuntoTrafico[] }) {
 
 function ProximamenteCard({ nombre }: { nombre: string }) {
   return (
-    <div className="flex h-64 flex-col items-center justify-center gap-2 border border-dashed border-border bg-muted/30 text-center">
+    <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-muted/30 text-center">
       <Clock className="size-5 text-muted-foreground" strokeWidth={1.5} />
       <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
         {nombre}
       </p>
-      <span className="border border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
+      <span className="rounded-full border border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
         Próximamente
       </span>
     </div>
@@ -72,7 +78,7 @@ function ProximamenteCard({ nombre }: { nombre: string }) {
 
 function ProximamenteBadge() {
   return (
-    <span className="border border-border bg-muted px-1 py-0 font-mono-technical text-[8px] uppercase tracking-wider text-muted-foreground">
+    <span className="rounded-full border border-border bg-muted px-1 py-0 font-mono-technical text-[8px] uppercase tracking-wider text-muted-foreground">
       Pronto
     </span>
   );
@@ -86,40 +92,38 @@ export function TrafficAnalyticsSection({
   dataWebdev: PuntoTrafico[];
 }) {
   return (
-    <div className="border border-border bg-card p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-          Tráfico web por negocio — últimos 30 días
-        </p>
+    <Panel>
+      <PanelHeader label="Tráfico web por negocio — últimos 30 días" />
+
+      <div className="p-4">
+        <Tabs defaultValue="cajas">
+          <TabsList>
+            <TabsTrigger value="cajas">Cajas</TabsTrigger>
+            <TabsTrigger value="webdev">Páginas Web</TabsTrigger>
+            <TabsTrigger value="negocio3" className="gap-1.5">
+              Negocio 3
+              <ProximamenteBadge />
+            </TabsTrigger>
+            <TabsTrigger value="negocio4" className="gap-1.5">
+              Negocio 4
+              <ProximamenteBadge />
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="cajas" className="mt-4">
+            <TrafficChart data={dataCajas} />
+          </TabsContent>
+          <TabsContent value="webdev" className="mt-4">
+            <TrafficChart data={dataWebdev} />
+          </TabsContent>
+          <TabsContent value="negocio3" className="mt-4">
+            <ProximamenteCard nombre="Negocio 3" />
+          </TabsContent>
+          <TabsContent value="negocio4" className="mt-4">
+            <ProximamenteCard nombre="Negocio 4" />
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <Tabs defaultValue="cajas">
-        <TabsList>
-          <TabsTrigger value="cajas">Cajas</TabsTrigger>
-          <TabsTrigger value="webdev">Páginas Web</TabsTrigger>
-          <TabsTrigger value="negocio3" className="gap-1.5">
-            Negocio 3
-            <ProximamenteBadge />
-          </TabsTrigger>
-          <TabsTrigger value="negocio4" className="gap-1.5">
-            Negocio 4
-            <ProximamenteBadge />
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="cajas" className="mt-4">
-          <TrafficChart data={dataCajas} />
-        </TabsContent>
-        <TabsContent value="webdev" className="mt-4">
-          <TrafficChart data={dataWebdev} />
-        </TabsContent>
-        <TabsContent value="negocio3" className="mt-4">
-          <ProximamenteCard nombre="Negocio 3" />
-        </TabsContent>
-        <TabsContent value="negocio4" className="mt-4">
-          <ProximamenteCard nombre="Negocio 4" />
-        </TabsContent>
-      </Tabs>
-    </div>
+    </Panel>
   );
 }

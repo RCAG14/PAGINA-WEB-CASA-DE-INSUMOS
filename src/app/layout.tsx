@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { getLocale } from "@/lib/i18n/locale";
+import { ThemeProvider } from "@/lib/theme/theme-context";
+import { getTheme } from "@/lib/theme/theme";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -36,17 +38,19 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const locale = await getLocale();
+  const [locale, theme] = await Promise.all([getLocale(), getTheme()]);
 
   return (
     <html
       lang={locale}
-      className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased ${theme === "dark" ? "dark" : ""}`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <LocaleProvider initialLocale={locale}>
-          <TooltipProvider delay={150}>{children}</TooltipProvider>
-        </LocaleProvider>
+        <ThemeProvider initialTheme={theme}>
+          <LocaleProvider initialLocale={locale}>
+            <TooltipProvider delay={150}>{children}</TooltipProvider>
+          </LocaleProvider>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>

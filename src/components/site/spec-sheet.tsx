@@ -17,9 +17,9 @@ export async function SpecSheet({ specs }: { specs: BoxSpecs }) {
   const rows = ROW_KEYS.map((key) => ({ key, label: dict.specSheet.rows[key] }));
 
   return (
-    <div className="border border-border">
-      <div className="border-b border-border bg-primary px-3 py-2">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+    <div className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+      <div className="border-b border-border bg-sidebar px-3 py-2">
+        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
           {dict.specSheet.title}
         </p>
       </div>

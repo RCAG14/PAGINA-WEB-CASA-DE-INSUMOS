@@ -88,7 +88,7 @@ export function NumeroContactoFormDialog({
               />
             </div>
 
-            <div className="flex items-center justify-between border border-border px-3 py-2">
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="nc-activo" className="text-xs">Activo</Label>
               <Switch
                 id="nc-activo"

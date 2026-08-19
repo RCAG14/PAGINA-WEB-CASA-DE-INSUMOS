@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 import {
   ExternalLink,
   GalleryHorizontalEnd,
@@ -39,13 +41,17 @@ export function ConfiguracionSidebar({ logoUrl }: { logoUrl?: string | null }) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1.5">
-          <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden border-2 border-sidebar-primary text-sidebar-primary">
+        <div className="flex items-center gap-2 py-1.5">
+          <span
+            className={cn(
+              "relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg text-sidebar-primary shadow-glow-primary",
+              logoUrl ? "bg-sidebar-foreground/95" : "bg-sidebar-primary/15"
+            )}
+          >
             {logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="Casa de Insumos" className="h-full w-full object-contain p-0.5" />
+              <Image src={logoUrl} alt="Casa de Insumos" fill sizes="32px" className="object-contain p-0.5" />
             ) : (
-              <Square className="size-3.5" strokeWidth={2.5} />
+              <Square className="size-4" strokeWidth={2.5} />
             )}
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">

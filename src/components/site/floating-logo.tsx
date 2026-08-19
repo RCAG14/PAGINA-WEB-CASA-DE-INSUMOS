@@ -6,7 +6,7 @@ export function FloatingLogo({ url }: { url: string | null }) {
 
   return (
     <div className="pointer-events-none fixed right-3 top-1/2 z-20 hidden -translate-y-1/2 sm:block lg:right-6">
-      <div className="border border-border bg-card/90 p-2 shadow-md backdrop-blur-sm">
+      <div className="rounded-xl border border-border/60 bg-sidebar-foreground/95 p-2 shadow-elevation-md">
         <Image
           src={url}
           alt="Casa de Insumos"

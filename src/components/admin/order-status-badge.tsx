@@ -13,7 +13,7 @@ export function OrderStatusBadge({ estado }: { estado: OrderStatus }) {
   return (
     <span
       className={cn(
-        "inline-flex w-fit items-center border px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider",
+        "inline-flex w-fit items-center rounded-full border px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider",
         STATUS_STYLES[estado]
       )}
     >

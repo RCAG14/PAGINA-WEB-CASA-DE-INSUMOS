@@ -140,20 +140,20 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
       </Alert>
 
       {error && (
-        <Alert className="mb-8 border-red-600 bg-red-50">
-          <TriangleAlert className="size-4 text-red-600" />
-          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-red-600">
+        <Alert className="mb-8 border-destructive/50 bg-destructive/10">
+          <TriangleAlert className="size-4 text-destructive" />
+          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-destructive">
             {dict.checkout.errorTitle}
           </AlertTitle>
-          <AlertDescription className="text-xs text-red-600">{error}</AlertDescription>
+          <AlertDescription className="text-xs text-destructive">{error}</AlertDescription>
         </Alert>
       )}
 
       <form onSubmit={handleSubmit} className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex flex-col gap-8">
-          <section className="border border-border">
-            <div className="border-b border-border bg-primary px-3 py-2">
-              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+          <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+            <div className="border-b border-border bg-sidebar px-3 py-2">
+              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
                 {dict.checkout.section1Title}
               </p>
             </div>
@@ -200,7 +200,7 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
                   />
                 </div>
                 {telefonoTouched && !telefonoValido && (
-                  <p className="text-[11px] text-red-600">{dict.checkout.fields.telefonoInvalido}</p>
+                  <p className="text-[11px] text-destructive">{dict.checkout.fields.telefonoInvalido}</p>
                 )}
               </div>
               <div className="flex flex-col gap-1.5">
@@ -237,9 +237,9 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
             </div>
           </section>
 
-          <section className="border border-border">
-            <div className="border-b border-border bg-primary px-3 py-2">
-              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+          <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+            <div className="border-b border-border bg-sidebar px-3 py-2">
+              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
                 {dict.checkout.section2Title}
               </p>
             </div>
@@ -259,7 +259,7 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
           </section>
         </div>
 
-        <div className="flex h-fit flex-col gap-4 border border-border bg-card p-4">
+        <div className="flex h-fit flex-col gap-4 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
           <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
             {dict.checkout.summaryTitle}
           </p>
@@ -269,7 +269,7 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
               const Icon = CLASSIFICATION_ICON_MAP[line.clasificacionIcono];
               return (
                 <li key={line.boxId} className="flex items-center gap-3 py-2.5">
-                  <div className="flex size-10 shrink-0 items-center justify-center border border-border bg-muted">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted">
                     <Icon className="size-4 text-primary" strokeWidth={1.5} />
                   </div>
                   <div className="flex flex-1 flex-col">

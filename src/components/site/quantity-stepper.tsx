@@ -15,7 +15,7 @@ export function QuantityStepper({
   const { dict } = useI18n();
 
   return (
-    <div className="flex items-center border border-border">
+    <div className="flex items-center overflow-hidden rounded-lg border border-border/60">
       <button
         type="button"
         onClick={() => onChange(Math.max(1, value - 1))}

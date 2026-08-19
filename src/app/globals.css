@@ -48,6 +48,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --shadow-elevation-xs: var(--shadow-elevation-xs);
+  --shadow-elevation-sm: var(--shadow-elevation-sm);
+  --shadow-elevation-md: var(--shadow-elevation-md);
+  --shadow-elevation-lg: var(--shadow-elevation-lg);
+  --shadow-elevation-xl: var(--shadow-elevation-xl);
+  --shadow-glow-primary: var(--shadow-glow-primary);
+  --shadow-glow-accent: var(--shadow-glow-accent);
 }
 
 :root {
@@ -76,7 +83,7 @@
   --chart-3: #52a176;
   --chart-4: #95d5b2;
   --chart-5: #b9ac7c;
-  --radius: 0.3rem;
+  --radius: 0.75rem;
   --line: #cabf95;
   --sidebar: #16281f;
   --sidebar-foreground: #ede7d3;
@@ -86,6 +93,17 @@
   --sidebar-accent-foreground: #f6f2e6;
   --sidebar-border: #2b4536;
   --sidebar-ring: #74c69d;
+  --shadow-elevation-xs: 0 1px 2px rgba(26, 43, 32, 0.06);
+  --shadow-elevation-sm: 0 1px 2px rgba(26, 43, 32, 0.05), 0 6px 16px -8px rgba(26, 43, 32, 0.12);
+  --shadow-elevation-md: 0 2px 4px rgba(26, 43, 32, 0.05), 0 12px 28px -8px rgba(26, 43, 32, 0.14);
+  --shadow-elevation-lg: 0 4px 8px rgba(26, 43, 32, 0.06), 0 20px 44px -12px rgba(26, 43, 32, 0.18);
+  --shadow-elevation-xl: 0 8px 16px rgba(26, 43, 32, 0.08), 0 32px 68px -16px rgba(26, 43, 32, 0.22);
+  --shadow-glow-primary:
+    0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent),
+    0 8px 18px -8px color-mix(in oklch, var(--primary) 30%, transparent);
+  --shadow-glow-accent:
+    0 0 0 1px color-mix(in oklch, var(--accent) 22%, transparent),
+    0 0 16px -4px color-mix(in oklch, var(--accent) 34%, transparent);
 }
 
 .dark {
@@ -122,6 +140,17 @@
   --sidebar-accent-foreground: #ece6d2;
   --sidebar-border: #21392c;
   --sidebar-ring: #95d5b2;
+  --shadow-elevation-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 20px -6px rgba(0, 0, 0, 0.5);
+  --shadow-elevation-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 32px -8px rgba(0, 0, 0, 0.55);
+  --shadow-elevation-lg: 0 4px 8px rgba(0, 0, 0, 0.45), 0 24px 48px -12px rgba(0, 0, 0, 0.6);
+  --shadow-elevation-xl: 0 8px 16px rgba(0, 0, 0, 0.5), 0 40px 80px -16px rgba(0, 0, 0, 0.65);
+  --shadow-glow-primary:
+    0 0 0 1px color-mix(in oklch, var(--primary) 24%, transparent),
+    0 8px 20px -8px color-mix(in oklch, var(--primary) 38%, transparent);
+  --shadow-glow-accent:
+    0 0 0 1px color-mix(in oklch, var(--accent) 30%, transparent),
+    0 0 20px -4px color-mix(in oklch, var(--accent) 42%, transparent);
 }
 
 @layer base {
@@ -154,16 +183,47 @@
 
   .bg-grid-technical {
     background-image:
-      linear-gradient(to right, var(--line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(to right, color-mix(in oklch, var(--line) 35%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklch, var(--line) 35%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
   .bg-blueprint-dark {
-    background-color: var(--primary);
+    background-color: var(--sidebar);
     background-image:
-      linear-gradient(to right, rgba(246, 242, 230, 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(246, 242, 230, 0.08) 1px, transparent 1px);
-    background-size: 32px 32px;
+      radial-gradient(
+        ellipse 60% 55% at 12% 12%,
+        color-mix(in oklch, var(--accent) 26%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        ellipse 65% 60% at 88% 92%,
+        color-mix(in oklch, var(--primary) 22%, transparent),
+        transparent 68%
+      ),
+      linear-gradient(to right, rgba(246, 242, 230, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(246, 242, 230, 0.04) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      64px 64px,
+      64px 64px;
+  }
+
+  .glass-panel {
+    background-color: color-mix(in oklch, var(--card) 82%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -24,7 +24,7 @@ export function ScrollDownButton({
       <span className="font-mono-technical text-[10px] uppercase tracking-wider opacity-70 transition-opacity group-hover:opacity-100">
         {label}
       </span>
-      <span className="flex size-9 animate-bounce items-center justify-center border border-current/40 transition-colors group-hover:border-current">
+      <span className="flex size-9 animate-bounce items-center justify-center rounded-full border border-current/40 transition-colors motion-reduce:animate-none group-hover:border-current group-hover:shadow-glow-accent">
         <ChevronDown className="size-4" strokeWidth={1.5} />
       </span>
     </button>

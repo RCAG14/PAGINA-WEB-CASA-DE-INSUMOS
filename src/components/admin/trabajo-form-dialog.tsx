@@ -144,7 +144,7 @@ export function TrabajoFormDialog({
               />
             </div>
 
-            <div className="flex items-center justify-between border border-border px-3 py-2">
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="tr-activo" className="text-xs">
                 Visible en el sitio
               </Label>

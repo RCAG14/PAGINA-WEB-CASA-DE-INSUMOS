@@ -134,7 +134,7 @@ export function PaqueteFormDialog({
               />
             </div>
 
-            <div className="flex items-center justify-between border border-border px-3 py-2">
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="pd-destacado" className="text-xs">
                 Destacar como recomendado
               </Label>
@@ -145,7 +145,7 @@ export function PaqueteFormDialog({
               />
             </div>
 
-            <div className="flex items-center justify-between border border-border px-3 py-2">
+            <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="pd-activo" className="text-xs">
                 Visible en el sitio
               </Label>

@@ -84,7 +84,7 @@ export function ConfiguracionTables({
           />
         </div>
 
-        <div className="border border-border bg-card">
+        <div className="overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm">
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
@@ -107,7 +107,7 @@ export function ConfiguracionTables({
                 <TableRow key={r.id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <span className="flex size-7 items-center justify-center border border-border bg-muted">
+                      <span className="flex size-7 items-center justify-center rounded-lg border border-border/60 bg-muted">
                         <Link2 className="size-3.5 text-primary" strokeWidth={1.5} />
                       </span>
                       <span className="text-sm font-medium">
@@ -122,8 +122,8 @@ export function ConfiguracionTables({
                     <span
                       className={
                         r.activo
-                          ? "border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
-                          : "border border-border px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
+                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
+                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
                       }
                     >
                       {r.activo ? "Visible" : "Oculto"}
@@ -202,7 +202,7 @@ export function ConfiguracionTables({
           />
         </div>
 
-        <div className="border border-border bg-card">
+        <div className="overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm">
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
@@ -225,12 +225,12 @@ export function ConfiguracionTables({
                 <TableRow key={n.id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <span className="flex size-7 items-center justify-center border border-border bg-muted">
+                      <span className="flex size-7 items-center justify-center rounded-lg border border-border/60 bg-muted">
                         <MessageCircle className="size-3.5 text-primary" strokeWidth={1.5} />
                       </span>
                       <span className="text-sm font-medium">{n.etiqueta}</span>
                       {i === 0 && n.activo && (
-                        <span className="border border-accent bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
+                        <span className="rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
                           Principal
                         </span>
                       )}
@@ -243,8 +243,8 @@ export function ConfiguracionTables({
                     <span
                       className={
                         n.activo
-                          ? "border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
-                          : "border border-border px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
+                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
+                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
                       }
                     >
                       {n.activo ? "Activo" : "Inactivo"}

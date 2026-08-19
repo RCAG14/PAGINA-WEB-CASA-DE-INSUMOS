@@ -89,7 +89,7 @@ export function CatalogBrowser({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3 border border-border bg-card p-3">
+      <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-3 shadow-elevation-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-1.5">
             {(
@@ -103,10 +103,10 @@ export function CatalogBrowser({
                 key={value}
                 onClick={() => setTipo(value)}
                 className={cn(
-                  "border px-3 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider transition-colors",
+                  "rounded-lg border px-3 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider transition-colors",
                   tipo === value
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-muted-foreground hover:text-foreground"
+                    ? "border-primary bg-primary text-primary-foreground shadow-glow-accent"
+                    : "border-border/60 bg-background text-muted-foreground hover:text-foreground"
                 )}
               >
                 {label}
@@ -122,14 +122,14 @@ export function CatalogBrowser({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={dict.catalogBrowser.searchPlaceholder}
-                className="w-full border border-border bg-background py-1.5 pl-7 pr-2.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-52"
+                className="w-full rounded-lg border border-border/60 bg-background py-1.5 pl-7 pr-2.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-52"
               />
             </div>
             <select
               value={orden}
               onChange={(e) => setOrden(e.target.value as SortOrder)}
               aria-label={dict.catalogBrowser.sortLabel}
-              className="border border-border bg-background px-2 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground focus:border-primary focus:outline-none"
+              className="rounded-lg border border-border/60 bg-background px-2 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground focus:border-primary focus:outline-none"
             >
               <option value="destacadas">{dict.catalogBrowser.sortFeatured}</option>
               <option value="precio-asc">{dict.catalogBrowser.sortPriceAsc}</option>
@@ -139,12 +139,12 @@ export function CatalogBrowser({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+        <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-3">
           <LayoutGrid className="size-3.5 shrink-0 text-muted-foreground" />
           <button
             onClick={() => setCategoria("todas")}
             className={cn(
-              "border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
+              "rounded-full border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
               categoria === "todas"
                 ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground"
@@ -157,7 +157,7 @@ export function CatalogBrowser({
               key={c.slug}
               onClick={() => setCategoria(c.slug)}
               className={cn(
-                "border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
+                "rounded-full border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
                 categoria === c.slug
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -189,14 +189,14 @@ export function CatalogBrowser({
           {hasMore && (
             <button
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              className="self-center border border-border bg-background px-4 py-2 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+              className="self-center rounded-lg border border-border/60 bg-background px-4 py-2 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
             >
               {dict.catalogBrowser.loadMore}
             </button>
           )}
         </>
       ) : (
-        <div className="border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
+        <div className="rounded-xl border border-dashed border-border/60 p-10 text-center text-sm text-muted-foreground">
           {dict.catalogBrowser.noResults}
         </div>
       )}

@@ -1,5 +1,6 @@
 import { Mail, Star } from "lucide-react";
 import { AdminTopbar } from "@/components/admin/admin-topbar";
+import { Panel } from "@/components/admin/panel";
 import {
   Table,
   TableBody,
@@ -25,7 +26,7 @@ export default async function AdminClientesPage() {
           preferencias y quiénes son tus compradores recurrentes.
         </p>
 
-        <div className="border border-border bg-card">
+        <Panel>
           {clientes.length === 0 ? (
             <p className="py-16 text-center text-sm text-muted-foreground">
               Todavía no hay clientes. Se registran automáticamente desde el checkout.
@@ -89,7 +90,7 @@ export default async function AdminClientesPage() {
               </TableBody>
             </Table>
           )}
-        </div>
+        </Panel>
       </div>
     </>
   );

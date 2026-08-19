@@ -30,7 +30,7 @@ export function ProductCard({ box }: { box: Box }) {
   }
 
   return (
-    <div className="group flex h-full flex-col border border-border bg-card">
+    <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-elevation-lg">
       <Link href={`/productos/${box.slug}`} className="block">
         <BoxVisual box={box} className="transition-opacity group-hover:opacity-90" />
       </Link>
@@ -42,7 +42,7 @@ export function ProductCard({ box }: { box: Box }) {
         </div>
 
         <Link href={`/productos/${box.slug}`}>
-          <h3 className="font-heading text-sm font-semibold leading-snug text-foreground hover:text-primary">
+          <h3 className="font-heading text-sm font-semibold leading-snug text-foreground transition-colors hover:text-primary">
             {box.nombre}
           </h3>
         </Link>

@@ -15,12 +15,12 @@ export function StatCard({
   trend?: { value: string; positive: boolean };
 }) {
   return (
-    <div className="flex flex-col gap-3 border border-border bg-card p-4">
+    <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
       <div className="flex items-center justify-between">
         <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
-        <span className="flex size-7 items-center justify-center border border-border text-primary">
+        <span className="flex size-7 items-center justify-center rounded-lg border border-border/60 bg-primary/10 text-primary">
           <Icon className="size-3.5" strokeWidth={1.5} />
         </span>
       </div>

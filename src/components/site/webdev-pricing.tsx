@@ -40,12 +40,14 @@ export async function WebDevPricing() {
               <ScrollReveal key={paquete.id} delayMs={i * 100}>
                 <div
                   className={cn(
-                    "flex h-full flex-col gap-4 border bg-card p-6",
-                    paquete.destacado ? "border-2 border-primary" : "border-border"
+                    "flex h-full flex-col gap-4 rounded-xl border bg-card/80 p-6 shadow-elevation-md backdrop-blur-md transition-shadow",
+                    paquete.destacado
+                      ? "border-primary/60 shadow-glow-primary"
+                      : "border-border/60 hover:shadow-elevation-lg"
                   )}
                 >
                   {paquete.destacado && (
-                    <span className="w-fit bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground">
+                    <span className="w-fit rounded-full bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground shadow-glow-accent">
                       {dict.webdev.pricing.recommended}
                     </span>
                   )}
@@ -73,16 +75,16 @@ export async function WebDevPricing() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "flex items-center justify-center px-4 py-2 text-center font-mono-technical text-xs uppercase tracking-wider transition-colors",
+                        "flex items-center justify-center rounded-lg px-4 py-2 text-center font-mono-technical text-xs uppercase tracking-wider transition-all",
                         paquete.destacado
-                          ? "bg-primary text-primary-foreground hover:bg-primary/85"
-                          : "border border-border text-foreground hover:border-primary hover:text-primary"
+                          ? "bg-primary text-primary-foreground shadow-glow-primary hover:bg-primary/90"
+                          : "border border-border/60 text-foreground hover:border-primary hover:text-primary"
                       )}
                     >
                       {dict.webdev.pricing.quoteCta}
                     </a>
                   ) : (
-                    <span className="border border-dashed border-accent bg-accent/10 px-4 py-2 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary">
+                    <span className="rounded-lg border border-dashed border-accent bg-accent/10 px-4 py-2 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary">
                       {dict.webdev.pricing.quoteFallback}
                     </span>
                   )}
