@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { HelpCircle, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/locale";
@@ -5,7 +6,8 @@ import type { SurpriseBox } from "@/lib/types";
 
 export async function MysteryPanel({ box }: { box: SurpriseBox }) {
   const { dict } = await getDictionary();
-  const placeholders = Array.from({ length: Math.min(box.cantidadEstimadaMax, 12) });
+  const totalSlots = Math.min(box.cantidadEstimadaMax, 12);
+  const slots = Array.from({ length: totalSlots }, (_, i) => box.imagenesReferencia[i] ?? null);
 
   return (
     <div className="border border-dashed border-accent bg-accent/5">
@@ -68,14 +70,23 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
             {dict.mysteryPanel.undisclosedLabel}
           </p>
           <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-            {placeholders.map((_, i) => (
-              <div
-                key={i}
-                className="flex aspect-square items-center justify-center border border-dashed border-accent/70 bg-background"
-              >
-                <HelpCircle className="size-4 text-accent" strokeWidth={1.5} />
-              </div>
-            ))}
+            {slots.map((url, i) =>
+              url ? (
+                <div
+                  key={i}
+                  className="relative aspect-square overflow-hidden border border-accent/70 bg-background"
+                >
+                  <Image src={url} alt="" fill sizes="120px" className="object-cover" />
+                </div>
+              ) : (
+                <div
+                  key={i}
+                  className="flex aspect-square items-center justify-center border border-dashed border-accent/70 bg-background"
+                >
+                  <HelpCircle className="size-4 text-accent" strokeWidth={1.5} />
+                </div>
+              )
+            )}
           </div>
           <p className="mt-2 text-xs text-muted-foreground">{dict.mysteryPanel.footnote}</p>
         </div>

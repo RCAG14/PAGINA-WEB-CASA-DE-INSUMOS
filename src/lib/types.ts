@@ -29,13 +29,14 @@ export interface BoxItemSpec {
 
 export interface BoxSpecs {
   skuCaja: string;
-  manifiesto: string;
-  origen: string;
-  centroRetorno: string;
-  certificacionAduanera: string;
-  gradoLiquidacion: string;
-  pesoBruto: string;
-  dimensiones: string;
+  /** Todos null en conjunto cuando el lote no declaró manifiesto/logística internacional. */
+  manifiesto: string | null;
+  origen: string | null;
+  centroRetorno: string | null;
+  certificacionAduanera: string | null;
+  gradoLiquidacion: string | null;
+  pesoBruto: string | null;
+  dimensiones: string | null;
 }
 
 interface BaseBox {
@@ -69,6 +70,8 @@ export interface SurpriseBox extends BaseBox {
   cantidadEstimadaMax: number;
   valorEstimadoMin: number;
   valorEstimadoMax: number;
+  /** Fotos reales de artículos de referencia, hasta 6, en el orden cargado por el admin. */
+  imagenesReferencia: string[];
 }
 
 export type Box = StructuredBox | SurpriseBox;

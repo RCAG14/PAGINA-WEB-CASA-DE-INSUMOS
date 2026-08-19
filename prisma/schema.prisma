@@ -53,13 +53,16 @@ model Caja {
   descripcion_corta   String
   descripcion_tecnica String
 
-  manifiesto             String
-  origen                 String
-  centro_retorno         String
-  certificacion_aduanera String
-  grado_liquidacion      String
-  peso_bruto             String
-  dimensiones            String
+  // Todos nullable en conjunto: si manifiesto es null, el lote no declaró
+  // manifiesto/logística internacional y la ficha técnica pública no muestra
+  // ninguna de estas filas (ver assertManifiestoAtomico en src/lib/data/cajas.ts).
+  manifiesto             String?
+  origen                 String?
+  centro_retorno         String?
+  certificacion_aduanera String?
+  grado_liquidacion      String?
+  peso_bruto             String?
+  dimensiones            String?
 
   costo_total       Decimal @db.Decimal(10, 2)
   precio_venta_caja Decimal @db.Decimal(10, 2)
@@ -84,10 +87,28 @@ model Caja {
   creado_en      DateTime @default(now())
   actualizado_en DateTime @updatedAt
 
-  detalles        DetalleCaja[]
-  pedido_detalles PedidoDetalle[]
+  detalles            DetalleCaja[]
+  pedido_detalles     PedidoDetalle[]
+  imagenes_referencia ImagenReferenciaCaja[]
 
   @@map("cajas")
+}
+
+// Fotos reales de artículos de referencia para cajas "sorpresa" — se muestran
+// en la grilla de "artículos sin revelar" de la vista pública (MysteryPanel)
+// para dar una idea del contenido sin exponer el detalle exacto.
+model ImagenReferenciaCaja {
+  id String @id @default(cuid())
+
+  caja_id String
+  caja    Caja   @relation(fields: [caja_id], references: [id], onDelete: Cascade)
+
+  url   String
+  path  String
+  orden Int    @default(0)
+
+  @@index([caja_id])
+  @@map("imagenes_referencia_caja")
 }
 
 model DetalleCaja {
@@ -275,7 +296,7 @@ model ContenidoLanding {
 model PaqueteDesarrollo {
   id String @id @default(cuid())
 
-  nombre  String @unique
+  nombre  String  @unique
   tagline String
   precio  Decimal @db.Decimal(10, 2)
 
@@ -299,7 +320,7 @@ model PaqueteDesarrollo {
 model TrabajoRealizado {
   id String @id @default(cuid())
 
-  titulo String
+  titulo      String
   // Rubro del cliente — texto libre, ej. "Restaurante", "Inmobiliaria", "Clínica".
   categoria   String
   descripcion String
