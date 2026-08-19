@@ -8,11 +8,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n/locale-context";
 import { confirmarPedido } from "@/app/(site)/checkout/actions";
+import {
+  DEFAULT_PHONE_COUNTRY,
+  PHONE_COUNTRIES,
+  buildFullPhone,
+  isValidLocalPhone,
+} from "@/lib/phone-countries";
 
 function buildWhatsAppLink(
   numero: string | null,
@@ -31,29 +44,42 @@ function buildWhatsAppLink(
 
 export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null }) {
   const { lines, subtotal, totalItems, clear } = useCart();
-  const { dict } = useI18n();
+  const { dict, locale } = useI18n();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [codigoPedido, setCodigoPedido] = useState<string | null>(null);
+  const [telefonoPais, setTelefonoPais] = useState(DEFAULT_PHONE_COUNTRY);
+  const [telefonoLocal, setTelefonoLocal] = useState("");
+  const [telefonoTouched, setTelefonoTouched] = useState(false);
   const [form, setForm] = useState({
     nombre: "",
-    telefono: "",
     email: "",
     direccion: "",
     ciudad: "",
   });
 
+  const telefonoValido = isValidLocalPhone(telefonoPais, telefonoLocal);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
 
+    if (!telefonoValido) {
+      setTelefonoTouched(true);
+      setError(dict.checkout.fields.telefonoInvalido);
+      return;
+    }
+
     startTransition(async () => {
       try {
-        const codigo = await confirmarPedido(form, lines.map((l) => ({
-          cajaId: l.boxId,
-          cantidad: l.cantidad,
-          precioUnitario: l.precio,
-        })));
+        const codigo = await confirmarPedido(
+          { ...form, telefono: buildFullPhone(telefonoPais, telefonoLocal) },
+          lines.map((l) => ({
+            cajaId: l.boxId,
+            cantidad: l.cantidad,
+            precioUnitario: l.precio,
+          }))
+        );
         setCodigoPedido(codigo);
         const link = buildWhatsAppLink(whatsappNumero, codigo, form.nombre, formatPrice(subtotal));
         window.open(link, "_blank");
@@ -144,14 +170,38 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="telefono" className="text-xs">{dict.checkout.fields.telefono}</Label>
-                <Input
-                  id="telefono"
-                  type="tel"
-                  required
-                  placeholder="+591 700 00000"
-                  value={form.telefono}
-                  onChange={(e) => setForm((f) => ({ ...f, telefono: e.target.value }))}
-                />
+                <div className="flex gap-2">
+                  <Select
+                    value={telefonoPais}
+                    onValueChange={(v) => setTelefonoPais(v ?? DEFAULT_PHONE_COUNTRY)}
+                  >
+                    <SelectTrigger className="shrink-0" aria-label={dict.checkout.fields.telefonoPais}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PHONE_COUNTRIES.map((c) => (
+                        <SelectItem key={c.iso2} value={c.iso2}>
+                          +{c.dial} {locale === "en" ? c.nameEn : c.nameEs}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    id="telefono"
+                    type="tel"
+                    required
+                    placeholder="700 00000"
+                    value={telefonoLocal}
+                    aria-invalid={telefonoTouched && !telefonoValido}
+                    onChange={(e) =>
+                      setTelefonoLocal(e.target.value.replace(/\D/g, ""))
+                    }
+                    onBlur={() => setTelefonoTouched(true)}
+                  />
+                </div>
+                {telefonoTouched && !telefonoValido && (
+                  <p className="text-[11px] text-red-600">{dict.checkout.fields.telefonoInvalido}</p>
+                )}
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="email" className="text-xs">{dict.checkout.fields.email}</Label>
