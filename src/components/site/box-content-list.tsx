@@ -14,9 +14,9 @@ export async function BoxContentList({ items }: { items: BoxItemSpec[] }) {
   const { dict } = await getDictionary();
 
   return (
-    <div className="border border-border">
-      <div className="border-b border-border bg-primary px-3 py-2">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+    <div className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+      <div className="border-b border-border bg-sidebar px-3 py-2">
+        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
           {dict.boxContentList.title} — {items.length}{" "}
           {items.length === 1 ? dict.boxContentList.itemSuffix : dict.boxContentList.itemsSuffix}
         </p>

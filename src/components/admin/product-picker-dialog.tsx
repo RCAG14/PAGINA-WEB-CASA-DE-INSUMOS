@@ -153,7 +153,7 @@ export function ProductPickerDialog({
                 key={box.id}
                 type="button"
                 onClick={() => handleSelect(box)}
-                className="flex flex-col gap-1.5 border border-border p-2 text-left transition-colors hover:border-primary"
+                className="flex flex-col gap-1.5 rounded-lg border border-border/60 p-2 text-left transition-colors hover:border-primary"
               >
                 <BoxVisual box={box} className="aspect-square" iconClassName="size-6" />
                 <span className="line-clamp-2 text-xs font-medium leading-tight">

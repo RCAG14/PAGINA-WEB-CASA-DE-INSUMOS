@@ -28,9 +28,9 @@ export async function ServicesSection() {
             const href = SERVICE_HREFS[i];
             return (
               <ScrollReveal key={service.titulo} delayMs={i * 80}>
-                <div className="flex h-full flex-col gap-3 border border-border bg-background p-4">
+                <div className="flex h-full flex-col gap-3 rounded-xl border border-border/60 bg-background p-4 shadow-elevation-sm transition-shadow hover:shadow-elevation-md">
                   <div className="flex items-center justify-between">
-                    <span className="flex size-8 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+                    <span className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Icon className="size-4" strokeWidth={1.5} />
                     </span>
                     <span className="font-mono-technical text-[10px] text-muted-foreground">
@@ -55,7 +55,7 @@ export async function ServicesSection() {
                   ) : (
                     <span
                       className={cn(
-                        "w-fit border border-dashed border-accent bg-accent/10 px-2 py-1 font-mono-technical text-[10px] uppercase tracking-wider text-primary"
+                        "w-fit rounded-full border border-dashed border-accent bg-accent/10 px-2 py-1 font-mono-technical text-[10px] uppercase tracking-wider text-primary"
                       )}
                     >
                       {"tag" in service ? service.tag : null}

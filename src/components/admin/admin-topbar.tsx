@@ -1,6 +1,7 @@
 import { Bell, LogOut } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,7 +38,7 @@ export async function AdminTopbar({
     : "CI";
 
   return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border bg-card px-4">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border/60 bg-card/80 px-4 backdrop-blur-md">
       <SidebarTrigger />
       <Separator orientation="vertical" className="h-5" />
       <div className="flex flex-col leading-tight">
@@ -47,23 +48,25 @@ export async function AdminTopbar({
         <h1 className="font-heading text-sm font-semibold">{title}</h1>
       </div>
 
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-2">
+        <ThemeToggle />
+
         <button
-          className="relative flex size-8 items-center justify-center border border-border text-muted-foreground hover:text-primary"
+          className="relative flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
           aria-label="Notificaciones"
         >
           <Bell className="size-4" />
-          <span className="absolute -right-1 -top-1 size-2 bg-accent" />
+          <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-accent shadow-glow-accent" />
         </button>
 
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <button className="flex items-center gap-2 border border-border px-2 py-1 hover:border-primary" />
+              <button className="flex items-center gap-2 rounded-lg border border-border/60 bg-card/60 px-2 py-1 transition-colors hover:border-primary" />
             }
           >
-            <Avatar className="size-6 rounded-none">
-              <AvatarFallback className="rounded-none bg-primary text-[10px] text-primary-foreground">
+            <Avatar className="size-6">
+              <AvatarFallback className="bg-primary text-[10px] text-primary-foreground">
                 {iniciales}
               </AvatarFallback>
             </Avatar>

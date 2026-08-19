@@ -84,7 +84,7 @@ export function ClasificacionesTable({
         />
       </div>
 
-      <div className="border border-border bg-card">
+      <div className="overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -112,7 +112,7 @@ export function ClasificacionesTable({
                 <TableRow key={c.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="flex size-9 shrink-0 items-center justify-center border border-border bg-muted">
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted">
                         <Icon className="size-4 text-primary" strokeWidth={1.5} />
                       </div>
                       <span className="text-sm font-medium leading-tight">{c.label}</span>

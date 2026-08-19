@@ -91,6 +91,9 @@ model Caja {
   pedido_detalles     PedidoDetalle[]
   imagenes_referencia ImagenReferenciaCaja[]
 
+  @@index([clasificacion_id])
+  @@index([stock_disponible])
+  @@index([creado_en])
   @@map("cajas")
 }
 
@@ -127,6 +130,8 @@ model DetalleCaja {
   costo_asignado        Decimal @db.Decimal(10, 2)
   precio_venta_sugerido Decimal @db.Decimal(10, 2)
 
+  @@index([caja_id])
+  @@index([producto_id])
   @@map("detalle_caja")
 }
 
@@ -145,6 +150,7 @@ model Cliente {
 
   pedidos Pedido[]
 
+  @@index([creado_en])
   @@map("clientes")
 }
 
@@ -174,6 +180,7 @@ model MetricaVisita {
   ruta      String
   creado_en DateTime @default(now())
 
+  @@index([creado_en])
   @@map("metricas_visita")
 }
 
@@ -193,6 +200,9 @@ model Pedido {
 
   detalles PedidoDetalle[]
 
+  @@index([cliente_id])
+  @@index([estado])
+  @@index([fecha_creacion])
   @@map("pedidos")
 }
 
@@ -208,6 +218,8 @@ model PedidoDetalle {
   cantidad        Int
   precio_unitario Decimal @db.Decimal(10, 2)
 
+  @@index([pedido_id])
+  @@index([caja_id])
   @@map("pedido_detalle")
 }
 

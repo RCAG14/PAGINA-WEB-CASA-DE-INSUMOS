@@ -3,8 +3,9 @@ import { AlertTriangle, Boxes, ClipboardList, DollarSign, PackageCheck } from "l
 import { AdminTopbar } from "@/components/admin/admin-topbar";
 import { StatCard } from "@/components/admin/stat-card";
 import { OrderStatusBadge } from "@/components/admin/order-status-badge";
-import { StockByCategoryChart } from "@/components/admin/stock-by-category-chart";
-import { TrafficAnalyticsSection } from "@/components/admin/traffic-analytics-section";
+import { Panel, PanelHeader } from "@/components/admin/panel";
+import { StockByCategoryChart } from "@/components/admin/stock-by-category-chart-loader";
+import { TrafficAnalyticsSection } from "@/components/admin/traffic-analytics-section-loader";
 import {
   Table,
   TableBody,
@@ -15,7 +16,7 @@ import {
 } from "@/components/ui/table";
 import { getDashboardStats, getStockPorClasificacion, getCajasStockBajo } from "@/lib/data/dashboard";
 import { getTraficoPorDia } from "@/lib/data/metricas";
-import { getPedidos } from "@/lib/data/pedidos";
+import { getPedidosRecientes } from "@/lib/data/pedidos";
 import { formatPrice } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +26,7 @@ export default async function CajasDashboardPage() {
     getDashboardStats(),
     getStockPorClasificacion(),
     getCajasStockBajo(),
-    getPedidos(),
+    getPedidosRecientes(5),
     getTraficoPorDia(30),
   ]);
 
@@ -61,7 +62,7 @@ export default async function CajasDashboardPage() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-          <div className="border border-border bg-card p-4">
+          <Panel className="p-4">
             <div className="mb-4 flex items-center justify-between">
               <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
                 Stock disponible por clasificación
@@ -69,9 +70,9 @@ export default async function CajasDashboardPage() {
               <Boxes className="size-4 text-muted-foreground" />
             </div>
             <StockByCategoryChart data={stockPorCategoria} />
-          </div>
+          </Panel>
 
-          <div className="border border-border bg-card p-4">
+          <Panel className="p-4">
             <div className="mb-4 flex items-center justify-between">
               <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
                 SKU con stock bajo
@@ -97,28 +98,28 @@ export default async function CajasDashboardPage() {
                         {box.sku_lote}
                       </span>
                     </div>
-                    <span className="border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive">
+                    <span className="rounded-md border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive">
                       {box.stock_disponible} u.
                     </span>
                   </li>
                 ))}
               </ul>
             )}
-          </div>
+          </Panel>
         </div>
 
-        <div className="border border-border bg-card">
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-              Pedidos recientes
-            </p>
-            <Link
-              href="/admin/cajas/pedidos"
-              className="font-mono-technical text-[10px] uppercase tracking-wider text-primary hover:underline"
-            >
-              Ver todos
-            </Link>
-          </div>
+        <Panel>
+          <PanelHeader
+            label="Pedidos recientes"
+            action={
+              <Link
+                href="/admin/cajas/pedidos"
+                className="font-mono-technical text-[10px] uppercase tracking-wider text-primary hover:underline"
+              >
+                Ver todos
+              </Link>
+            }
+          />
           {pedidos.length === 0 ? (
             <p className="py-10 text-center text-sm text-muted-foreground">
               Todavía no hay pedidos registrados en la base de datos.
@@ -145,7 +146,7 @@ export default async function CajasDashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {pedidos.slice(0, 5).map((order) => (
+                {pedidos.map((order) => (
                   <TableRow key={order.id}>
                     <TableCell className="font-mono-technical text-xs">
                       {order.codigoPedido}
@@ -165,7 +166,7 @@ export default async function CajasDashboardPage() {
               </TableBody>
             </Table>
           )}
-        </div>
+        </Panel>
 
         <TrafficAnalyticsSection dataCajas={trafico.cajas} dataWebdev={trafico.webdev} />
       </div>

@@ -42,7 +42,7 @@ export function ScrollReveal({
       ref={ref}
       style={{ transitionDelay: visible ? `${delayMs}ms` : "0ms" }}
       className={cn(
-        "transition-all duration-700 ease-out",
+        "transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:translate-y-0",
         visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
         className
       )}

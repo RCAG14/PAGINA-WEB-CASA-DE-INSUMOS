@@ -21,31 +21,25 @@ export function BoxVisual({ box, className, iconClassName }: BoxVisualProps) {
   return (
     <div
       className={cn(
-        "relative aspect-4/3 w-full overflow-hidden border",
-        isSurprise ? "border-dashed border-accent/60" : "border-border",
+        "relative aspect-4/3 w-full overflow-hidden rounded-xl border",
+        isSurprise ? "border-dashed border-accent/60" : "border-border/60",
         "bg-grid-technical bg-card",
         className
       )}
     >
-      {/* corner brackets */}
-      <span className="absolute left-0 top-0 h-3 w-3 border-l-2 border-t-2 border-primary" />
-      <span className="absolute right-0 top-0 h-3 w-3 border-r-2 border-t-2 border-primary" />
-      <span className="absolute bottom-0 left-0 h-3 w-3 border-b-2 border-l-2 border-primary" />
-      <span className="absolute bottom-0 right-0 h-3 w-3 border-b-2 border-r-2 border-primary" />
-
-      <div className="absolute left-2 top-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+      <div className="absolute left-2 top-2 rounded-md bg-background/70 px-1.5 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
         {box.specs.skuCaja}
       </div>
 
       {isSurprise && (
-        <div className="absolute right-2 top-2 flex items-center gap-1 border border-dashed border-accent/70 bg-background/80 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
+        <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-dashed border-accent/70 bg-background/80 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
           <Lock className="size-2.5" />
           {dict.boxVisual.contentReserved}
         </div>
       )}
 
       {box.destacada && (
-        <div className="absolute bottom-2 right-2 flex items-center gap-1 border border-accent bg-accent px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-accent-foreground">
+        <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-accent px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-accent-foreground shadow-glow-accent">
           <Sparkles className="size-2.5" />
           {dict.boxVisual.featuredBadge}
         </div>
@@ -63,7 +57,7 @@ export function BoxVisual({ box, className, iconClassName }: BoxVisualProps) {
         <div className="flex h-full w-full items-center justify-center">
           <div
             className={cn(
-              "flex items-center justify-center border-2",
+              "flex items-center justify-center rounded-xl border-2",
               isSurprise
                 ? "border-dashed border-accent bg-accent/10"
                 : "border-primary bg-primary/5",

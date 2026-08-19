@@ -205,7 +205,7 @@ export function LandingMediaManager({
           <div key={section.tipo} className="flex flex-col gap-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex items-start gap-3">
-                <span className="flex size-8 shrink-0 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-primary/30 bg-primary/5 text-primary">
                   <section.icon className="size-4" strokeWidth={1.5} />
                 </span>
                 <div>
@@ -255,7 +255,7 @@ export function LandingMediaManager({
             </div>
 
             {sectionItems.length === 0 ? (
-              <p className="border border-dashed border-border bg-card/60 px-4 py-6 text-center text-xs text-muted-foreground">
+              <p className="rounded-xl border border-dashed border-border/60 bg-card/60 px-4 py-6 text-center text-xs text-muted-foreground">
                 Nada subido todavía.
               </p>
             ) : (
@@ -263,9 +263,9 @@ export function LandingMediaManager({
                 {sectionItems.map((item, i) => (
                   <div
                     key={item.id}
-                    className="flex flex-col gap-2 border border-border bg-card p-2.5"
+                    className="flex flex-col gap-2 rounded-xl border border-border/60 bg-card p-2.5 shadow-elevation-sm transition-shadow hover:shadow-elevation-md"
                   >
-                    <div className="relative aspect-video w-full overflow-hidden border border-border bg-muted">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border/60 bg-muted">
                       {item.formato === "video" ? (
                         <video
                           src={item.url}
@@ -286,8 +286,8 @@ export function LandingMediaManager({
                       <span
                         className={
                           item.activo
-                            ? "absolute right-1.5 top-1.5 border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
-                            : "absolute right-1.5 top-1.5 border border-border bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
+                            ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
+                            : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
                         }
                       >
                         {item.activo ? "Visible" : "Oculto"}

@@ -88,13 +88,26 @@ export async function crearPedido(input: CrearPedidoInput) {
   return resultado;
 }
 
-export async function getPedidos(): Promise<AdminOrder[]> {
-  const rows = await prisma.pedido.findMany({
-    include: { cliente: true, detalles: true },
-    orderBy: { fecha_creacion: "desc" },
-  });
+const pedidoSelect = {
+  id: true,
+  codigo_pedido: true,
+  fecha_creacion: true,
+  total_estimado: true,
+  estado: true,
+  cliente: { select: { nombre: true } },
+  detalles: { select: { cantidad: true } },
+} as const;
 
-  return rows.map((p) => ({
+function toAdminOrder(p: {
+  id: string;
+  codigo_pedido: string;
+  fecha_creacion: Date;
+  total_estimado: unknown;
+  estado: string;
+  cliente: { nombre: string };
+  detalles: { cantidad: number }[];
+}): AdminOrder {
+  return {
     id: p.id,
     codigoPedido: p.codigo_pedido,
     cliente: p.cliente.nombre,
@@ -102,7 +115,27 @@ export async function getPedidos(): Promise<AdminOrder[]> {
     total: toDecimalNumber(p.total_estimado),
     items: p.detalles.reduce((acc, d) => acc + d.cantidad, 0),
     estado: p.estado as OrderStatus,
-  }));
+  };
+}
+
+export async function getPedidos(): Promise<AdminOrder[]> {
+  const rows = await prisma.pedido.findMany({
+    select: pedidoSelect,
+    orderBy: { fecha_creacion: "desc" },
+  });
+
+  return rows.map(toAdminOrder);
+}
+
+/** Solo los `limite` pedidos más recientes — usado por el dashboard, que no necesita la tabla completa. */
+export async function getPedidosRecientes(limite = 5): Promise<AdminOrder[]> {
+  const rows = await prisma.pedido.findMany({
+    select: pedidoSelect,
+    orderBy: { fecha_creacion: "desc" },
+    take: limite,
+  });
+
+  return rows.map(toAdminOrder);
 }
 
 export async function actualizarEstadoPedido(id: string, nuevoEstado: OrderStatus) {

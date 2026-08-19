@@ -18,7 +18,7 @@ export async function LandingServiceButtons() {
         const contenido = (
           <>
             <div className="flex items-center justify-between">
-              <span className="flex size-12 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+              <span className="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <Icon className="size-6" strokeWidth={1.5} />
               </span>
               <span className="font-mono-technical text-[10px] text-muted-foreground">
@@ -33,7 +33,7 @@ export async function LandingServiceButtons() {
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </span>
             ) : (
-              <span className="w-fit border border-dashed border-accent bg-accent/10 px-2 py-1 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
+              <span className="w-fit rounded-full border border-dashed border-accent bg-accent/10 px-2 py-1 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
                 {dict.landingServices.comingSoon}
               </span>
             )}
@@ -45,12 +45,12 @@ export async function LandingServiceButtons() {
             {disponible ? (
               <Link
                 href={href!}
-                className="group flex h-full min-h-57.5 flex-col gap-3 border border-border bg-card p-6 transition-colors hover:border-primary"
+                className="group flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-border/60 bg-card p-6 shadow-elevation-sm transition-[box-shadow,border-color] hover:border-primary/50 hover:shadow-elevation-lg"
               >
                 {contenido}
               </Link>
             ) : (
-              <div className="flex h-full min-h-57.5 flex-col gap-3 border border-border bg-card p-6 opacity-80">
+              <div className="flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-border/60 bg-card p-6 opacity-80">
                 {contenido}
               </div>
             )}

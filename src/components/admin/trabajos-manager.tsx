@@ -67,7 +67,7 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
       </div>
 
       {trabajos.length === 0 ? (
-        <p className="border border-dashed border-border bg-card/60 px-4 py-6 text-center text-xs text-muted-foreground">
+        <p className="rounded-xl border border-dashed border-border/60 bg-card/60 px-4 py-6 text-center text-xs text-muted-foreground">
           Nada cargado todavía.
         </p>
       ) : (
@@ -75,9 +75,9 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
           {trabajos.map((trabajo, i) => (
             <div
               key={trabajo.id}
-              className="flex flex-col gap-2 border border-border bg-card p-2.5"
+              className="flex flex-col gap-2 rounded-xl border border-border/60 bg-card p-2.5 shadow-elevation-sm transition-shadow hover:shadow-elevation-md"
             >
-              <div className="relative aspect-video w-full overflow-hidden border border-border bg-muted">
+              <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border/60 bg-muted">
                 {trabajo.imagen_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -93,8 +93,8 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                 <span
                   className={
                     trabajo.activo
-                      ? "absolute right-1.5 top-1.5 border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
-                      : "absolute right-1.5 top-1.5 border border-border bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
+                      ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
+                      : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
                   }
                 >
                   {trabajo.activo ? "Visible" : "Oculto"}

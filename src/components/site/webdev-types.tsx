@@ -32,8 +32,8 @@ export async function WebDevTypes() {
             const Icon = ICONS[i];
             return (
               <ScrollReveal key={tipo.titulo} delayMs={i * 80}>
-                <div className="flex h-full flex-col gap-3 border border-border bg-background p-4">
-                  <span className="flex size-10 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+                <div className="flex h-full flex-col gap-3 rounded-xl border border-border/60 bg-background p-4 shadow-elevation-sm transition-shadow hover:shadow-elevation-md">
+                  <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-5" strokeWidth={1.5} />
                   </span>
                   <h3 className="font-heading text-sm font-semibold leading-snug">{tipo.titulo}</h3>

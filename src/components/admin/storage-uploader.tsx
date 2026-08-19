@@ -89,7 +89,7 @@ export function StorageUploader({
         </span>
       )}
 
-      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden border border-dashed border-border bg-muted/40">
+      <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-border/60 bg-muted/40">
         {value ? (
           resourceType === "video" ? (
             <video

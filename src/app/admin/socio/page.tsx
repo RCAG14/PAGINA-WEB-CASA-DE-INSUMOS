@@ -1,6 +1,7 @@
 import { DollarSign, Package, ShoppingBag, TrendingUp, Users } from "lucide-react";
 import { StatCard } from "@/components/admin/stat-card";
 import { DescargarReportePdfButton } from "@/components/admin/descargar-reporte-pdf-button";
+import { Panel, PanelHeader } from "@/components/admin/panel";
 import {
   Table,
   TableBody,
@@ -81,13 +82,8 @@ export default async function SocioDashboardPage() {
         />
       </div>
 
-      <div className="border border-border bg-card">
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-            Cajas más vendidas
-          </p>
-          <Package className="size-4 text-muted-foreground" />
-        </div>
+      <Panel>
+        <PanelHeader label="Cajas más vendidas" icon={<Package className="size-4 text-muted-foreground" />} />
         {productos.length === 0 ? (
           <p className="py-10 text-center text-sm text-muted-foreground">
             Todavía no hay ventas registradas.
@@ -128,7 +124,7 @@ export default async function SocioDashboardPage() {
             </TableBody>
           </Table>
         )}
-      </div>
+      </Panel>
     </div>
   );
 }

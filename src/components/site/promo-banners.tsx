@@ -16,13 +16,13 @@ export async function PromoBanners() {
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
             {dict.promo.eyebrow}
           </span>
-          <h2 className="font-heading text-xl font-semibold sm:text-2xl">{dict.promo.title}</h2>
+          <h2 className="font-heading text-2xl font-semibold sm:text-3xl">{dict.promo.title}</h2>
         </ScrollReveal>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {banners.map((banner, i) => {
             const content = (
-              <div className="group relative aspect-[16/9] w-full overflow-hidden border border-border">
+              <div className="group relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm transition-shadow hover:shadow-elevation-lg">
                 <Image
                   src={banner.url}
                   alt={banner.titulo ?? ""}
@@ -31,7 +31,7 @@ export async function PromoBanners() {
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {(banner.titulo || banner.texto_cta) && (
-                  <div className="absolute inset-0 flex flex-col justify-end gap-1 bg-gradient-to-t from-primary/90 via-primary/10 to-transparent p-4">
+                  <div className="absolute inset-0 flex flex-col justify-end gap-1 bg-linear-to-t from-primary/90 via-primary/10 to-transparent p-4">
                     {banner.titulo && (
                       <p className="font-heading text-sm font-semibold text-primary-foreground">
                         {banner.titulo}

@@ -14,7 +14,7 @@ export function ClassificationBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 border border-primary/30 bg-primary/5 px-2 py-0.5 font-mono-technical text-[10px] font-medium uppercase tracking-wider text-primary",
+        "inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 font-mono-technical text-[10px] font-medium uppercase tracking-wider text-primary",
         className
       )}
     >

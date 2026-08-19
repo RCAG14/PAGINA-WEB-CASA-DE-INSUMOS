@@ -72,7 +72,7 @@ export function InventarioTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3 border border-border bg-card p-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-3 shadow-elevation-sm sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-1 flex-col gap-2 sm:flex-row">
           <div className="relative flex-1 sm:max-w-xs">
             <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -114,7 +114,7 @@ export function InventarioTable({
         cajas mostradas
       </p>
 
-      <div className="border border-border bg-card">
+      <div className="overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -146,7 +146,7 @@ export function InventarioTable({
                 <TableRow key={box.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden border border-border bg-muted">
+                      <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-muted">
                         {box.imagenUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={box.imagenUrl} alt="" className="h-full w-full object-cover" />
@@ -175,7 +175,7 @@ export function InventarioTable({
                     <span
                       className={
                         lowStock
-                          ? "border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive"
+                          ? "rounded-full border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive"
                           : "font-mono-technical text-xs"
                       }
                     >

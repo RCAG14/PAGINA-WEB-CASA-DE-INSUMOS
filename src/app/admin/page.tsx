@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Boxes,
@@ -11,6 +12,8 @@ import {
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { verifySession } from "@/lib/auth/dal";
+import { getLogo } from "@/lib/data/landing";
+import { cn } from "@/lib/utils";
 
 const MODULES = [
   {
@@ -43,14 +46,29 @@ const MODULES = [
 ] as const;
 
 export default async function AdminPortalPage() {
-  await verifySession();
+  const [, logo] = await Promise.all([verifySession(), getLogo()]);
 
   return (
     <div className="mx-auto flex min-h-svh max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center border-2 border-primary text-primary">
-            <Square className="size-4" strokeWidth={2.5} />
+          <span
+            className={cn(
+              "relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg",
+              logo?.url ? "bg-sidebar-foreground/95" : "bg-primary/10 text-primary"
+            )}
+          >
+            {logo?.url ? (
+              <Image
+                src={logo.url}
+                alt="Casa de Insumos"
+                fill
+                sizes="32px"
+                className="object-contain p-0.5"
+              />
+            ) : (
+              <Square className="size-4" strokeWidth={2.5} />
+            )}
           </span>
           <div className="flex flex-col leading-none">
             <span className="font-heading text-sm font-bold uppercase tracking-wide">
@@ -87,19 +105,16 @@ export default async function AdminPortalPage() {
         {MODULES.map((mod, i) => (
           <div
             key={mod.titulo}
-            className={`relative flex flex-col gap-4 border p-5 ${
-              mod.activo ? "border-primary bg-card" : "border-dashed border-border bg-card/60"
+            className={`relative flex flex-col gap-4 rounded-xl border p-5 shadow-elevation-sm transition-shadow hover:shadow-elevation-lg ${
+              mod.activo
+                ? "border-primary/50 bg-card"
+                : "border-dashed border-border/60 bg-card/60"
             }`}
           >
-            <span className="absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary" />
-            <span className="absolute right-0 top-0 h-4 w-4 border-r-2 border-t-2 border-primary" />
-            <span className="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-primary" />
-            <span className="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary" />
-
             <div className="flex items-center justify-between">
               <span
-                className={`flex size-11 items-center justify-center border-2 ${
-                  mod.activo ? "border-primary text-primary" : "border-border text-muted-foreground"
+                className={`flex size-11 items-center justify-center rounded-lg ${
+                  mod.activo ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
                 }`}
               >
                 <mod.icon className="size-5" strokeWidth={1.5} />
@@ -109,11 +124,11 @@ export default async function AdminPortalPage() {
                   MOD-{String(i + 1).padStart(2, "0")}
                 </span>
                 {mod.activo ? (
-                  <span className="border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground">
+                  <span className="rounded-full bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground shadow-glow-accent">
                     Activo
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 border border-dashed border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
+                  <span className="flex items-center gap-1 rounded-full border border-dashed border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
                     <Lock className="size-2.5" />
                     Próximamente
                   </span>
@@ -140,9 +155,9 @@ export default async function AdminPortalPage() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
-          <span className="flex size-9 shrink-0 items-center justify-center border border-border text-muted-foreground">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
             <Settings className="size-4" strokeWidth={1.5} />
           </span>
           <div className="flex flex-col gap-0.5">

@@ -71,7 +71,7 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
         />
       </div>
 
-      <div className="border border-border bg-card">
+      <div className="overflow-hidden rounded-xl border border-border/60 bg-card shadow-elevation-sm">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -97,7 +97,7 @@ export function SociosTable({ socios }: { socios: Usuario[] }) {
               <TableRow key={s.id}>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <span className="flex size-7 items-center justify-center border border-border bg-muted">
+                    <span className="flex size-7 items-center justify-center rounded-lg border border-border/60 bg-muted">
                       <UserRound className="size-3.5 text-primary" strokeWidth={1.5} />
                     </span>
                     <span className="text-sm font-medium">{s.nombre}</span>

@@ -23,7 +23,7 @@ export function AddToCartPanel({ box }: { box: Box }) {
   }
 
   return (
-    <div className="flex flex-col gap-4 border border-border bg-card p-4">
+    <div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
       <div className="flex items-center justify-between">
         <span className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
           {dict.addToCartPanel.quantity}

@@ -12,12 +12,7 @@ export async function AboutSection() {
   return (
     <section id="sobre-nosotros" className="border-b border-border bg-background">
       <div className="mx-auto grid max-w-6xl scroll-mt-24 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <ScrollReveal className="relative aspect-4/3 w-full overflow-hidden border border-border bg-grid-technical">
-          <span className="absolute left-0 top-0 z-10 h-4 w-4 border-l-2 border-t-2 border-primary" />
-          <span className="absolute right-0 top-0 z-10 h-4 w-4 border-r-2 border-t-2 border-primary" />
-          <span className="absolute bottom-0 left-0 z-10 h-4 w-4 border-b-2 border-l-2 border-primary" />
-          <span className="absolute bottom-0 right-0 z-10 h-4 w-4 border-b-2 border-r-2 border-primary" />
-
+        <ScrollReveal className="relative aspect-4/3 w-full overflow-hidden rounded-xl border border-border/60 bg-grid-technical shadow-elevation-md">
           {aboutImagen ? (
             <Image
               src={aboutImagen.url}
@@ -49,8 +44,8 @@ export async function AboutSection() {
               const Icon = VALUE_ICONS[i];
               return (
                 <ScrollReveal key={item.titulo} delayMs={160 + i * 80}>
-                  <div className="flex h-full flex-col gap-2 border border-border bg-card p-4">
-                    <span className="flex size-8 items-center justify-center border border-primary/30 bg-primary/5 text-primary">
+                  <div className="flex h-full flex-col gap-2 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm transition-shadow hover:shadow-elevation-md">
+                    <span className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Icon className="size-4" strokeWidth={1.5} />
                     </span>
                     <h3 className="font-heading text-sm font-semibold leading-snug">{item.titulo}</h3>

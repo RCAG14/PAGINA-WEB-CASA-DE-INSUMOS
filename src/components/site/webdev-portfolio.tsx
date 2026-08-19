@@ -27,7 +27,7 @@ export async function WebDevPortfolio() {
           {trabajos.map((trabajo, i) => {
             const contenido = (
               <>
-                <div className="relative aspect-video w-full overflow-hidden border border-border bg-muted">
+                <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   {trabajo.imagen_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -63,12 +63,12 @@ export async function WebDevPortfolio() {
                     href={trabajo.enlace}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex h-full flex-col border border-border bg-background transition-colors hover:border-primary"
+                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-border/60 bg-background shadow-elevation-sm transition-all hover:border-primary/60 hover:shadow-elevation-lg"
                   >
                     {contenido}
                   </Link>
                 ) : (
-                  <div className="group flex h-full flex-col border border-border bg-background">
+                  <div className="group flex h-full flex-col overflow-hidden rounded-xl border border-border/60 bg-background shadow-elevation-sm">
                     {contenido}
                   </div>
                 )}

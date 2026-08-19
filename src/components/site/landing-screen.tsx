@@ -9,6 +9,7 @@ import {
   Video,
   type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
 import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
@@ -19,6 +20,7 @@ import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { ScrollDownButton } from "@/components/site/scroll-down-button";
 import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
 import { getSession } from "@/lib/auth/session";
+import { cn } from "@/lib/utils";
 
 const PLATAFORMA_LABEL: Record<string, string> = {
   instagram: "Instagram",
@@ -50,50 +52,55 @@ export async function LandingScreen() {
   ]);
 
   return (
-    <div className="flex flex-col">
-      <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden border-b border-primary-foreground/10">
-        <LanguageSwitcher className="absolute left-4 top-4 text-primary-foreground sm:left-6 sm:top-6" />
+    <div className="flex h-screen flex-col snap-y snap-proximity overflow-y-auto scroll-smooth">
+      <section className="bg-blueprint-dark relative flex min-h-screen shrink-0 snap-start items-center overflow-hidden border-b border-sidebar-foreground/10">
+        <LanguageSwitcher className="absolute left-4 top-4 text-sidebar-foreground sm:left-6 sm:top-6" />
         <AccountNav
           session={session ? { nombre: session.nombre, rol: session.rol } : null}
-          className="absolute right-4 top-4 text-primary-foreground sm:right-6 sm:top-6"
+          className="absolute right-4 top-4 text-sidebar-foreground sm:right-6 sm:top-6"
         />
 
         <ScrollReveal className="relative mx-auto flex max-w-3xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
-          <span className="flex size-16 shrink-0 items-center justify-center overflow-hidden border-2 border-primary-foreground/70 bg-primary-foreground/5">
+          <span
+            className={cn(
+              "relative flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-sidebar-foreground/20 shadow-glow-accent",
+              logo ? "bg-sidebar-foreground/95" : "bg-sidebar-foreground/5"
+            )}
+          >
             {logo ? (
-              // Logo cargado por el administrador — dimensiones/formato variables.
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={logo.url}
                 alt="Casa de Insumos"
-                className="h-full w-full object-contain p-1.5"
+                fill
+                sizes="64px"
+                className="object-contain p-1.5"
               />
             ) : (
-              <Square className="size-7 text-primary-foreground" strokeWidth={2} />
+              <Square className="size-7 text-sidebar-foreground" strokeWidth={2} />
             )}
           </span>
 
-          <h1 className="font-heading text-4xl font-bold uppercase tracking-wide text-primary-foreground sm:text-5xl">
+          <h1 className="font-heading text-4xl font-bold uppercase tracking-wide text-sidebar-foreground sm:text-5xl">
             Casa de Insumos
           </h1>
-          <p className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground/70 sm:text-sm">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground/70 sm:text-sm">
             {dict.homeLanding.tagline}
           </p>
-          <p className="max-w-xl text-base text-primary-foreground/80 sm:text-lg">
+          <p className="max-w-xl text-base text-sidebar-foreground/80 sm:text-lg">
             {dict.homeLanding.description}
           </p>
 
           <ScrollDownButton
             targetId="landing-servicios"
             label={dict.homeLanding.scrollToServices}
-            className="mt-4 text-primary-foreground"
+            className="mt-4 text-sidebar-foreground"
           />
         </ScrollReveal>
       </section>
 
       <section
         id="landing-servicios"
-        className="flex min-h-screen items-center border-b border-border bg-background"
+        className="flex min-h-screen shrink-0 snap-start items-center border-b border-border bg-background"
       >
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
           <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
@@ -108,7 +115,7 @@ export async function LandingScreen() {
         </div>
       </section>
 
-      <footer className="bg-primary text-primary-foreground">
+      <footer className="shrink-0 snap-start bg-sidebar text-sidebar-foreground">
         <ScrollReveal className="mx-auto flex max-w-4xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
           <span className="font-heading text-sm font-bold uppercase tracking-wide">
             Casa de Insumos
@@ -118,7 +125,7 @@ export async function LandingScreen() {
             {CONTACT_EMAIL && (
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-accent"
+                className="flex items-center gap-2 text-sm text-sidebar-foreground/80 hover:text-accent"
               >
                 <Mail className="size-3.5 shrink-0" strokeWidth={1.5} />
                 {CONTACT_EMAIL}
@@ -137,7 +144,7 @@ export async function LandingScreen() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={PLATAFORMA_LABEL[r.plataforma] ?? r.plataforma}
-                    className="flex items-center gap-1.5 border border-primary-foreground/20 px-2.5 py-1.5 text-xs text-primary-foreground/80 transition-colors hover:border-accent hover:text-accent"
+                    className="flex items-center gap-1.5 border border-sidebar-foreground/20 px-2.5 py-1.5 text-xs text-sidebar-foreground/80 transition-colors hover:border-accent hover:text-accent"
                   >
                     <Icon className="size-3.5" strokeWidth={1.5} />
                     {PLATAFORMA_LABEL[r.plataforma] ?? r.plataforma}
@@ -147,7 +154,7 @@ export async function LandingScreen() {
             </div>
           )}
 
-          <p className="font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
+          <p className="font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50">
             © 2026 Casa de Insumos
           </p>
         </ScrollReveal>

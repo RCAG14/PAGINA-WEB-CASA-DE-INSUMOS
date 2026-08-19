@@ -37,13 +37,13 @@ export function CartSheet() {
       >
         <ShoppingCart className="size-4" />
         {totalItems > 0 && (
-          <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center bg-accent font-mono-technical text-[9px] font-semibold text-primary">
+          <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-accent font-mono-technical text-[9px] font-semibold text-accent-foreground shadow-glow-accent">
             {totalItems}
           </span>
         )}
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md">
-        <SheetHeader className="border-b border-border">
+        <SheetHeader className="border-b border-border/60">
           <SheetTitle className="font-mono-technical text-sm uppercase tracking-wider">
             {dict.cartSheet.title} ({totalItems})
           </SheetTitle>
@@ -73,21 +73,21 @@ export function CartSheet() {
                   const Icon = CLASSIFICATION_ICON_MAP[line.clasificacionIcono];
                   return (
                     <li key={line.boxId} className="flex gap-3 py-3">
-                      <div className="flex size-14 shrink-0 items-center justify-center border border-border bg-muted">
+                      <div className="flex size-14 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted">
                         <Icon className="size-5 text-primary" strokeWidth={1.5} />
                       </div>
                       <div className="flex flex-1 flex-col gap-1">
                         <div className="flex items-start justify-between gap-2">
                           <Link
                             href={`/productos/${line.slug}`}
-                            className="text-sm font-medium leading-snug hover:text-primary"
+                            className="text-sm font-medium leading-snug transition-colors hover:text-primary"
                           >
                             {line.nombre}
                           </Link>
                           <button
                             onClick={() => removeLine(line.boxId)}
                             aria-label={dict.cartSheet.removeFromCart}
-                            className="text-muted-foreground hover:text-destructive"
+                            className="text-muted-foreground transition-colors hover:text-destructive"
                           >
                             <Trash2 className="size-3.5" />
                           </button>
@@ -97,7 +97,7 @@ export function CartSheet() {
                         </span>
                         <BoxTypeBadge tipo={line.tipo} className="w-fit" />
                         <div className="flex items-center justify-between pt-1">
-                          <div className="flex items-center border border-border">
+                          <div className="flex items-center overflow-hidden rounded-lg border border-border/60">
                             <button
                               onClick={() => setQty(line.boxId, line.cantidad - 1)}
                               disabled={line.cantidad <= 1}
@@ -129,7 +129,7 @@ export function CartSheet() {
               </ul>
             </div>
 
-            <SheetFooter className="border-t border-border">
+            <SheetFooter className="border-t border-border/60">
               <div className="flex items-center justify-between font-mono-technical text-sm">
                 <span className="text-muted-foreground">{dict.cartSheet.subtotal}</span>
                 <span className="font-semibold text-primary">{formatPrice(subtotal)}</span>

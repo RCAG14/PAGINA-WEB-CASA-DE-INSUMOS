@@ -17,7 +17,7 @@ export function BoxTypeBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 border px-2 py-0.5 font-mono-technical text-[10px] font-medium uppercase tracking-wider",
+        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 font-mono-technical text-[10px] font-medium uppercase tracking-wider",
         isSurprise
           ? "border-dashed border-accent text-primary bg-accent/15"
           : "border-primary/30 bg-primary text-primary-foreground",

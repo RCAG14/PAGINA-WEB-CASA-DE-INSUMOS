@@ -13,9 +13,17 @@ export interface ClienteConHistorial {
 
 export async function getClientesConHistorial(): Promise<ClienteConHistorial[]> {
   const clientes = await prisma.cliente.findMany({
-    include: {
+    select: {
+      id: true,
+      nombre: true,
+      email: true,
+      telefono: true,
       pedidos: {
-        include: { detalles: { include: { caja: { select: { nombre: true } } } } },
+        select: {
+          estado: true,
+          total_estimado: true,
+          detalles: { select: { cantidad: true, caja: { select: { nombre: true } } } },
+        },
       },
     },
     orderBy: { creado_en: "desc" },

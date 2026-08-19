@@ -12,9 +12,9 @@ export async function WebDevContact() {
   const [redesSociales, { dict }] = await Promise.all([getRedesSociales(), getDictionary()]);
 
   return (
-    <section className="flex min-h-screen items-center bg-primary text-primary-foreground">
+    <section className="flex min-h-screen items-center bg-sidebar text-sidebar-foreground">
       <ScrollReveal className="mx-auto flex w-full max-w-3xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
-        <span className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground/70">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground/70">
           {dict.webdev.contact.eyebrow}
         </span>
         <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
@@ -25,7 +25,7 @@ export async function WebDevContact() {
           {CONTACT_EMAIL && (
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-accent"
+              className="flex items-center gap-2 text-sm text-sidebar-foreground/80 hover:text-accent"
             >
               <Mail className="size-3.5 shrink-0" strokeWidth={1.5} />
               {CONTACT_EMAIL}
@@ -46,7 +46,7 @@ export async function WebDevContact() {
                   target={esCorreo ? undefined : "_blank"}
                   rel={esCorreo ? undefined : "noopener noreferrer"}
                   aria-label={plataforma?.label ?? r.plataforma}
-                  className="flex items-center gap-1.5 border border-primary-foreground/20 px-2.5 py-1.5 text-xs text-primary-foreground/80 transition-colors hover:border-accent hover:text-accent"
+                  className="flex items-center gap-1.5 rounded-full border border-sidebar-foreground/20 bg-sidebar-foreground/5 px-2.5 py-1.5 text-xs text-sidebar-foreground/80 transition-colors hover:border-accent hover:text-accent"
                 >
                   <Icon className="size-3.5" strokeWidth={1.5} />
                   {plataforma?.label ?? r.plataforma}
@@ -61,13 +61,13 @@ export async function WebDevContact() {
             href={MAPS_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50 hover:text-accent"
+            className="flex items-center justify-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50 hover:text-accent"
           >
             <MapPin className="size-3.5" strokeWidth={1.5} />
             {dict.webdev.contact.locationLabel}
           </a>
           {MAPS_EMBED_URL ? (
-            <div className="h-56 w-full overflow-hidden border border-primary-foreground/15 grayscale-20 sm:h-64">
+            <div className="h-56 w-full overflow-hidden rounded-xl border border-sidebar-foreground/15 grayscale-20 sm:h-64">
               <iframe
                 src={MAPS_EMBED_URL}
                 title="Ubicación de Casa de Insumos"
@@ -77,13 +77,13 @@ export async function WebDevContact() {
               />
             </div>
           ) : (
-            <div className="flex h-32 w-full items-center justify-center border border-dashed border-primary-foreground/20 px-4 text-center font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground/40">
+            <div className="flex h-32 w-full items-center justify-center rounded-xl border border-dashed border-sidebar-foreground/20 px-4 text-center font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/40">
               {dict.webdev.contact.mapPlaceholder}
             </div>
           )}
         </div>
 
-        <p className="mt-2 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground/50">
+        <p className="mt-2 font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50">
           {dict.webdev.contact.copyright}
         </p>
       </ScrollReveal>

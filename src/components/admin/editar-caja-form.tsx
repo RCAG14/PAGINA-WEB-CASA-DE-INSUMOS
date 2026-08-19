@@ -123,17 +123,17 @@ export function EditarCajaForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {error && (
-        <Alert className="border-red-600 bg-red-50">
-          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-red-600">
+        <Alert className="border-destructive/50 bg-destructive/10">
+          <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-destructive">
             No se pudo guardar
           </AlertTitle>
-          <AlertDescription className="text-xs text-red-600">{error}</AlertDescription>
+          <AlertDescription className="text-xs text-destructive">{error}</AlertDescription>
         </Alert>
       )}
 
-      <section className="border border-border">
-        <div className="border-b border-border bg-primary px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+      <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
+        <div className="border-b border-border bg-sidebar px-3 py-2">
+          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
             Datos de la caja
           </p>
         </div>
