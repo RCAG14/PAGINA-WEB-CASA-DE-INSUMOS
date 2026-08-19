@@ -98,7 +98,7 @@ export function RedSocialFormDialog({
                 id="rs-url"
                 type={esCorreo ? "email" : "url"}
                 required
-                placeholder={esCorreo ? "contacto@casadeinsumos.com" : "https://instagram.com/tu_usuario"}
+                placeholder={esCorreo ? "contacto@casainsumos.com" : "https://instagram.com/tu_usuario"}
                 value={values.url}
                 onChange={(e) => setValues((cur) => ({ ...cur, url: e.target.value }))}
               />
