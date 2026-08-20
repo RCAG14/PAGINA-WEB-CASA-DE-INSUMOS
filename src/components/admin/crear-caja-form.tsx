@@ -5,9 +5,11 @@ import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { Plus, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 import { crearCajaAction } from "@/app/admin/cajas/inventario/actions";
 import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
+import { MultiStorageUploader } from "@/components/admin/multi-storage-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -46,6 +48,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
   const [precioVentaCaja, setPrecioVentaCaja] = useState(0);
   const [stockDisponible, setStockDisponible] = useState(0);
 
+  const [incluyeManifiesto, setIncluyeManifiesto] = useState(true);
   const [manifiesto, setManifiesto] = useState("");
   const [origen, setOrigen] = useState("");
   const [centroRetorno, setCentroRetorno] = useState("");
@@ -55,6 +58,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
   const [dimensiones, setDimensiones] = useState("");
 
   const [imagen, setImagen] = useState<StorageAsset | null>(null);
+  const [imagenesReferencia, setImagenesReferencia] = useState<StorageAsset[]>([]);
 
   const [detalle, setDetalle] = useState<DetalleCajaInput[]>([{ ...EMPTY_ROW }]);
 
@@ -62,6 +66,12 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
   const [valorMin, setValorMin] = useState(0);
   const [cantidadMax, setCantidadMax] = useState(1);
   const [valorMax, setValorMax] = useState(0);
+
+  // El "costo por pieza" es lo que le cuesta al revendedor por artículo — se calcula
+  // sobre el precio de venta de la caja (lo que paga el cliente), no sobre el costo
+  // interno de adquisición (ese es solo para los números internos de Casa de Insumos).
+  const costoPorPiezaMin = cantidadMin > 0 ? precioVentaCaja / cantidadMin : null;
+  const costoPorPiezaMax = cantidadMax > 0 ? precioVentaCaja / cantidadMax : null;
 
   const costoAsignadoTotal = useMemo(
     () => detalle.reduce((acc, d) => acc + (Number(d.costoAsignado) || 0), 0),
@@ -109,13 +119,13 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
           tipoVenta,
           descripcionCorta,
           descripcionTecnica,
-          manifiesto,
-          origen,
-          centroRetorno,
-          certificacionAduanera,
-          gradoLiquidacion,
-          pesoBruto,
-          dimensiones,
+          manifiesto: incluyeManifiesto ? manifiesto : null,
+          origen: incluyeManifiesto ? origen : null,
+          centroRetorno: incluyeManifiesto ? centroRetorno : null,
+          certificacionAduanera: incluyeManifiesto ? certificacionAduanera : null,
+          gradoLiquidacion: incluyeManifiesto ? gradoLiquidacion : null,
+          pesoBruto: incluyeManifiesto ? pesoBruto : null,
+          dimensiones: incluyeManifiesto ? dimensiones : null,
           costoTotal,
           precioVentaCaja,
           stockDisponible,
@@ -126,6 +136,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
               : undefined,
           imagenUrl: imagen?.url ?? null,
           imagenPath: imagen?.path ?? null,
+          imagenesReferencia: tipoVenta === "sorpresa" ? imagenesReferencia : undefined,
         });
         router.push("/admin/cajas/inventario");
         router.refresh();
@@ -286,51 +297,68 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
       </section>
 
       <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
-        <div className="border-b border-border bg-sidebar px-3 py-2">
+        <div className="flex items-center justify-between border-b border-border bg-sidebar px-3 py-2">
           <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
             02 — Manifiesto y logística internacional
           </p>
-        </div>
-        <div className="grid gap-4 p-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-manifiesto" className="text-xs">N.º de manifiesto</Label>
-            <Input id="cc-manifiesto" required value={manifiesto} onChange={(e) => setManifiesto(e.target.value)} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-origen" className="text-xs">Origen de la mercancía</Label>
-            <Input id="cc-origen" required value={origen} onChange={(e) => setOrigen(e.target.value)} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-centro" className="text-xs">Centro de retorno</Label>
-            <Input id="cc-centro" required value={centroRetorno} onChange={(e) => setCentroRetorno(e.target.value)} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-aduana" className="text-xs">Certificación de seguridad aduanera</Label>
-            <Input
-              id="cc-aduana"
-              required
-              value={certificacionAduanera}
-              onChange={(e) => setCertificacionAduanera(e.target.value)}
+          <div className="flex items-center gap-2">
+            <Label htmlFor="cc-incluye-manifiesto" className="text-xs text-sidebar-foreground">
+              ¿Incluir manifiesto internacional?
+            </Label>
+            <Switch
+              id="cc-incluye-manifiesto"
+              checked={incluyeManifiesto}
+              onCheckedChange={setIncluyeManifiesto}
             />
           </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-grado" className="text-xs">Grado de liquidación</Label>
-            <Input
-              id="cc-grado"
-              required
-              value={gradoLiquidacion}
-              onChange={(e) => setGradoLiquidacion(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="cc-peso" className="text-xs">Peso bruto</Label>
-            <Input id="cc-peso" required value={pesoBruto} onChange={(e) => setPesoBruto(e.target.value)} />
-          </div>
-          <div className="flex flex-col gap-1.5 sm:col-span-2">
-            <Label htmlFor="cc-dim" className="text-xs">Dimensiones (L x A x H)</Label>
-            <Input id="cc-dim" required value={dimensiones} onChange={(e) => setDimensiones(e.target.value)} />
-          </div>
         </div>
+        {incluyeManifiesto ? (
+          <div className="grid gap-4 p-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-manifiesto" className="text-xs">N.º de manifiesto</Label>
+              <Input id="cc-manifiesto" required value={manifiesto} onChange={(e) => setManifiesto(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-origen" className="text-xs">Origen de la mercancía</Label>
+              <Input id="cc-origen" required value={origen} onChange={(e) => setOrigen(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-centro" className="text-xs">Centro de retorno</Label>
+              <Input id="cc-centro" required value={centroRetorno} onChange={(e) => setCentroRetorno(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-aduana" className="text-xs">Certificación de seguridad aduanera</Label>
+              <Input
+                id="cc-aduana"
+                required
+                value={certificacionAduanera}
+                onChange={(e) => setCertificacionAduanera(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-grado" className="text-xs">Grado de liquidación</Label>
+              <Input
+                id="cc-grado"
+                required
+                value={gradoLiquidacion}
+                onChange={(e) => setGradoLiquidacion(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="cc-peso" className="text-xs">Peso bruto</Label>
+              <Input id="cc-peso" required value={pesoBruto} onChange={(e) => setPesoBruto(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <Label htmlFor="cc-dim" className="text-xs">Dimensiones (L x A x H)</Label>
+              <Input id="cc-dim" required value={dimensiones} onChange={(e) => setDimensiones(e.target.value)} />
+            </div>
+          </div>
+        ) : (
+          <p className="p-4 text-xs text-muted-foreground">
+            Este lote no declarará manifiesto ni logística internacional — la ficha técnica pública
+            no mostrará esta sección.
+          </p>
+        )}
       </section>
 
       {tipoVenta === "listada" ? (
@@ -467,6 +495,21 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   onChange={(e) => setValorMin(Number(e.target.value))}
                 />
               </div>
+              <div className="border border-dashed border-primary/40 bg-background px-3 py-2">
+                <p className="text-xs text-muted-foreground">
+                  Si te llegan <span className="font-semibold text-foreground">{cantidadMin || 0}</span>{" "}
+                  artículos (Cantidad mínima)
+                </p>
+                <p className="font-mono-technical text-sm font-semibold text-primary">
+                  {costoPorPiezaMin !== null
+                    ? `Tu costo máximo por pieza será de ${formatPrice(costoPorPiezaMin)}`
+                    : "Ingresa una cantidad mínima mayor a 0"}
+                </p>
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Calculado sobre el &quot;Precio de venta de la caja&quot; ({formatPrice(precioVentaCaja)})
+                  de la sección 01 — lo que paga el revendedor, no tu costo interno.
+                </p>
+              </div>
             </div>
 
             <div className="flex flex-col gap-3 rounded-lg border border-border/60 p-4">
@@ -497,8 +540,44 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   onChange={(e) => setValorMax(Number(e.target.value))}
                 />
               </div>
+              <div className="border border-dashed border-border bg-background px-3 py-2">
+                <p className="text-xs text-muted-foreground">
+                  Si te llegan <span className="font-semibold text-foreground">{cantidadMax || 0}</span>{" "}
+                  artículos (Cantidad máxima)
+                </p>
+                <p className="font-mono-technical text-sm font-semibold text-foreground">
+                  {costoPorPiezaMax !== null
+                    ? `Tu costo bajará a solo ${formatPrice(costoPorPiezaMax)} por pieza`
+                    : "Ingresa una cantidad máxima mayor a 0"}
+                </p>
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Calculado sobre el &quot;Precio de venta de la caja&quot; ({formatPrice(precioVentaCaja)})
+                  de la sección 01 — lo que paga el revendedor, no tu costo interno.
+                </p>
+              </div>
             </div>
           </div>
+        </section>
+      )}
+
+      {tipoVenta === "sorpresa" && (
+        <section className="border border-border">
+          <div className="border-b border-border bg-primary px-3 py-2">
+            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+              04 — Imágenes de referencia (artículos)
+            </p>
+          </div>
+          <p className="px-4 pt-3 text-xs text-muted-foreground">
+            Fotos reales de artículos similares a los que puede contener esta caja sorpresa —
+            se muestran en la grilla de &quot;Artículos sin revelar&quot; de la vista pública.
+          </p>
+          <MultiStorageUploader
+            folder="casa-de-insumos/productos"
+            max={6}
+            value={imagenesReferencia}
+            onChange={setImagenesReferencia}
+            className="p-4"
+          />
         </section>
       )}
 

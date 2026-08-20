@@ -14,7 +14,10 @@ const ROW_KEYS: (keyof BoxSpecs)[] = [
 
 export async function SpecSheet({ specs }: { specs: BoxSpecs }) {
   const { dict } = await getDictionary();
-  const rows = ROW_KEYS.map((key) => ({ key, label: dict.specSheet.rows[key] }));
+  const rows = ROW_KEYS.filter((key) => key === "skuCaja" || specs[key] !== null).map((key) => ({
+    key,
+    label: dict.specSheet.rows[key],
+  }));
 
   return (
     <div className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">

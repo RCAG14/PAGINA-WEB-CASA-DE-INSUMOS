@@ -6,6 +6,7 @@ import { getPlataformaRedSocial, getRedSocialHref } from "@/lib/redes-sociales";
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
+const MAPS_LINK = "https://maps.app.goo.gl/w8YaHofM24kX5KN97";
 
 export async function WebDevContact() {
   const [redesSociales, { dict }] = await Promise.all([getRedesSociales(), getDictionary()]);
@@ -56,10 +57,15 @@ export async function WebDevContact() {
         )}
 
         <div className="mt-4 flex w-full flex-col gap-3">
-          <p className="flex items-center justify-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50">
+          <a
+            href={MAPS_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50 hover:text-accent"
+          >
             <MapPin className="size-3.5" strokeWidth={1.5} />
             {dict.webdev.contact.locationLabel}
-          </p>
+          </a>
           {MAPS_EMBED_URL ? (
             <div className="h-56 w-full overflow-hidden rounded-xl border border-sidebar-foreground/15 grayscale-20 sm:h-64">
               <iframe

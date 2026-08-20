@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { actualizarCajaAction } from "@/app/admin/cajas/inventario/actions";
 import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
+import { MultiStorageUploader } from "@/components/admin/multi-storage-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -26,11 +28,19 @@ interface CajaEditable {
   clasificacion_id: string;
   tipo_venta: string;
   descripcion_corta: string;
+  manifiesto: string | null;
+  origen: string | null;
+  centro_retorno: string | null;
+  certificacion_aduanera: string | null;
+  grado_liquidacion: string | null;
+  peso_bruto: string | null;
+  dimensiones: string | null;
   costo_total: number;
   precio_venta_caja: number;
   stock_disponible: number;
   imagen_url: string | null;
   imagen_path: string | null;
+  imagenes_referencia: StorageAsset[];
 }
 
 export function EditarCajaForm({
@@ -60,6 +70,19 @@ export function EditarCajaForm({
       : null
   );
 
+  const [incluyeManifiesto, setIncluyeManifiesto] = useState(caja.manifiesto !== null);
+  const [manifiesto, setManifiesto] = useState(caja.manifiesto ?? "");
+  const [origen, setOrigen] = useState(caja.origen ?? "");
+  const [centroRetorno, setCentroRetorno] = useState(caja.centro_retorno ?? "");
+  const [certificacionAduanera, setCertificacionAduanera] = useState(caja.certificacion_aduanera ?? "");
+  const [gradoLiquidacion, setGradoLiquidacion] = useState(caja.grado_liquidacion ?? "");
+  const [pesoBruto, setPesoBruto] = useState(caja.peso_bruto ?? "");
+  const [dimensiones, setDimensiones] = useState(caja.dimensiones ?? "");
+
+  const [imagenesReferencia, setImagenesReferencia] = useState<StorageAsset[]>(
+    caja.imagenes_referencia
+  );
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
@@ -72,11 +95,19 @@ export function EditarCajaForm({
           clasificacionId,
           tipoVenta,
           descripcionCorta,
+          manifiesto: incluyeManifiesto ? manifiesto : null,
+          origen: incluyeManifiesto ? origen : null,
+          centroRetorno: incluyeManifiesto ? centroRetorno : null,
+          certificacionAduanera: incluyeManifiesto ? certificacionAduanera : null,
+          gradoLiquidacion: incluyeManifiesto ? gradoLiquidacion : null,
+          pesoBruto: incluyeManifiesto ? pesoBruto : null,
+          dimensiones: incluyeManifiesto ? dimensiones : null,
           costoTotal,
           precioVentaCaja,
           stockDisponible,
           imagenUrl: imagen?.url ?? null,
           imagenPath: imagen?.path ?? null,
+          imagenesReferencia: tipoVenta === "sorpresa" ? imagenesReferencia : [],
         });
         router.push("/admin/cajas/inventario");
         router.refresh();
@@ -225,9 +256,95 @@ export function EditarCajaForm({
         </div>
       </section>
 
+      <section className="border border-border">
+        <div className="flex items-center justify-between border-b border-border bg-primary px-3 py-2">
+          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+            02 — Manifiesto y logística internacional
+          </p>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="ec-incluye-manifiesto" className="text-xs text-primary-foreground">
+              ¿Incluir manifiesto internacional?
+            </Label>
+            <Switch
+              id="ec-incluye-manifiesto"
+              checked={incluyeManifiesto}
+              onCheckedChange={setIncluyeManifiesto}
+            />
+          </div>
+        </div>
+        {incluyeManifiesto ? (
+          <div className="grid gap-4 p-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-manifiesto" className="text-xs">N.º de manifiesto</Label>
+              <Input id="ec-manifiesto" required value={manifiesto} onChange={(e) => setManifiesto(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-origen" className="text-xs">Origen de la mercancía</Label>
+              <Input id="ec-origen" required value={origen} onChange={(e) => setOrigen(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-centro" className="text-xs">Centro de retorno</Label>
+              <Input id="ec-centro" required value={centroRetorno} onChange={(e) => setCentroRetorno(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-aduana" className="text-xs">Certificación de seguridad aduanera</Label>
+              <Input
+                id="ec-aduana"
+                required
+                value={certificacionAduanera}
+                onChange={(e) => setCertificacionAduanera(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-grado" className="text-xs">Grado de liquidación</Label>
+              <Input
+                id="ec-grado"
+                required
+                value={gradoLiquidacion}
+                onChange={(e) => setGradoLiquidacion(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="ec-peso" className="text-xs">Peso bruto</Label>
+              <Input id="ec-peso" required value={pesoBruto} onChange={(e) => setPesoBruto(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <Label htmlFor="ec-dim" className="text-xs">Dimensiones (L x A x H)</Label>
+              <Input id="ec-dim" required value={dimensiones} onChange={(e) => setDimensiones(e.target.value)} />
+            </div>
+          </div>
+        ) : (
+          <p className="p-4 text-xs text-muted-foreground">
+            Este lote no declara manifiesto ni logística internacional — la ficha técnica pública
+            no muestra esta sección.
+          </p>
+        )}
+      </section>
+
+      {tipoVenta === "sorpresa" && (
+        <section className="border border-border">
+          <div className="border-b border-border bg-primary px-3 py-2">
+            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+              04 — Imágenes de referencia (artículos)
+            </p>
+          </div>
+          <p className="px-4 pt-3 text-xs text-muted-foreground">
+            Fotos reales de artículos similares a los que puede contener esta caja sorpresa —
+            se muestran en la grilla de &quot;Artículos sin revelar&quot; de la vista pública.
+          </p>
+          <MultiStorageUploader
+            folder="casa-de-insumos/productos"
+            max={6}
+            value={imagenesReferencia}
+            onChange={setImagenesReferencia}
+            className="p-4"
+          />
+        </section>
+      )}
+
       <p className="text-xs text-muted-foreground">
-        El manifiesto, la logística y el detalle de productos de esta caja se definen al crearla
-        y no se editan desde este formulario en esta fase.
+        El detalle de productos y el rango de contenido sorpresa de esta caja se definen al
+        crearla y no se editan desde este formulario en esta fase.
       </p>
 
       <div className="flex justify-end">
