@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { LandingScreen } from "@/components/site/landing-screen";
 import { VisitTracker } from "@/components/site/visit-tracker";
+import { OrganizationJsonLd } from "@/components/site/organization-jsonld";
+import { getLogo } from "@/lib/data/landing";
+import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
 
 export const dynamic = "force-dynamic";
 
@@ -37,9 +40,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PortalPage() {
+export default async function PortalPage() {
+  const [logo, whatsappNumero, redesSociales] = await Promise.all([
+    getLogo(),
+    getNumeroWhatsappPrincipal(),
+    getRedesSociales(),
+  ]);
+
   return (
     <>
+      <OrganizationJsonLd
+        logoUrl={logo?.url}
+        telefono={whatsappNumero}
+        redesSociales={redesSociales}
+      />
       <VisitTracker />
       <LandingScreen />
     </>
