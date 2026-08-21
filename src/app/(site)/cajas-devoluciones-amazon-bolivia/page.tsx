@@ -12,15 +12,15 @@ import { getDictionary } from "@/lib/i18n/locale";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Catálogo de Cajas de Retorno de Amazon",
+  title: "Cajas de Devoluciones de Amazon en Bolivia",
   description:
-    "Explora nuestro catálogo de cajas de retorno de Amazon: lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera y valor retail estimado.",
-  alternates: { canonical: "/catalogo" },
+    "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado y certificación aduanera. Cajas de retorno por lote o sorpresa. Ve el catálogo.",
+  alternates: { canonical: "/cajas-devoluciones-amazon-bolivia" },
   openGraph: {
-    title: "Catálogo de Cajas de Retorno de Amazon | Casa de Insumos",
+    title: "Cajas de Devoluciones de Amazon en Bolivia | Casa Insumos",
     description:
-      "Lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera documentada.",
-    url: "/catalogo",
+      "Lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera documentada en Bolivia.",
+    url: "/cajas-devoluciones-amazon-bolivia",
     type: "website",
   },
 };

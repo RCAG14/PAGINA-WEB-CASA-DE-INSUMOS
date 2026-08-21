@@ -23,7 +23,7 @@ function textoIntro(tipo: TipoDocumentoPedido, codigoPedido: string) {
 function textoCierre(tipo: TipoDocumentoPedido) {
   return tipo === "cotizacion"
     ? `Para confirmar tu pedido, envíanos el comprobante de pago por WhatsApp al ${EMPRESA_TELEFONO} indicando tu número de pedido. ¡Gracias por confiar en nosotros!`
-    : `¡Gracias por tu compra y por confiar en CASA DE INSUMOS! Si tienes alguna consulta, puedes escribirnos al WhatsApp ${EMPRESA_TELEFONO}.`;
+    : `¡Gracias por tu compra y por confiar en CASA INSUMOS! Si tienes alguna consulta, puedes escribirnos al WhatsApp ${EMPRESA_TELEFONO}.`;
 }
 
 export function construirHtmlDocumento(
@@ -42,7 +42,7 @@ export function construirHtmlDocumento(
     .join("");
 
   const logoHtml = data.logoUrl
-    ? `<img src="${escapeHtml(data.logoUrl)}" alt="Casa de Insumos" width="48" height="48" style="display:block;margin:0 auto;border-radius:50%;object-fit:contain;" />`
+    ? `<img src="${escapeHtml(data.logoUrl)}" alt="Casa Insumos" width="48" height="48" style="display:block;margin:0 auto;border-radius:50%;object-fit:contain;" />`
     : "";
 
   return `
@@ -50,7 +50,7 @@ export function construirHtmlDocumento(
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:16px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
     <div style="text-align:center;margin-bottom:24px;">
       ${logoHtml}
-      <h1 style="margin:12px 0 4px;color:#1E3A2F;font-size:22px;letter-spacing:1px;">CASA DE INSUMOS</h1>
+      <h1 style="margin:12px 0 4px;color:#1E3A2F;font-size:22px;letter-spacing:1px;">CASA INSUMOS</h1>
       <p style="margin:0;color:#8C6D46;font-size:12px;">${EMPRESA_DIRECCION} · Tel: ${EMPRESA_TELEFONO}</p>
     </div>
 
@@ -82,7 +82,7 @@ export function construirHtmlDocumento(
   </div>
 
   <p style="text-align:center;color:#8a8a8a;font-size:11px;margin-top:20px;">
-    CASA DE INSUMOS · La Paz, Bolivia
+    CASA INSUMOS · La Paz, Bolivia
   </p>
 </div>`;
 }

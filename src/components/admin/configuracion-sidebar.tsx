@@ -49,14 +49,14 @@ export function ConfiguracionSidebar({ logoUrl }: { logoUrl?: string | null }) {
             )}
           >
             {logoUrl ? (
-              <Image src={logoUrl} alt="Casa de Insumos" fill sizes="32px" className="object-contain p-0.5" />
+              <Image src={logoUrl} alt="Casa Insumos" fill sizes="32px" className="object-contain p-0.5" />
             ) : (
               <Square className="size-4" strokeWidth={2.5} />
             )}
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
             <span className="font-heading text-xs font-bold uppercase tracking-wide text-sidebar-foreground">
-              Casa de Insumos
+              Casa Insumos
             </span>
             <span className="font-mono-technical text-[9px] uppercase tracking-wider text-sidebar-foreground/50">
               Configuración Global

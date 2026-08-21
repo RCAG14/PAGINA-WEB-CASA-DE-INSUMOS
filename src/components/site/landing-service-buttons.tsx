@@ -4,7 +4,12 @@ import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getDictionary } from "@/lib/i18n/locale";
 
 const ICONS = [Boxes, Calculator, Globe2, MonitorCog];
-const HREFS: (string | undefined)[] = ["/catalogo", undefined, undefined, "/desarrollo-web"];
+const HREFS: (string | undefined)[] = [
+  "/cajas-devoluciones-amazon-bolivia",
+  undefined,
+  undefined,
+  "/desarrollo-web",
+];
 
 export async function LandingServiceButtons() {
   const { dict } = await getDictionary();

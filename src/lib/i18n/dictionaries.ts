@@ -20,16 +20,16 @@ const es = {
     servicesLink: "Servicios",
     cartLink: "Carrito",
     adminLink: "Panel administrador",
-    locationTitle: "Encuéntranos en Casa de Insumos",
+    locationTitle: "Encuéntranos en Casa Insumos",
     mapPlaceholder: "Mapa de ubicación próximamente",
-    copyright: "© 2026 Casa de Insumos. Todos los derechos reservados.",
+    copyright: "© 2026 Casa Insumos. Todos los derechos reservados.",
   },
   hero: {
     badge: "Cajas de retorno de Amazon · Liquidación por lote · Ed. 2026",
     title:
-      "Cajas de retorno de Amazon con potencial de electrónica, joyería y artículos de alto valor a precio de liquidación.",
+      "Cajas de devoluciones de Amazon en Bolivia con potencial de electrónica, joyería y artículos de alto valor a precio de liquidación.",
     description:
-      "Compra por lote con manifiesto verificado o arriesga con una caja sorpresa de mayor margen. Cada ficha técnica documenta origen, certificación aduanera y valor retail estimado para que calcules tu rentabilidad de reventa antes de comprar.",
+      "Compra cajas de devoluciones de Amazon en Bolivia por lote, con manifiesto verificado, o arriesga con una caja sorpresa de mayor margen. Cada ficha técnica documenta origen, certificación aduanera y valor retail estimado para que calcules tu rentabilidad de reventa antes de comprar.",
     ctaCatalog: "Ver catálogo",
     ctaHowItWorks: "Cómo funciona",
     stats: [
@@ -50,7 +50,7 @@ const es = {
     eyebrow: "00 — Sobre nosotros",
     title: "Expertos en el modelo de catálogo y liquidación",
     description:
-      "Casa de Insumos conecta centros de retorno de Amazon en Europa y Reino Unido con revendedores e importadores. Documentamos cada lote con manifiesto técnico, certificación aduanera y valor retail estimado, para que compres con datos, no con incertidumbre.",
+      "Casa Insumos conecta centros de retorno de Amazon en Europa y Reino Unido con revendedores e importadores en Bolivia. Documentamos cada lote de cajas de devoluciones con manifiesto técnico, certificación aduanera y valor retail estimado, para que compres con datos, no con incertidumbre.",
     uploadPlaceholder: "Sube una imagen desde el panel administrador",
     values: [
       {
@@ -84,7 +84,7 @@ const es = {
       {
         titulo: "Cajas de Retorno",
         descripcion:
-          "Lotes de retorno de Amazon en modalidad sorpresa o listada, con manifiesto verificable y ficha técnica de origen para calcular tu margen antes de comprar.",
+          "Cajas de devoluciones de Amazon en Bolivia, en modalidad sorpresa o listada, con manifiesto verificable y ficha técnica de origen para calcular tu margen antes de comprar.",
         tag: "Catálogo disponible",
         cta: "Ver catálogo",
       },
@@ -134,7 +134,7 @@ const es = {
   },
   catalogPage: {
     eyebrow: "02 — Catálogo",
-    title: "Cajas de retorno disponibles",
+    title: "Cajas de devoluciones disponibles en Bolivia",
     description:
       "Filtra por tipo de caja y clasificación. Las cajas listadas muestran el manifiesto técnico exacto del contenido; las cajas sorpresa confirman solo la clasificación general, con mayor potencial de margen.",
   },
@@ -260,7 +260,7 @@ const es = {
       direccionPlaceholder: "Calle, número, zona",
     },
     section2Title: "02 — Pago y envío",
-    paymentInfo1: "No procesamos pagos en línea. El pago y el envío se coordinan directamente por WhatsApp con el equipo de Casa de Insumos.",
+    paymentInfo1: "No procesamos pagos en línea. El pago y el envío se coordinan directamente por WhatsApp con el equipo de Casa Insumos.",
     paymentInfo2Pre: "Ahí mismo te enviaremos el",
     paymentInfo2Bold: "código QR",
     paymentInfo2Post: "para realizar el pago una vez acordado el método y el envío.",
@@ -283,7 +283,7 @@ const es = {
   homeLanding: {
     tagline: "Distribución técnica por caja",
     description:
-      "Cajas de retorno de Amazon, cotizaciones, importaciones y desarrollo web a medida para revendedores e importadores.",
+      "Cajas de devoluciones de Amazon en Bolivia, cotizaciones, importaciones y desarrollo web en Bolivia a medida para revendedores e importadores.",
     servicesEyebrow: "Nuestros servicios",
     servicesTitle: "Elegí lo que necesitás",
     scrollToServices: "Servicios",
@@ -293,7 +293,8 @@ const es = {
     items: [
       {
         titulo: "Catálogo de Cajas de Retorno",
-        descripcion: "Lotes de retorno de Amazon en modalidad sorpresa o listada, con manifiesto verificable.",
+        descripcion:
+          "Cajas de devoluciones de Amazon en Bolivia por lote, en modalidad sorpresa o listada, con manifiesto verificable.",
         cta: "Ver catálogo",
       },
       {
@@ -306,19 +307,20 @@ const es = {
       },
       {
         titulo: "Desarrollo Web a Medida",
-        descripcion: "Sitios web, sistemas, dashboards y chatbots a medida para cualquier negocio.",
+        descripcion:
+          "Sitios web, sistemas, dashboards y chatbots — desarrollo web en Bolivia a medida para cualquier negocio.",
         cta: "Ver paquetes",
       },
     ],
     comingSoon: "Próximamente",
   },
   webdev: {
-    backHome: "← Casa de Insumos",
+    backHome: "← Casa Insumos",
     hero: {
-      eyebrow: "Desarrollo Web a Medida",
-      title: "Plataformas propias para revendedores y negocios de liquidación",
+      eyebrow: "Desarrollo Web en Bolivia",
+      title: "Desarrollo web en Bolivia: plataformas propias para revendedores y negocios de liquidación",
       description:
-        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas — a medida para cualquier tipo de negocio, no solo para el rubro de liquidación.",
+        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas — desarrollo web en Bolivia a medida para cualquier tipo de negocio, no solo para el rubro de liquidación.",
       ctaPricing: "Ver paquetes",
       ctaTypes: "Qué desarrollamos",
     },
@@ -364,9 +366,9 @@ const es = {
     contact: {
       eyebrow: "Contacto",
       title: "Contanos tu proyecto",
-      locationLabel: "Encuéntranos en Casa de Insumos",
+      locationLabel: "Encuéntranos en Casa Insumos",
       mapPlaceholder: "Mapa de ubicación próximamente",
-      copyright: "© 2026 Casa de Insumos",
+      copyright: "© 2026 Casa Insumos",
     },
   },
   auth: {
@@ -412,9 +414,9 @@ const en: typeof es = {
     servicesLink: "Services",
     cartLink: "Cart",
     adminLink: "Admin panel",
-    locationTitle: "Find us at Casa de Insumos",
+    locationTitle: "Find us at Casa Insumos",
     mapPlaceholder: "Location map coming soon",
-    copyright: "© 2026 Casa de Insumos. All rights reserved.",
+    copyright: "© 2026 Casa Insumos. All rights reserved.",
   },
   hero: {
     badge: "Amazon return boxes · Liquidation by lot · 2026 Ed.",
@@ -442,7 +444,7 @@ const en: typeof es = {
     eyebrow: "00 — About us",
     title: "Experts in the catalog and liquidation model",
     description:
-      "Casa de Insumos connects Amazon return centers in Europe and the UK with resellers and importers. We document every lot with a technical manifest, customs certification and estimated retail value, so you buy with data, not uncertainty.",
+      "Casa Insumos connects Amazon return centers in Europe and the UK with resellers and importers. We document every lot with a technical manifest, customs certification and estimated retail value, so you buy with data, not uncertainty.",
     uploadPlaceholder: "Upload an image from the admin panel",
     values: [
       {
@@ -652,7 +654,7 @@ const en: typeof es = {
       direccionPlaceholder: "Street, number, area",
     },
     section2Title: "02 — Payment and shipping",
-    paymentInfo1: "We don't process online payments. Payment and shipping are coordinated directly via WhatsApp with the Casa de Insumos team.",
+    paymentInfo1: "We don't process online payments. Payment and shipping are coordinated directly via WhatsApp with the Casa Insumos team.",
     paymentInfo2Pre: "We'll send you the",
     paymentInfo2Bold: "QR code",
     paymentInfo2Post: "there to make the payment once the method and shipping are agreed on.",
@@ -705,7 +707,7 @@ const en: typeof es = {
     comingSoon: "Coming soon",
   },
   webdev: {
-    backHome: "← Casa de Insumos",
+    backHome: "← Casa Insumos",
     hero: {
       eyebrow: "Custom Web Development",
       title: "Your own platforms for resellers and liquidation businesses",
@@ -756,9 +758,9 @@ const en: typeof es = {
     contact: {
       eyebrow: "Contact",
       title: "Tell us about your project",
-      locationLabel: "Find us at Casa de Insumos",
+      locationLabel: "Find us at Casa Insumos",
       mapPlaceholder: "Location map coming soon",
-      copyright: "© 2026 Casa de Insumos",
+      copyright: "© 2026 Casa Insumos",
     },
   },
   auth: {

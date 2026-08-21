@@ -59,7 +59,7 @@ export async function construirPdfDocumento(
 
   doc.setFontSize(16);
   doc.setTextColor(...VERDE_MARCA);
-  doc.text("CASA DE INSUMOS", margenIzq, 18);
+  doc.text("CASA INSUMOS", margenIzq, 18);
 
   doc.setFontSize(9);
   doc.setTextColor(120);

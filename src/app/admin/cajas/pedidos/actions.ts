@@ -10,6 +10,6 @@ export async function actualizarEstadoPedidoAction(id: string, nuevoEstado: Orde
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/admin/cajas");
   revalidatePath("/admin");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
   revalidatePath("/");
 }

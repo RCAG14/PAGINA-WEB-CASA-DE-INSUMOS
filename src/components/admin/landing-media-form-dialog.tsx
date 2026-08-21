@@ -162,7 +162,7 @@ export function LandingMediaFormDialog({
                   <div className="flex gap-1.5">
                     <Input
                       id="cl-enlace-cta"
-                      placeholder="/catalogo"
+                      placeholder="/cajas-devoluciones-amazon-bolivia"
                       value={values.enlaceCta}
                       onChange={(e) =>
                         setValues((cur) => ({ ...cur, enlaceCta: e.target.value }))

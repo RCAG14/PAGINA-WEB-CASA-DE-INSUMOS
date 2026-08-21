@@ -15,7 +15,7 @@ import {
 function revalidarTodo() {
   revalidatePath("/admin/configuracion/contacto");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
   revalidatePath("/checkout");
 }
 

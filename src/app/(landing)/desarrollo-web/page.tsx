@@ -13,14 +13,14 @@ import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Desarrollo Web a Medida",
+  title: { absolute: "Desarrollo Web en Bolivia a Medida | Casa Insumos" },
   description:
-    "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas a medida para cualquier tipo de negocio. Paquetes Básico, Estándar y Premium.",
+    "Desarrollo web en Bolivia: sitios, sistemas, dashboards y chatbots a medida para cualquier negocio. Paquetes Básico, Estándar y Premium. Cotiza por WhatsApp.",
   alternates: { canonical: "/desarrollo-web" },
   openGraph: {
-    title: "Desarrollo Web a Medida | Casa de Insumos",
+    title: "Desarrollo Web en Bolivia a Medida | Casa Insumos",
     description:
-      "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas a medida para cualquier tipo de negocio.",
+      "Sitios web, sistemas, dashboards y chatbots a medida — desarrollo web en Bolivia para cualquier tipo de negocio.",
     url: "/desarrollo-web",
     type: "website",
   },

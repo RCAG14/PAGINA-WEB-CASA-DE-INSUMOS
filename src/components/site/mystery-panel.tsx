@@ -76,7 +76,13 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
                   key={i}
                   className="relative aspect-square overflow-hidden rounded-lg border border-accent/70 bg-background"
                 >
-                  <Image src={url} alt="" fill sizes="120px" className="object-cover" />
+                  <Image
+                    src={url}
+                    alt={`Artículo de referencia ${i + 1} — ejemplo de producto en caja sorpresa de devoluciones de Amazon en Bolivia`}
+                    fill
+                    sizes="120px"
+                    className="object-cover"
+                  />
                 </div>
               ) : (
                 <div

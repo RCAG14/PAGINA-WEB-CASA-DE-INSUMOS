@@ -31,7 +31,7 @@ export async function SiteFooter() {
               <Square className="size-3.5" strokeWidth={2.5} />
             </span>
             <span className="font-heading text-sm font-bold uppercase tracking-wide">
-              Casa de Insumos
+              Casa Insumos
             </span>
           </div>
           <p className="max-w-sm text-sm text-sidebar-foreground/70">{dict.footer.description}</p>
@@ -66,7 +66,7 @@ export async function SiteFooter() {
           {classifications.map((c) => (
             <Link
               key={c.slug}
-              href={`/catalogo#catalogo`}
+              href={`/cajas-devoluciones-amazon-bolivia#catalogo`}
               className="text-sm text-sidebar-foreground/80 hover:text-accent"
             >
               {c.label}
@@ -89,7 +89,7 @@ export async function SiteFooter() {
             </a>
           )}
 
-          <Link href="/catalogo#servicios" className="text-sm text-sidebar-foreground/80 hover:text-accent">
+          <Link href="/cajas-devoluciones-amazon-bolivia#servicios" className="text-sm text-sidebar-foreground/80 hover:text-accent">
             {dict.footer.servicesLink}
           </Link>
           <Link href="/carrito" className="text-sm text-sidebar-foreground/80 hover:text-accent">
@@ -118,7 +118,7 @@ export async function SiteFooter() {
             <div className="h-56 w-full overflow-hidden rounded-xl border border-sidebar-foreground/15 grayscale-20 sm:h-64">
               <iframe
                 src={MAPS_EMBED_URL}
-                title="Ubicación de Casa de Insumos"
+                title="Ubicación de Casa Insumos"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full border-0"
@@ -141,7 +141,7 @@ export async function SiteFooter() {
             <span className="flex shrink-0 items-center rounded-lg bg-sidebar-foreground/95 px-2.5 py-1.5">
               <Image
                 src={logo.url}
-                alt="Casa de Insumos"
+                alt="Casa Insumos"
                 width={140}
                 height={28}
                 className="h-6 w-auto object-contain sm:h-7"

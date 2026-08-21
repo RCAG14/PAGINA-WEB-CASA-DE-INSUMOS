@@ -51,7 +51,7 @@ const LOGO_SECTION: SectionConfig = {
   sitio: "cajas",
   titulo: "Logo de la empresa",
   descripcion:
-    'Reemplaza el ícono cuadrado junto a "Casa de Insumos" en el header, y aparece también en el pie de página, en la ficha de producto, el carrito y el checkout. Es el mismo logo para ambos negocios.',
+    'Reemplaza el ícono cuadrado junto a "Casa Insumos" en el header, y aparece también en el pie de página, en la ficha de producto, el carrito y el checkout. Es el mismo logo para ambos negocios.',
   formato: "imagen",
   folder: "casa-de-insumos/landing/logo",
   withCta: false,

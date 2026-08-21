@@ -16,7 +16,7 @@ export async function AboutSection() {
           {aboutImagen ? (
             <Image
               src={aboutImagen.url}
-              alt={aboutImagen.titulo ?? "Casa de Insumos"}
+              alt={aboutImagen.titulo ?? "Casa Insumos"}
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover"

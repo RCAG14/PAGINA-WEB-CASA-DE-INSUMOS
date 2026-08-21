@@ -21,7 +21,7 @@ export async function actualizarCajaAction(id: string, input: ActualizarCajaInpu
   await actualizarCajaCore(id, input);
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }
 
 export async function eliminarCajaAction(id: string) {
@@ -29,5 +29,5 @@ export async function eliminarCajaAction(id: string) {
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/admin/cajas");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }

@@ -19,7 +19,7 @@ function LetterheadLogo({ url }: { url: string | null }) {
     <span className="absolute right-4 top-6 flex items-center rounded-lg bg-sidebar-foreground/95 px-2 py-1.5 shadow-elevation-sm sm:right-6">
       <Image
         src={url}
-        alt="Casa de Insumos"
+        alt="Casa Insumos"
         width={160}
         height={40}
         className="h-8 w-auto object-contain sm:h-10"
@@ -40,7 +40,7 @@ export default function CartPage() {
         <ShoppingCart className="size-10 text-muted-foreground" strokeWidth={1.2} />
         <h1 className="font-heading text-xl font-semibold">{dict.cartPage.emptyTitle}</h1>
         <p className="text-sm text-muted-foreground">{dict.cartPage.emptyDesc}</p>
-        <Link href="/catalogo" className={buttonVariants({})}>
+        <Link href="/cajas-devoluciones-amazon-bolivia" className={buttonVariants({})}>
           {dict.cartPage.viewCatalog}
         </Link>
       </div>
@@ -154,7 +154,7 @@ export default function CartPage() {
             <ArrowRight className="size-4" />
           </Button>
           <Link
-            href="/catalogo"
+            href="/cajas-devoluciones-amazon-bolivia"
             className="text-center font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
           >
             {dict.cartPage.continueBrowsing}

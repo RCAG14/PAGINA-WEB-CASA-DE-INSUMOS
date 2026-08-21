@@ -12,7 +12,7 @@ import {
 function revalidarTodo() {
   revalidatePath("/admin/configuracion/landing");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }
 
 export async function crearContenidoLandingAction(input: ContenidoLandingInput) {

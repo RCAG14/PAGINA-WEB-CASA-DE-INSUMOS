@@ -48,7 +48,7 @@ export function BoxVisual({ box, className, iconClassName }: BoxVisualProps) {
       {box.imagenUrl ? (
         <Image
           src={box.imagenUrl}
-          alt={`${box.nombre} — ${box.clasificacion.label}`}
+          alt={`${box.nombre} — caja de devoluciones de Amazon en Bolivia, categoría ${box.clasificacion.label}`}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover"

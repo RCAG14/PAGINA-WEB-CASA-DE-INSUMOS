@@ -9,7 +9,7 @@ export function FloatingLogo({ url }: { url: string | null }) {
       <div className="rounded-xl border border-border/60 bg-sidebar-foreground/95 p-2 shadow-elevation-md">
         <Image
           src={url}
-          alt="Casa de Insumos"
+          alt="Casa Insumos"
           width={64}
           height={64}
           className="h-10 w-10 object-contain lg:h-14 lg:w-14"

@@ -6,33 +6,34 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Casa de Insumos | Cajas de Retorno, Importación y Desarrollo Web",
+    absolute: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
   },
   description:
-    "Casa de Insumos: distribución técnica de cajas de retorno de Amazon con manifiesto verificado, cotización de importaciones y desarrollo web a medida para revendedores e importadores.",
+    "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado, cotización de importaciones y desarrollo web en Bolivia a medida. Cotiza ahora.",
   keywords: [
+    "cajas devoluciones en Bolivia",
     "cajas de retorno Amazon",
+    "desarrollo web en Bolivia",
     "liquidación por lote",
     "importación de mercancía",
     "cotización de importaciones",
-    "desarrollo web a medida",
-    "Casa de Insumos",
+    "Casa Insumos",
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Casa de Insumos | Cajas de Retorno, Importación y Desarrollo Web",
+    title: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
     description:
-      "Distribución técnica de cajas de retorno de Amazon, cotización de importaciones y desarrollo web a medida.",
+      "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
     url: "/",
-    siteName: "Casa de Insumos",
+    siteName: "Casa Insumos",
     locale: "es_ES",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Casa de Insumos | Cajas de Retorno, Importación y Desarrollo Web",
+    title: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
     description:
-      "Distribución técnica de cajas de retorno de Amazon, cotización de importaciones y desarrollo web a medida.",
+      "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
   },
 };
 

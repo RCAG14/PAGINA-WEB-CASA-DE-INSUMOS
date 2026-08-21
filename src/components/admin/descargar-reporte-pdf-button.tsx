@@ -29,7 +29,7 @@ export function DescargarReportePdfButton({ data }: { data: ReporteSocioData }) 
       const doc = new JsPDF();
 
       doc.setFontSize(16);
-      doc.text("Casa de Insumos — Reporte de Socio", 14, 18);
+      doc.text("Casa Insumos — Reporte de Socio", 14, 18);
       doc.setFontSize(10);
       doc.setTextColor(120);
       doc.text(`Generado: ${new Date().toLocaleString("es-BO")}`, 14, 24);

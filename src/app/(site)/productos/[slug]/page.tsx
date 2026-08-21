@@ -50,7 +50,7 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink render={<Link href="/catalogo" />}>
+            <BreadcrumbLink render={<Link href="/cajas-devoluciones-amazon-bolivia" />}>
               {box.clasificacion.label}
             </BreadcrumbLink>
           </BreadcrumbItem>

@@ -70,7 +70,7 @@ export async function LandingScreen() {
             {logo ? (
               <Image
                 src={logo.url}
-                alt="Casa de Insumos"
+                alt="Casa Insumos"
                 fill
                 sizes="64px"
                 className="object-contain p-1.5"
@@ -81,7 +81,7 @@ export async function LandingScreen() {
           </span>
 
           <h1 className="font-heading text-4xl font-bold uppercase tracking-wide text-sidebar-foreground sm:text-5xl">
-            Casa de Insumos
+            Casa Insumos
           </h1>
           <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground/70 sm:text-sm">
             {dict.homeLanding.tagline}
@@ -118,7 +118,7 @@ export async function LandingScreen() {
       <footer className="shrink-0 snap-start bg-sidebar text-sidebar-foreground">
         <ScrollReveal className="mx-auto flex max-w-4xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
           <span className="font-heading text-sm font-bold uppercase tracking-wide">
-            Casa de Insumos
+            Casa Insumos
           </span>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -155,7 +155,7 @@ export async function LandingScreen() {
           )}
 
           <p className="font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/50">
-            © 2026 Casa de Insumos
+            © 2026 Casa Insumos
           </p>
         </ScrollReveal>
       </footer>

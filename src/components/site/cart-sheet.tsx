@@ -56,7 +56,7 @@ export function CartSheet() {
             <SheetClose
               render={
                 <Link
-                  href="/catalogo"
+                  href="/cajas-devoluciones-amazon-bolivia"
                   className={buttonVariants({ variant: "secondary", size: "sm" })}
                 />
               }

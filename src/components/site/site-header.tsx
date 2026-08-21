@@ -21,13 +21,13 @@ export function SiteHeader({ session }: { session: AccountNavSession | null }) {
 
   // El catálogo integra su propio volver + carrito directamente sobre el
   // hero (ver hero-section.tsx), sin navbar completo ni opción de login.
-  if (pathname === "/catalogo") {
+  if (pathname === "/cajas-devoluciones-amazon-bolivia") {
     return null;
   }
 
   const navLinks = [
-    { href: "/catalogo#catalogo", label: dict.header.navCatalog },
-    { href: "/catalogo#como-funciona", label: dict.header.navHowItWorks },
+    { href: "/cajas-devoluciones-amazon-bolivia#catalogo", label: dict.header.navCatalog },
+    { href: "/cajas-devoluciones-amazon-bolivia#como-funciona", label: dict.header.navHowItWorks },
   ];
 
   return (
@@ -48,7 +48,7 @@ export function SiteHeader({ session }: { session: AccountNavSession | null }) {
             {logoUrl ? (
               <Image
                 src={logoUrl}
-                alt="Casa de Insumos"
+                alt="Casa Insumos"
                 fill
                 sizes="32px"
                 className="object-contain p-0.5"
@@ -59,7 +59,7 @@ export function SiteHeader({ session }: { session: AccountNavSession | null }) {
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-heading text-sm font-bold uppercase tracking-wide text-foreground">
-              Casa de Insumos
+              Casa Insumos
             </span>
             <span className="font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground">
               {dict.header.tagline}

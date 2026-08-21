@@ -22,7 +22,7 @@ export function LoginForm({ next }: { next?: string }) {
           </span>
           <div>
             <p className="font-heading text-base font-bold uppercase tracking-wide">
-              Casa de Insumos
+              Casa Insumos
             </p>
             <p className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
               Acceso al panel administrador

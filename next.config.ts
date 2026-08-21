@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/catalogo",
+        destination: "/cajas-devoluciones-amazon-bolivia",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

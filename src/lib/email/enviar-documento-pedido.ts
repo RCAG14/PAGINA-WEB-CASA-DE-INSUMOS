@@ -5,7 +5,7 @@ import { construirPdfDocumento } from "@/lib/email/pdf-documento-pedido";
 
 export type { TipoDocumentoPedido };
 
-const DEFAULT_FROM = "Casa de Insumos <onboarding@resend.dev>";
+const DEFAULT_FROM = "Casa Insumos <onboarding@resend.dev>";
 
 const ASUNTO: Record<TipoDocumentoPedido, string> = {
   cotizacion: "Cotización de tu pedido",
@@ -48,7 +48,7 @@ export async function enviarDocumentoPedido(
     const { error } = await resend.emails.send({
       from: process.env.EMAIL_FROM || DEFAULT_FROM,
       to: datos.clienteEmail,
-      subject: `${ASUNTO[tipo]} Nº ${datos.codigoPedido} — Casa de Insumos`,
+      subject: `${ASUNTO[tipo]} Nº ${datos.codigoPedido} — Casa Insumos`,
       html,
       attachments: [
         {

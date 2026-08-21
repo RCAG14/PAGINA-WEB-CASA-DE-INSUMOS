@@ -70,7 +70,7 @@ export async function WebDevContact() {
             <div className="h-56 w-full overflow-hidden rounded-xl border border-sidebar-foreground/15 grayscale-20 sm:h-64">
               <iframe
                 src={MAPS_EMBED_URL}
-                title="Ubicación de Casa de Insumos"
+                title="Ubicación de Casa Insumos"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full border-0"

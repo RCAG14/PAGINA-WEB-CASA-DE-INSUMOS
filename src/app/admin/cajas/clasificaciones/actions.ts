@@ -13,7 +13,7 @@ export async function crearClasificacionAction(input: Omit<ClasificacionInput, "
   await crearClasificacion({ ...input, slug: slugify(input.nombre) });
   revalidatePath("/admin/cajas/clasificaciones");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }
 
 export async function actualizarClasificacionAction(
@@ -23,12 +23,12 @@ export async function actualizarClasificacionAction(
   await actualizarClasificacion(id, input);
   revalidatePath("/admin/cajas/clasificaciones");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }
 
 export async function eliminarClasificacionAction(id: string) {
   await eliminarClasificacion(id);
   revalidatePath("/admin/cajas/clasificaciones");
   revalidatePath("/");
-  revalidatePath("/catalogo");
+  revalidatePath("/cajas-devoluciones-amazon-bolivia");
 }

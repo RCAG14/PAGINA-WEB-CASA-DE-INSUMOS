@@ -112,7 +112,7 @@ export function CheckoutForm({ whatsappNumero }: { whatsappNumero: string | null
       <div className="mx-auto flex max-w-xl flex-col items-center gap-4 px-4 py-24 text-center">
         <h1 className="font-heading text-xl font-semibold">{dict.checkout.emptyCartTitle}</h1>
         <p className="text-sm text-muted-foreground">{dict.checkout.emptyCartDesc}</p>
-        <Link href="/catalogo" className={buttonVariants({})}>
+        <Link href="/cajas-devoluciones-amazon-bolivia" className={buttonVariants({})}>
           {dict.checkout.viewCatalog}
         </Link>
       </div>
