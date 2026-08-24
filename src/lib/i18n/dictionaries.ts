@@ -122,6 +122,7 @@ const es = {
     featuredBadge: "Destacada",
   },
   productPage: {
+    backToCatalog: "Volver al catálogo",
     breadcrumbHome: "Inicio",
     representationNote: "Representación esquemática del contenido — no es fotografía real del producto.",
     reviewsSuffix: "reseñas verificadas",
@@ -496,6 +497,7 @@ const en: typeof es = {
     featuredBadge: "Featured",
   },
   productPage: {
+    backToCatalog: "Back to catalog",
     breadcrumbHome: "Home",
     representationNote: "Schematic representation of the content — not an actual photo of the product.",
     reviewsSuffix: "verified reviews",

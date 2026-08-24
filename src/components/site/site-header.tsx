@@ -17,8 +17,9 @@ export function SiteHeader({ session }: { session: AccountNavSession | null }) {
   const logoUrl = useLogo();
   const { dict } = useI18n();
 
-  // El catálogo de cajas tiene su propio CatalogHeader (sin opción de login).
-  if (pathname === "/cajas-devoluciones-amazon-bolivia") {
+  // El catálogo de cajas y la ficha de producto usan su propio CatalogHeader
+  // (sin opción de login), para no cambiar la navegación al entrar/salir de un producto.
+  if (pathname === "/cajas-devoluciones-amazon-bolivia" || pathname.startsWith("/productos/")) {
     return null;
   }
 
