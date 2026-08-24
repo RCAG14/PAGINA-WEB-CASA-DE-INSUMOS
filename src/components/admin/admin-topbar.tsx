@@ -1,7 +1,6 @@
 import { Bell, LogOut } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,8 +48,6 @@ export async function AdminTopbar({
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        <ThemeToggle />
-
         <button
           className="relative flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
           aria-label="Notificaciones"

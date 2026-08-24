@@ -22,6 +22,7 @@ const EMPTY_VALUES: PaqueteDesarrolloInput = {
   nombre: "",
   tagline: "",
   precio: 0,
+  mantenimientoMensual: null,
   features: [],
   destacado: false,
   activo: true,
@@ -118,6 +119,29 @@ export function PaqueteFormDialog({
                   setValues((cur) => ({ ...cur, precio: Number(e.target.value) }))
                 }
               />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="pd-mantenimiento" className="text-xs">
+                Mantenimiento mensual (Bs) — opcional
+              </Label>
+              <Input
+                id="pd-mantenimiento"
+                type="number"
+                min={0}
+                step="0.01"
+                placeholder="Dejar vacío si no aplica"
+                value={values.mantenimientoMensual ?? ""}
+                onChange={(e) =>
+                  setValues((cur) => ({
+                    ...cur,
+                    mantenimientoMensual: e.target.value === "" ? null : Number(e.target.value),
+                  }))
+                }
+              />
+              <p className="text-[11px] text-muted-foreground">
+                Solo se muestra en el modal de detalles del paquete, no en la tarjeta.
+              </p>
             </div>
 
             <div className="flex flex-col gap-1.5">

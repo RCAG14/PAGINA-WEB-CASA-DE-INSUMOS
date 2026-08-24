@@ -6,29 +6,51 @@ export async function getUsuarioByUsername(username: string) {
   return prisma.usuario.findUnique({ where: { username } });
 }
 
-export async function getSocios() {
+export async function getUsuarioById(id: string) {
+  return prisma.usuario.findUnique({ where: { id } });
+}
+
+/** Roles de staff administrable desde /admin/configuracion/usuarios (excluye CLIENTE). */
+export type RolStaff = "JEFE" | "SOCIO";
+
+export async function getUsuariosStaff() {
   return prisma.usuario.findMany({
-    where: { rol: "SOCIO" },
+    where: { rol: { in: ["JEFE", "SOCIO"] } },
     orderBy: { creado_en: "desc" },
   });
 }
 
-export interface CrearSocioInput {
+export async function contarJefesActivos(excluirId?: string) {
+  return prisma.usuario.count({
+    where: {
+      rol: "JEFE",
+      activo: true,
+      ...(excluirId ? { id: { not: excluirId } } : {}),
+    },
+  });
+}
+
+export interface CrearUsuarioStaffInput {
   nombre: string;
   username: string;
   password: string;
+  rol: RolStaff;
 }
 
-export async function crearSocio(input: CrearSocioInput) {
+export async function crearUsuarioStaff(input: CrearUsuarioStaffInput) {
   const passwordHash = await hashPassword(input.password);
   return prisma.usuario.create({
     data: {
       nombre: input.nombre,
       username: input.username,
       password_hash: passwordHash,
-      rol: "SOCIO" as Rol,
+      rol: input.rol satisfies Rol,
     },
   });
+}
+
+export async function actualizarRolUsuario(id: string, rol: RolStaff) {
+  await prisma.usuario.update({ where: { id }, data: { rol: rol satisfies Rol } });
 }
 
 export interface CrearClienteInput {

@@ -2,6 +2,7 @@ import { CartProvider } from "@/lib/cart-context";
 import { LogoProvider } from "@/lib/logo-context";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
+import { SiteFooterGate } from "@/components/site/site-footer-gate";
 import { VisitTracker } from "@/components/site/visit-tracker";
 import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
 import { getLogo } from "@/lib/data/landing";
@@ -23,7 +24,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <VisitTracker />
         <SiteHeader session={session ? { nombre: session.nombre, rol: session.rol } : null} />
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <SiteFooterGate>
+          <SiteFooter />
+        </SiteFooterGate>
         <WhatsAppBubble numero={whatsappNumero} />
       </CartProvider>
     </LogoProvider>

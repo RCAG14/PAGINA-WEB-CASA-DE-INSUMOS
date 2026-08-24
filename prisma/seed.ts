@@ -388,6 +388,21 @@ async function main() {
 
   console.log(`Listo: ${CLASIFICACIONES.length} clasificaciones, ${CAJAS.length} cajas.`);
 
+  console.log("Sembrando estado inicial de módulos...");
+  const MODULOS_INICIALES = [
+    { clave: "cajas", activo: true },
+    { clave: "cotizaciones", activo: false },
+    { clave: "desarrollo-web", activo: true },
+    { clave: "rrhh", activo: false },
+  ] as const;
+  for (const modulo of MODULOS_INICIALES) {
+    await prisma.modulo.upsert({
+      where: { clave: modulo.clave },
+      update: {},
+      create: modulo,
+    });
+  }
+
   console.log("Sembrando usuario administrador inicial (JEFE)...");
   const ADMIN_USERNAME = process.env.SEED_ADMIN_USERNAME || "RCAG21";
   const existente = await prisma.usuario.findUnique({ where: { username: ADMIN_USERNAME } });

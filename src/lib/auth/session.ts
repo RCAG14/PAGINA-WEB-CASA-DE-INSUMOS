@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { decryptSession, encryptSession, type SessionPayload } from "@/lib/auth/jwt";
 
@@ -17,10 +18,11 @@ export async function createSession(payload: SessionPayload) {
   });
 }
 
-export async function getSession(): Promise<SessionPayload | null> {
+/** Memoizado por render: header, footer y layout piden la sesión cada uno por su cuenta. */
+export const getSession = cache(async (): Promise<SessionPayload | null> => {
   const cookieStore = await cookies();
   return decryptSession(cookieStore.get(SESSION_COOKIE)?.value);
-}
+});
 
 export async function deleteSession() {
   const cookieStore = await cookies();

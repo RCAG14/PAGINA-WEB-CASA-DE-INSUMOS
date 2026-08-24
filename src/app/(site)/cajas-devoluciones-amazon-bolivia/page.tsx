@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { CatalogHeader } from "@/components/site/catalog-header";
 import { HeroSection } from "@/components/site/hero-section";
 import { AboutSection } from "@/components/site/about-section";
-import { ServicesSection } from "@/components/site/services-section";
 import { PromoBanners } from "@/components/site/promo-banners";
 import { CatalogSection } from "@/components/site/catalog-section";
 import { CatalogBrowserSkeleton } from "@/components/site/catalog-browser-skeleton";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { HomeFooter } from "@/components/site/home-footer";
+import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
 
 export const dynamic = "force-dynamic";
@@ -26,13 +28,13 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogoPage() {
-  const { dict } = await getDictionary();
+  const [logo, { dict }] = await Promise.all([getLogo(), getDictionary()]);
 
   return (
     <>
+      <CatalogHeader />
       <HeroSection />
       <AboutSection />
-      <ServicesSection />
       <PromoBanners />
       <section id="catalogo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6">
         <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
@@ -48,6 +50,7 @@ export default async function CatalogoPage() {
           <CatalogSection />
         </Suspense>
       </section>
+      <HomeFooter logoUrl={logo?.url ?? null} />
     </>
   );
 }

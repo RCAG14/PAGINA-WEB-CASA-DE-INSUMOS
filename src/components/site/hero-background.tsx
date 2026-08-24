@@ -7,21 +7,34 @@ import { cn } from "@/lib/utils";
 export interface HeroBackgroundProps {
   video: { url: string } | null;
   imagenes: { url: string }[];
+  /** Milisegundos entre imágenes del carrusel (ignorado si hay video). */
+  intervalMs?: number;
+  /** Clases del velo sobre la imagen/video — por defecto, degradé oscuro para texto claro. */
+  overlayClassName?: string;
+  /** Atributo `sizes` de next/image — por defecto, fondo a todo el ancho del viewport. */
+  sizes?: string;
 }
 
-export function HeroBackground({ video, imagenes }: HeroBackgroundProps) {
+const DEFAULT_OVERLAY = "bg-linear-to-t from-sidebar/92 via-sidebar/72 to-sidebar/55";
+const CROSSFADE_MS = 1800;
+
+export function HeroBackground({
+  video,
+  imagenes,
+  intervalMs = 6000,
+  overlayClassName = DEFAULT_OVERLAY,
+  sizes = "100vw",
+}: HeroBackgroundProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [loaded, setLoaded] = useState(false);
   const hasMedia = Boolean(video) || imagenes.length > 0;
 
   useEffect(() => {
     if (video || imagenes.length < 2) return;
     const id = setInterval(() => {
-      setLoaded(false);
       setActiveIndex((i) => (i + 1) % imagenes.length);
-    }, 6000);
+    }, intervalMs);
     return () => clearInterval(id);
-  }, [video, imagenes.length]);
+  }, [video, imagenes.length, intervalMs]);
 
   return (
     <div className="absolute inset-0 z-0">
@@ -35,29 +48,31 @@ export function HeroBackground({ video, imagenes }: HeroBackgroundProps) {
           playsInline
         />
       ) : imagenes.length > 0 ? (
-        // Solo se monta la imagen activa: evita descargar todas las imágenes
-        // del hero de una sola vez (impacto directo en el tiempo de carga inicial).
-        <Image
-          key={imagenes[activeIndex].url}
-          src={imagenes[activeIndex].url}
-          alt=""
-          fill
-          priority={activeIndex === 0}
-          sizes="100vw"
-          className={cn(
-            "object-cover transition-opacity duration-700 motion-reduce:transition-none",
-            loaded ? "opacity-100" : "opacity-0"
-          )}
-          onLoad={() => setLoaded(true)}
-        />
+        // Todas montadas a la vez, cruzando opacidad entre la saliente y la
+        // entrante: da una transición real en vez de un corte seco.
+        imagenes.map((imagen, i) => (
+          <Image
+            key={imagen.url}
+            src={imagen.url}
+            alt=""
+            fill
+            priority={i === 0}
+            sizes={sizes}
+            className={cn(
+              "object-cover transition-opacity ease-in-out motion-reduce:transition-none",
+              i === activeIndex ? "opacity-100" : "opacity-0"
+            )}
+            style={{ transitionDuration: `${CROSSFADE_MS}ms` }}
+          />
+        ))
       ) : (
         <div className="h-full w-full bg-blueprint-dark" />
       )}
 
       {hasMedia && (
-        // Overlay siempre lo bastante oscuro para que el texto sea legible sin
+        // Velo siempre lo bastante marcado para que el texto sea legible sin
         // importar el brillo/contenido del video o imagen que suba el admin.
-        <div className="absolute inset-0 bg-linear-to-t from-sidebar/92 via-sidebar/72 to-sidebar/55" />
+        <div className={cn("absolute inset-0", overlayClassName)} />
       )}
     </div>
   );

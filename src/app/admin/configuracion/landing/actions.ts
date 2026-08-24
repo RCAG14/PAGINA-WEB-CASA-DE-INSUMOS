@@ -8,6 +8,7 @@ import {
   eliminarContenidoLanding,
   type ContenidoLandingInput,
 } from "@/lib/data/landing";
+import { verifyJefe } from "@/lib/auth/dal";
 
 function revalidarTodo() {
   revalidatePath("/admin/configuracion/landing");
@@ -16,16 +17,19 @@ function revalidarTodo() {
 }
 
 export async function crearContenidoLandingAction(input: ContenidoLandingInput) {
+  await verifyJefe();
   await crearContenidoLanding(input);
   revalidarTodo();
 }
 
 export async function actualizarContenidoLandingAction(id: string, input: ContenidoLandingInput) {
+  await verifyJefe();
   await actualizarContenidoLanding(id, input);
   revalidarTodo();
 }
 
 export async function eliminarContenidoLandingAction(id: string) {
+  await verifyJefe();
   await eliminarContenidoLanding(id);
   revalidarTodo();
 }
@@ -36,6 +40,7 @@ export async function reordenarContenidoLandingAction(
   idB: string,
   ordenB: number
 ) {
+  await verifyJefe();
   await Promise.all([
     actualizarOrdenContenidoLanding(idA, ordenB),
     actualizarOrdenContenidoLanding(idB, ordenA),

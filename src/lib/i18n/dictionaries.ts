@@ -2,15 +2,16 @@ export type Locale = "es" | "en";
 
 const es = {
   header: {
-    tagline: "Distribución técnica por caja",
     navCatalog: "Catálogo",
-    navHowItWorks: "Cómo funciona",
+    navServices: "Servicios",
+    navAbout: "Sobre Nosotros",
+    navContact: "Contacto",
     login: "Iniciar sesión",
     logout: "Cerrar sesión",
     adminPanel: "Panel administrador",
     helloPrefix: "Hola,",
     openMenu: "Abrir menú",
-    bar: "Manifiestos verificados · Certificación aduanera · Envíos internacionales documentados",
+    accountMenu: "Cuenta",
   },
   footer: {
     description:
@@ -72,39 +73,6 @@ const es = {
         titulo: "Aliado logístico integral",
         descripcion:
           "De la importación a la reventa: cotizaciones a medida, gestión aduanera y desarrollo de catálogos digitales propios.",
-      },
-    ],
-  },
-  services: {
-    eyebrow: "01 — Servicios",
-    title: "Todo lo que ofrecemos",
-    description:
-      "Además del catálogo de cajas de retorno, operamos como aliado logístico y técnico para revendedores e importadores.",
-    items: [
-      {
-        titulo: "Cajas de Retorno",
-        descripcion:
-          "Cajas de devoluciones de Amazon en Bolivia, en modalidad sorpresa o listada, con manifiesto verificable y ficha técnica de origen para calcular tu margen antes de comprar.",
-        tag: "Catálogo disponible",
-        cta: "Ver catálogo",
-      },
-      {
-        titulo: "Servicio de Cotizaciones",
-        descripcion:
-          "Evaluamos el lote, volumen o categoría que necesitas y preparamos una cotización a medida con condiciones documentadas.",
-        tag: "Disponible bajo cotización",
-      },
-      {
-        titulo: "Importaciones",
-        descripcion:
-          "Gestionamos la importación de mercancía de liquidación desde centros de retorno en Europa hasta tu bodega, con trazabilidad aduanera.",
-        tag: "Gestión a medida",
-      },
-      {
-        titulo: "Desarrollo de Páginas Web Personalizadas",
-        descripcion:
-          "Diseñamos y construimos plataformas a medida para revendedores y negocios de liquidación que necesitan su propio catálogo digital.",
-        tag: "Propuesta personalizada",
       },
     ],
   },
@@ -281,9 +249,14 @@ const es = {
     viewCatalog: "Ver catálogo",
   },
   homeLanding: {
-    tagline: "Distribución técnica por caja",
     description:
-      "Cajas de devoluciones de Amazon en Bolivia, cotizaciones, importaciones y desarrollo web en Bolivia a medida para revendedores e importadores.",
+      "Líderes en logística y distribución técnica por caja en Bolivia. Especialistas en cajas de devoluciones de Amazon, importaciones y desarrollo web a medida.",
+    ctaCatalog: "Ver Catálogo de Cajas",
+    ctaQuote: "Solicitar Cotización",
+    aboutEyebrow: "Sobre nosotros",
+    aboutTitle: "Dos líneas de negocio, un mismo compromiso",
+    aboutDescription:
+      "Casa Insumos nació para resolver dos necesidades del revendedor boliviano: acceso a mercadería de liquidación con trazabilidad real, y herramientas digitales propias para vender mejor. Somos un equipo local, con atención directa y resultados medibles.",
     servicesEyebrow: "Nuestros servicios",
     servicesTitle: "Elegí lo que necesitás",
     scrollToServices: "Servicios",
@@ -345,6 +318,13 @@ const es = {
       recommended: "Recomendado",
       quoteCta: "Cotizar por WhatsApp",
       quoteFallback: "Configurá un número de contacto para cotizar",
+      viewDetails: "Ver detalles",
+      modalTitle: "Detalles del paquete",
+      priceLabel: "Precio del proyecto",
+      maintenanceLabel: "Mantenimiento mensual",
+      maintenanceSuffix: "/ mes",
+      maintenanceNote: "No incluye costo de mantenimiento mensual.",
+      featuresLabel: "Incluye",
     },
     portfolio: {
       eyebrow: "Trabajos realizados",
@@ -396,15 +376,16 @@ const es = {
 
 const en: typeof es = {
   header: {
-    tagline: "Technical distribution by box",
     navCatalog: "Catalog",
-    navHowItWorks: "How it works",
+    navServices: "Services",
+    navAbout: "About Us",
+    navContact: "Contact",
     login: "Log in",
     logout: "Log out",
     adminPanel: "Admin panel",
     helloPrefix: "Hi,",
     openMenu: "Open menu",
-    bar: "Verified manifests · Customs certification · Documented international shipping",
+    accountMenu: "Account",
   },
   footer: {
     description:
@@ -466,39 +447,6 @@ const en: typeof es = {
         titulo: "Full logistics partner",
         descripcion:
           "From importing to reselling: custom quotes, customs management and development of your own digital catalogs.",
-      },
-    ],
-  },
-  services: {
-    eyebrow: "01 — Services",
-    title: "Everything we offer",
-    description:
-      "Beyond the return box catalog, we operate as a logistics and technical partner for resellers and importers.",
-    items: [
-      {
-        titulo: "Return Boxes",
-        descripcion:
-          "Amazon return lots in mystery or listed mode, with a verifiable manifest and origin spec sheet so you can calculate your margin before buying.",
-        tag: "Catalog available",
-        cta: "View catalog",
-      },
-      {
-        titulo: "Quoting Service",
-        descripcion:
-          "We evaluate the lot, volume or category you need and prepare a custom quote with documented terms.",
-        tag: "Available on request",
-      },
-      {
-        titulo: "Importing",
-        descripcion:
-          "We manage the import of liquidation merchandise from return centers in Europe to your warehouse, with customs traceability.",
-        tag: "Custom management",
-      },
-      {
-        titulo: "Custom Web Development",
-        descripcion:
-          "We design and build custom platforms for resellers and liquidation businesses that need their own digital catalog.",
-        tag: "Custom proposal",
       },
     ],
   },
@@ -675,9 +623,14 @@ const en: typeof es = {
     viewCatalog: "View catalog",
   },
   homeLanding: {
-    tagline: "Technical distribution by box",
     description:
-      "Amazon return boxes, quoting, importing and custom web development for resellers and importers.",
+      "Leaders in logistics and technical distribution by box in Bolivia. Specialists in Amazon return boxes, importing and custom web development.",
+    ctaCatalog: "View Box Catalog",
+    ctaQuote: "Request a Quote",
+    aboutEyebrow: "About us",
+    aboutTitle: "Two business lines, one commitment",
+    aboutDescription:
+      "Casa Insumos was built to solve two needs for Bolivian resellers: access to traceable liquidation merchandise, and their own digital tools to sell better. We're a local team, with direct support and measurable results.",
     servicesEyebrow: "Our services",
     servicesTitle: "Choose what you need",
     scrollToServices: "Services",
@@ -737,6 +690,13 @@ const en: typeof es = {
       recommended: "Recommended",
       quoteCta: "Quote via WhatsApp",
       quoteFallback: "Set up a contact number to request quotes",
+      viewDetails: "View details",
+      modalTitle: "Package details",
+      priceLabel: "Project price",
+      maintenanceLabel: "Monthly maintenance",
+      maintenanceSuffix: "/ mo",
+      maintenanceNote: "Does not include a monthly maintenance cost.",
+      featuresLabel: "Includes",
     },
     portfolio: {
       eyebrow: "Work we've done",

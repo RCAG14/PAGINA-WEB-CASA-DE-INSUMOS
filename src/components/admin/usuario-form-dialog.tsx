@@ -15,7 +15,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { CrearSocioInput } from "@/lib/data/usuarios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { CrearUsuarioStaffInput, RolStaff } from "@/lib/data/usuarios";
+
+const ROLES: { value: RolStaff; label: string; descripcion: string }[] = [
+  { value: "SOCIO", label: "Socio", descripcion: "Acceso de solo lectura al dashboard de métricas y reportes." },
+  { value: "JEFE", label: "Jefe", descripcion: "Control total del panel administrativo." },
+];
 
 function generarPassword() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
@@ -24,19 +36,19 @@ function generarPassword() {
   return out;
 }
 
-const EMPTY_VALUES: CrearSocioInput = { nombre: "", username: "", password: "" };
+const EMPTY_VALUES: CrearUsuarioStaffInput = { nombre: "", username: "", password: "", rol: "SOCIO" };
 
-export function SocioFormDialog({
+export function UsuarioFormDialog({
   trigger,
   triggerContent,
   onSubmit,
 }: {
   trigger: React.ReactElement;
   triggerContent: ReactNode;
-  onSubmit: (values: CrearSocioInput) => Promise<void>;
+  onSubmit: (values: CrearUsuarioStaffInput) => Promise<void>;
 }) {
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState<CrearSocioInput>(EMPTY_VALUES);
+  const [values, setValues] = useState<CrearUsuarioStaffInput>(EMPTY_VALUES);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -69,21 +81,20 @@ export function SocioFormDialog({
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle className="font-mono-technical text-sm uppercase tracking-wider">
-              Crear cuenta de Socio
+              Crear cuenta de staff
             </DialogTitle>
             <DialogDescription>
-              Acceso de solo lectura al dashboard de métricas. No puede crear, editar ni eliminar
-              nada.
+              Genera un acceso al panel administrativo con el rol que corresponda.
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="socio-nombre" className="text-xs">
-                Nombre del socio
+              <Label htmlFor="usuario-nombre" className="text-xs">
+                Nombre
               </Label>
               <Input
-                id="socio-nombre"
+                id="usuario-nombre"
                 required
                 value={values.nombre}
                 onChange={(e) => setValues((cur) => ({ ...cur, nombre: e.target.value }))}
@@ -91,11 +102,11 @@ export function SocioFormDialog({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="socio-username" className="text-xs">
+              <Label htmlFor="usuario-username" className="text-xs">
                 Usuario
               </Label>
               <Input
-                id="socio-username"
+                id="usuario-username"
                 required
                 className="font-mono-technical"
                 value={values.username}
@@ -104,12 +115,38 @@ export function SocioFormDialog({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="socio-password" className="text-xs">
+              <Label className="text-xs">Rol</Label>
+              <Select
+                value={values.rol}
+                onValueChange={(v) =>
+                  setValues((cur) => ({ ...cur, rol: (v as RolStaff) ?? cur.rol }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue>
+                    {() => ROLES.find((r) => r.value === values.rol)?.label}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {ROLES.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>
+                      {r.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-[11px] text-muted-foreground">
+                {ROLES.find((r) => r.value === values.rol)?.descripcion}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="usuario-password" className="text-xs">
                 Contraseña temporal
               </Label>
               <div className="flex gap-1.5">
                 <Input
-                  id="socio-password"
+                  id="usuario-password"
                   required
                   className="font-mono-technical"
                   value={values.password}
@@ -126,7 +163,7 @@ export function SocioFormDialog({
                 </Button>
               </div>
               <p className="text-[11px] text-muted-foreground">
-                Compártela por un canal seguro. El socio puede usarla para iniciar sesión en{" "}
+                Compártela por un canal seguro. Puede usarla para iniciar sesión en{" "}
                 <span className="font-mono-technical">/admin/login</span>.
               </p>
             </div>

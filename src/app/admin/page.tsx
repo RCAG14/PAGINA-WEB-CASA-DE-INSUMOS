@@ -9,44 +9,32 @@ import {
   Settings,
   Square,
   Users,
+  type LucideIcon,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { verifySession } from "@/lib/auth/dal";
 import { getLogo } from "@/lib/data/landing";
+import { getModulosConEstado, type ModuloClave } from "@/lib/data/modulos";
 import { cn } from "@/lib/utils";
 
-const MODULES = [
-  {
-    titulo: "Gestión de Cajas Amazon y Retornos",
-    descripcion:
-      "Dashboard, inventario de cajas, manifiesto de contenido y pedidos del negocio de retornos de liquidación.",
-    icon: Boxes,
-    href: "/admin/cajas",
-    activo: true,
-  },
-  {
-    titulo: "Servicio de Cotizaciones e Importaciones",
-    descripcion: "Gestión de solicitudes de cotización y seguimiento de procesos de importación.",
-    icon: Calculator,
-    activo: false,
-  },
-  {
-    titulo: "Desarrollo de Software y Páginas Web",
-    descripcion: "Seguimiento de proyectos de desarrollo a medida para clientes externos.",
-    icon: MonitorCog,
-    href: "/admin/desarrollo-web",
-    activo: true,
-  },
-  {
-    titulo: "Administración de Personal y RRHH",
-    descripcion: "Gestión de personal, turnos y operaciones internas de recursos humanos.",
-    icon: Users,
-    activo: false,
-  },
-] as const;
+const MODULO_ICONS: Record<ModuloClave, LucideIcon> = {
+  cajas: Boxes,
+  cotizaciones: Calculator,
+  "desarrollo-web": MonitorCog,
+  rrhh: Users,
+};
 
 export default async function AdminPortalPage() {
-  const [, logo] = await Promise.all([verifySession(), getLogo()]);
+  const [, logo, modulosConEstado] = await Promise.all([
+    verifySession(),
+    getLogo(),
+    getModulosConEstado(),
+  ]);
+
+  const MODULES = modulosConEstado.map((mod) => ({
+    ...mod,
+    icon: MODULO_ICONS[mod.clave],
+  }));
 
   return (
     <div className="mx-auto flex min-h-svh max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6">
@@ -163,8 +151,9 @@ export default async function AdminPortalPage() {
           <div className="flex flex-col gap-0.5">
             <h2 className="font-heading text-sm font-semibold">Configuración global del sistema</h2>
             <p className="max-w-md text-xs text-muted-foreground">
-              Landing/imágenes promocionales, redes sociales y contacto, y socios comerciales —
-              ajustes que aplican a toda la plataforma, no a un solo módulo.
+              Landing/imágenes promocionales, redes sociales y contacto, usuarios y roles, y
+              activación de módulos — ajustes que aplican a toda la plataforma, no a un solo
+              módulo.
             </p>
           </div>
         </div>

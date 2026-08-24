@@ -8,8 +8,10 @@ import {
   type ActualizarCajaInput,
   type CrearCajaInput,
 } from "@/lib/data/cajas";
+import { verifyJefe } from "@/lib/auth/dal";
 
 export async function crearCajaAction(input: CrearCajaInput) {
+  await verifyJefe();
   const id = await crearCajaConDetalle(input);
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/admin/cajas");
@@ -18,6 +20,7 @@ export async function crearCajaAction(input: CrearCajaInput) {
 }
 
 export async function actualizarCajaAction(id: string, input: ActualizarCajaInput) {
+  await verifyJefe();
   await actualizarCajaCore(id, input);
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/");
@@ -25,6 +28,7 @@ export async function actualizarCajaAction(id: string, input: ActualizarCajaInpu
 }
 
 export async function eliminarCajaAction(id: string) {
+  await verifyJefe();
   await eliminarCaja(id);
   revalidatePath("/admin/cajas/inventario");
   revalidatePath("/admin/cajas");

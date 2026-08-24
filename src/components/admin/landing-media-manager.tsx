@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
   Pencil,
   Plus,
+  Sparkles,
   Tag,
   Trash2,
   type LucideIcon,
@@ -56,6 +57,22 @@ const LOGO_SECTION: SectionConfig = {
   folder: "casa-de-insumos/landing/logo",
   withCta: false,
   icon: BadgeCheck,
+  allowMultiple: false,
+};
+
+// También fija, fuera del selector de negocio: es la ilustración de fondo
+// del Hero de la portada ("/"), que es una sola pantalla compartida por
+// ambos negocios (no pertenece a Venta de Cajas ni a Páginas Web).
+const HOME_HERO_DECORACION_SECTION: SectionConfig = {
+  tipo: "hero_decoracion",
+  sitio: "cajas",
+  titulo: "Ilustración del Hero de la portada",
+  descripcion:
+    "Gráfico decorativo que aparece detrás del texto en el encabezado de la página de inicio (\"/\"), con un leve desvanecimiento.",
+  formato: "imagen",
+  folder: "casa-de-insumos/landing/hero-decoracion",
+  withCta: false,
+  icon: Sparkles,
   allowMultiple: false,
 };
 
@@ -182,6 +199,7 @@ export function LandingMediaManager({
 
   const sectionsVisibles = [
     LOGO_SECTION,
+    HOME_HERO_DECORACION_SECTION,
     ...(negocio === "cajas" ? CAJAS_SECTIONS : WEBDEV_SECTIONS),
   ];
 

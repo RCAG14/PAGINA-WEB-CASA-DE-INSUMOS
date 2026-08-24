@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { deleteFromSupabaseStorage } from "@/lib/supabase";
 
@@ -6,7 +7,8 @@ export type TipoContenidoLanding =
   | "hero_imagen"
   | "about_imagen"
   | "banner_promo"
-  | "logo";
+  | "logo"
+  | "hero_decoracion";
 export type FormatoMedia = "imagen" | "video";
 /** Negocio al que pertenece el contenido. Ignorado para tipo="logo" (marca compartida). */
 export type SitioContenido = "cajas" | "webdev";
@@ -65,10 +67,17 @@ export async function getUltimasOfertas(limit: number) {
   });
 }
 
-export async function getLogo() {
+/** Memoizado por render: header, footer y layout piden el logo cada uno por su cuenta. */
+export const getLogo = cache(async () => {
   const rows = await getContenidoLandingPorTipo("logo");
   return rows[0] ?? null;
-}
+});
+
+/** Ilustración decorativa detrás del texto del Hero de la portada ("/"). Compartida, como el logo: no depende de sitio. */
+export const getHeroDecoracion = cache(async () => {
+  const rows = await getContenidoLandingPorTipo("hero_decoracion");
+  return rows[0] ?? null;
+});
 
 export async function crearContenidoLanding(input: ContenidoLandingInput) {
   const count = await prisma.contenidoLanding.count({

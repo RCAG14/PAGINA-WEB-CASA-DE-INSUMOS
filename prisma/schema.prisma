@@ -312,6 +312,10 @@ model PaqueteDesarrollo {
   tagline String
   precio  Decimal @db.Decimal(10, 2)
 
+  // Costo de mantenimiento mensual (opcional). Solo se muestra en el modal
+  // de detalles del paquete, no en la tarjeta de la landing.
+  mantenimiento_mensual Decimal? @db.Decimal(10, 2)
+
   // Una línea por ítem del checklist de features mostrado en la tarjeta.
   features String[]
 
@@ -324,6 +328,20 @@ model PaqueteDesarrollo {
   actualizado_en DateTime @updatedAt
 
   @@map("paquetes_desarrollo")
+}
+
+// Estado on/off de cada módulo de negocio del portal (/admin). El título,
+// descripción, ícono y href de cada módulo son config estática en código
+// (src/lib/data/modulos.ts) — esta tabla solo persiste si está activo o no,
+// para que un Jefe pueda prender/apagar módulos desde
+// /admin/configuracion/modulos sin tocar código.
+model Modulo {
+  id             String   @id @default(cuid())
+  clave          String   @unique
+  activo         Boolean  @default(true)
+  actualizado_en DateTime @updatedAt
+
+  @@map("modulos")
 }
 
 // Trabajos realizados (portfolio) mostrados en /desarrollo-web, gestionados

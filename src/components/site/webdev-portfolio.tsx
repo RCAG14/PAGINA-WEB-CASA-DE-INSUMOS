@@ -23,7 +23,7 @@ export async function WebDevPortfolio() {
           </h2>
         </ScrollReveal>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-wrap justify-center gap-4">
           {trabajos.map((trabajo, i) => {
             const contenido = (
               <>
@@ -57,7 +57,11 @@ export async function WebDevPortfolio() {
             );
 
             return (
-              <ScrollReveal key={trabajo.id} delayMs={i * 80}>
+              <ScrollReveal
+                key={trabajo.id}
+                delayMs={i * 80}
+                className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
+              >
                 {trabajo.enlace ? (
                   <Link
                     href={trabajo.enlace}

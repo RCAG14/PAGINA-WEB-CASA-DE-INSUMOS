@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Poppins, Inter, Montserrat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/lib/i18n/locale-context";
 import { getLocale } from "@/lib/i18n/locale";
-import { ThemeProvider } from "@/lib/theme/theme-context";
-import { getTheme } from "@/lib/theme/theme";
+import { getLogo } from "@/lib/data/landing";
 import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const poppins = Poppins({
   variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const inter = Inter({
@@ -19,40 +19,47 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const plexMono = IBM_Plex_Mono({
+const montserrat = Montserrat({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["500", "600"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    template: "%s | Casa Insumos",
-    default: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
-  },
-  description:
-    "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",
-  robots: { index: true, follow: true },
-  verification: process.env.GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
-    : undefined,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const logo = await getLogo();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      template: "%s | Casa Insumos",
+      default: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
+    },
+    description:
+      "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",
+    robots: { index: true, follow: true },
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : undefined,
+    // Favicon de la pestaña del navegador: usa el logo subido desde el panel
+    // en cuanto exista; si no, cae al favicon.ico estático de siempre. Vive en
+    // /public (no en app/) para que Next no lo agregue también automáticamente
+    // por convención de archivo — así queda un solo <link rel="icon">, nunca dos.
+    icons: { icon: logo?.url ?? "/favicon.ico" },
+  };
+}
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [locale, theme] = await Promise.all([getLocale(), getTheme()]);
+  const locale = await getLocale();
 
   return (
     <html
       lang={locale}
-      className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased ${theme === "dark" ? "dark" : ""}`}
+      className={`${poppins.variable} ${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ThemeProvider initialTheme={theme}>
-          <LocaleProvider initialLocale={locale}>
-            <TooltipProvider delay={150}>{children}</TooltipProvider>
-          </LocaleProvider>
-        </ThemeProvider>
+        <LocaleProvider initialLocale={locale}>
+          <TooltipProvider delay={150}>{children}</TooltipProvider>
+        </LocaleProvider>
         <Toaster />
       </body>
     </html>

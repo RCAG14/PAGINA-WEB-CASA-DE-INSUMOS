@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { LogIn, LogOut, ShieldCheck } from "lucide-react";
+import { ArrowRight, LogOut, ShieldCheck, User } from "lucide-react";
 import { logoutSiteAction } from "@/app/(site)/actions";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/lib/i18n/locale-context";
 import { cn } from "@/lib/utils";
 import type { Rol } from "@/lib/auth/jwt";
@@ -25,41 +35,96 @@ export function AccountNav({ session, className, variant = "inline" }: AccountNa
   const stacked = variant === "stacked";
 
   const linkClass = stacked
-    ? "flex items-center gap-2 border-b border-border px-4 py-3 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground hover:text-primary"
-    : "flex items-center gap-1.5 font-mono-technical text-[11px] uppercase tracking-wider opacity-80 transition-opacity hover:opacity-100";
+    ? "flex items-center gap-2 border-b border-border px-4 py-3 font-mono-technical text-sm text-muted-foreground hover:text-primary"
+    : "flex items-center gap-1.5 font-mono-technical text-sm text-foreground/80 transition-colors hover:text-primary";
 
   if (!session) {
-    return (
-      <Link href="/login" className={cn(linkClass, className)}>
-        <LogIn className="size-3.5" strokeWidth={1.5} />
+    const loginContent = (
+      <>
+        <ArrowRight className="size-3.5" strokeWidth={1.5} />
         {dict.header.login}
+      </>
+    );
+    return stacked ? (
+      <Link href="/login" className={cn(linkClass, className)}>
+        {loginContent}
       </Link>
+    ) : (
+      <Button
+        render={<Link href="/login" />}
+        nativeButton={false}
+        variant="outline"
+        size="sm"
+        className={cn("border-primary text-primary hover:bg-primary/5", className)}
+      >
+        {loginContent}
+      </Button>
     );
   }
 
+  if (stacked) {
+    return (
+      <div className={cn("flex flex-col", className)}>
+        <span className="border-b border-border px-4 py-3 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
+          {dict.header.helloPrefix} {session.nombre}
+        </span>
+        {isStaff && (
+          <Link href="/admin" className={linkClass}>
+            <ShieldCheck className="size-3.5" strokeWidth={1.5} />
+            {dict.header.adminPanel}
+          </Link>
+        )}
+        <form action={logoutSiteAction}>
+          <button type="submit" className={linkClass}>
+            <LogOut className="size-3.5" strokeWidth={1.5} />
+            {dict.header.logout}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  // Escritorio: en vez de desplegar nombre + enlaces en la barra, un solo
+  // ícono de usuario que abre el menú con esas mismas opciones.
   return (
-    <div className={cn(stacked ? "flex flex-col" : "flex items-center gap-3", className)}>
-      <span
-        className={
-          stacked
-            ? "border-b border-border px-4 py-3 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground"
-            : "hidden opacity-80 sm:inline"
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <button
+            aria-label={dict.header.accountMenu}
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full border border-border text-foreground/70 transition-colors hover:border-primary hover:text-primary",
+              className
+            )}
+          />
         }
       >
-        {dict.header.helloPrefix} {session.nombre}
-      </span>
-      {isStaff && (
-        <Link href="/admin" className={linkClass}>
-          <ShieldCheck className="size-3.5" strokeWidth={1.5} />
-          {dict.header.adminPanel}
-        </Link>
-      )}
-      <form action={logoutSiteAction}>
-        <button type="submit" className={linkClass}>
-          <LogOut className="size-3.5" strokeWidth={1.5} />
-          {dict.header.logout}
-        </button>
-      </form>
-    </div>
+        <User className="size-4" strokeWidth={1.5} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="font-mono-technical text-xs text-muted-foreground">
+            {dict.header.helloPrefix} {session.nombre}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {isStaff && (
+            <DropdownMenuItem render={<Link href="/admin" />}>
+              <ShieldCheck className="size-3.5" strokeWidth={1.5} />
+              {dict.header.adminPanel}
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem
+            render={
+              <form action={logoutSiteAction} className="w-full">
+                <button type="submit" className="flex w-full items-center gap-1.5 text-left">
+                  <LogOut className="size-3.5" strokeWidth={1.5} />
+                  {dict.header.logout}
+                </button>
+              </form>
+            }
+          />
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

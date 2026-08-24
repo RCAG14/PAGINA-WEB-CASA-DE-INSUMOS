@@ -162,6 +162,7 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                         nombre: p.nombre,
                         tagline: p.tagline,
                         precio: p.precio,
+                        mantenimientoMensual: p.mantenimientoMensual,
                         features: p.features,
                         destacado: p.destacado,
                         activo: p.activo,

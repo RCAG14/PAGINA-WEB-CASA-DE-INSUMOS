@@ -10,6 +10,7 @@ import {
   LayoutGrid,
   Share2,
   Square,
+  ToggleLeft,
   Users,
 } from "lucide-react";
 import {
@@ -32,7 +33,8 @@ const NAV_ITEMS = [
     icon: GalleryHorizontalEnd,
   },
   { href: "/admin/configuracion/contacto", label: "Redes y Contacto", icon: Share2 },
-  { href: "/admin/configuracion/socios", label: "Socios", icon: Users },
+  { href: "/admin/configuracion/usuarios", label: "Usuarios y Roles", icon: Users },
+  { href: "/admin/configuracion/modulos", label: "Módulos del Sistema", icon: ToggleLeft },
 ];
 
 export function ConfiguracionSidebar({ logoUrl }: { logoUrl?: string | null }) {

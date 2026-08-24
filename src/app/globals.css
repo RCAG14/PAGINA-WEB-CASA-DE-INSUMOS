@@ -8,7 +8,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
   --font-heading: var(--font-heading);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -58,99 +57,52 @@
 }
 
 :root {
-  /* Marca -- Ingenieria de insumos: verde oscuro / verde claro / marfil */
-  --background: #f1ecdc;
-  --foreground: #1a2b20;
-  --card: #fbf9f1;
-  --card-foreground: #1a2b20;
-  --popover: #fbf9f1;
-  --popover-foreground: #1a2b20;
-  --primary: #1b4332;
-  --primary-foreground: #f6f2e6;
-  --secondary: #dcefe1;
-  --secondary-foreground: #163427;
-  --muted: #e8e1c9;
-  --muted-foreground: #5c5940;
-  --accent: #74c69d;
-  --accent-foreground: #123023;
-  --destructive: #a8452b;
-  --destructive-foreground: #f6f2e6;
-  --border: #d7cead;
-  --input: #d7cead;
-  --ring: #1b4332;
-  --chart-1: #1b4332;
+  /* Marca -- Casa Insumos: verde esmeralda corporativo / blanco / slate */
+  --background: #ffffff;
+  --foreground: #2d3748;
+  --card: #ffffff;
+  --card-foreground: #2d3748;
+  --popover: #ffffff;
+  --popover-foreground: #2d3748;
+  --primary: #1e4d3b;
+  --primary-foreground: #ffffff;
+  --secondary: #eaf3ee;
+  --secondary-foreground: #1e4d3b;
+  --muted: #f9fafb;
+  --muted-foreground: #64748b;
+  --accent: #2d6a4f;
+  --accent-foreground: #ffffff;
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #1e4d3b;
+  --chart-1: #1e4d3b;
   --chart-2: #2d6a4f;
   --chart-3: #52a176;
   --chart-4: #95d5b2;
   --chart-5: #b9ac7c;
-  --radius: 0.75rem;
-  --line: #cabf95;
-  --sidebar: #16281f;
-  --sidebar-foreground: #ede7d3;
-  --sidebar-primary: #74c69d;
-  --sidebar-primary-foreground: #123023;
-  --sidebar-accent: #21392c;
-  --sidebar-accent-foreground: #f6f2e6;
-  --sidebar-border: #2b4536;
-  --sidebar-ring: #74c69d;
-  --shadow-elevation-xs: 0 1px 2px rgba(26, 43, 32, 0.06);
-  --shadow-elevation-sm: 0 1px 2px rgba(26, 43, 32, 0.05), 0 6px 16px -8px rgba(26, 43, 32, 0.12);
-  --shadow-elevation-md: 0 2px 4px rgba(26, 43, 32, 0.05), 0 12px 28px -8px rgba(26, 43, 32, 0.14);
-  --shadow-elevation-lg: 0 4px 8px rgba(26, 43, 32, 0.06), 0 20px 44px -12px rgba(26, 43, 32, 0.18);
-  --shadow-elevation-xl: 0 8px 16px rgba(26, 43, 32, 0.08), 0 32px 68px -16px rgba(26, 43, 32, 0.22);
-  --shadow-glow-primary:
-    0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent),
-    0 8px 18px -8px color-mix(in oklch, var(--primary) 30%, transparent);
-  --shadow-glow-accent:
-    0 0 0 1px color-mix(in oklch, var(--accent) 22%, transparent),
-    0 0 16px -4px color-mix(in oklch, var(--accent) 34%, transparent);
-}
-
-.dark {
-  --background: #10201a;
-  --foreground: #ece6d2;
-  --card: #16281f;
-  --card-foreground: #ece6d2;
-  --popover: #16281f;
-  --popover-foreground: #ece6d2;
-  --primary: #95d5b2;
-  --primary-foreground: #10201a;
-  --secondary: #21392c;
-  --secondary-foreground: #ece6d2;
-  --muted: #21392c;
-  --muted-foreground: #a3ad9f;
-  --accent: #74c69d;
-  --accent-foreground: #10201a;
-  --destructive: #c76146;
-  --destructive-foreground: #10201a;
-  --border: #2b4536;
-  --input: #2b4536;
-  --ring: #95d5b2;
-  --chart-1: #95d5b2;
-  --chart-2: #74c69d;
-  --chart-3: #52a176;
-  --chart-4: #2d6a4f;
-  --chart-5: #b9ac7c;
-  --line: #2b4536;
-  --sidebar: #0d1a14;
-  --sidebar-foreground: #ece6d2;
-  --sidebar-primary: #95d5b2;
-  --sidebar-primary-foreground: #10201a;
-  --sidebar-accent: #1c3226;
-  --sidebar-accent-foreground: #ece6d2;
-  --sidebar-border: #21392c;
+  --radius: 0.5rem;
+  --line: #e2e8f0;
+  --sidebar: #1e4d3b;
+  --sidebar-foreground: #f2f7f4;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #1e4d3b;
+  --sidebar-accent: #163828;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.12);
   --sidebar-ring: #95d5b2;
-  --shadow-elevation-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-elevation-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 20px -6px rgba(0, 0, 0, 0.5);
-  --shadow-elevation-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 16px 32px -8px rgba(0, 0, 0, 0.55);
-  --shadow-elevation-lg: 0 4px 8px rgba(0, 0, 0, 0.45), 0 24px 48px -12px rgba(0, 0, 0, 0.6);
-  --shadow-elevation-xl: 0 8px 16px rgba(0, 0, 0, 0.5), 0 40px 80px -16px rgba(0, 0, 0, 0.65);
+  --shadow-elevation-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-elevation-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 16px -8px rgba(15, 23, 42, 0.1);
+  --shadow-elevation-md: 0 2px 4px rgba(15, 23, 42, 0.04), 0 12px 28px -8px rgba(15, 23, 42, 0.12);
+  --shadow-elevation-lg: 0 4px 8px rgba(15, 23, 42, 0.05), 0 20px 44px -12px rgba(15, 23, 42, 0.14);
+  --shadow-elevation-xl: 0 8px 16px rgba(15, 23, 42, 0.06), 0 32px 68px -16px rgba(15, 23, 42, 0.16);
   --shadow-glow-primary:
-    0 0 0 1px color-mix(in oklch, var(--primary) 24%, transparent),
-    0 8px 20px -8px color-mix(in oklch, var(--primary) 38%, transparent);
+    0 0 0 1px color-mix(in oklch, var(--primary) 14%, transparent),
+    0 8px 18px -8px color-mix(in oklch, var(--primary) 24%, transparent);
   --shadow-glow-accent:
-    0 0 0 1px color-mix(in oklch, var(--accent) 30%, transparent),
-    0 0 20px -4px color-mix(in oklch, var(--accent) 42%, transparent);
+    0 0 0 1px color-mix(in oklch, var(--accent) 16%, transparent),
+    0 0 16px -4px color-mix(in oklch, var(--accent) 26%, transparent);
 }
 
 @layer base {
@@ -177,8 +129,7 @@
   }
 
   .font-mono-technical {
-    font-family: var(--font-mono), monospace;
-    font-feature-settings: "tnum" 1, "zero" 1;
+    font-family: var(--font-mono), sans-serif;
   }
 
   .bg-grid-technical {

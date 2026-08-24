@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 
 export interface RedSocialInput {
@@ -41,13 +42,14 @@ export async function getNumerosContactoAdmin() {
   return prisma.numeroContacto.findMany({ orderBy: { orden: "asc" } });
 }
 
-export async function getNumeroWhatsappPrincipal() {
+/** Memoizado por render: la burbuja de WhatsApp y varios CTA lo piden cada uno por su cuenta. */
+export const getNumeroWhatsappPrincipal = cache(async () => {
   const numero = await prisma.numeroContacto.findFirst({
     where: { activo: true },
     orderBy: { orden: "asc" },
   });
   return numero?.numero ?? null;
-}
+});
 
 export async function crearNumeroContacto(input: NumeroContactoInput) {
   const count = await prisma.numeroContacto.count();

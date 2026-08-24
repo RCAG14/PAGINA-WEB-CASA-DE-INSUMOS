@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Link2, Mail, MapPin, Square } from "lucide-react";
+import { Link2, Mail, MapPin } from "lucide-react";
 import { getClasificaciones } from "@/lib/data/clasificaciones";
 import { getRedesSociales } from "@/lib/data/contacto";
 import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
 import { getSession } from "@/lib/auth/session";
 import { getPlataformaRedSocial, getRedSocialHref } from "@/lib/redes-sociales";
+import { BrandMark } from "@/components/site/brand-mark";
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? null;
@@ -23,16 +24,17 @@ export async function SiteFooter() {
   const isStaff = session?.rol === "JEFE" || session?.rol === "SOCIO";
 
   return (
-    <footer className="border-t border-border bg-sidebar text-sidebar-foreground">
+    <footer id="contacto" className="scroll-mt-20 border-t border-border bg-sidebar text-sidebar-foreground">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div className="flex flex-col gap-3 md:col-span-2">
           <div className="flex items-center gap-2">
-            <span className="flex size-7 items-center justify-center rounded-lg border border-sidebar-foreground/30 bg-sidebar-foreground/5">
-              <Square className="size-3.5" strokeWidth={2.5} />
-            </span>
-            <span className="font-heading text-sm font-bold uppercase tracking-wide">
-              Casa Insumos
-            </span>
+            <BrandMark
+              logoUrl={logo?.url ?? null}
+              size={28}
+              className="text-sidebar-foreground"
+              glyphClassName="text-sidebar-foreground"
+            />
+            <span className="font-heading text-sm font-bold tracking-tight">Casa Insumos</span>
           </div>
           <p className="max-w-sm text-sm text-sidebar-foreground/70">{dict.footer.description}</p>
           {redesSociales.length > 0 && (
@@ -89,7 +91,7 @@ export async function SiteFooter() {
             </a>
           )}
 
-          <Link href="/cajas-devoluciones-amazon-bolivia#servicios" className="text-sm text-sidebar-foreground/80 hover:text-accent">
+          <Link href="/#servicios" className="text-sm text-sidebar-foreground/80 hover:text-accent">
             {dict.footer.servicesLink}
           </Link>
           <Link href="/carrito" className="text-sm text-sidebar-foreground/80 hover:text-accent">

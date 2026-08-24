@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Award, HandCoins, PackageSearch, ShieldCheck } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { MediaBox } from "@/components/site/media-box";
 import { getAboutImagen } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
 
@@ -10,25 +10,17 @@ export async function AboutSection() {
   const [aboutImagen, { dict }] = await Promise.all([getAboutImagen(), getDictionary()]);
 
   return (
-    <section id="sobre-nosotros" className="border-b border-border bg-background">
-      <div className="mx-auto grid max-w-6xl scroll-mt-24 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <ScrollReveal className="relative aspect-4/3 w-full overflow-hidden rounded-xl border border-border/60 bg-grid-technical shadow-elevation-md">
-          {aboutImagen ? (
-            <Image
-              src={aboutImagen.url}
-              alt={aboutImagen.titulo ?? "Casa Insumos"}
-              fill
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-card">
-              <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
-                {dict.about.uploadPlaceholder}
-              </span>
-            </div>
-          )}
-        </ScrollReveal>
+    <section
+      id="sobre-nosotros"
+      className="flex min-h-screen items-start border-b border-border bg-background"
+    >
+      <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+        <MediaBox
+          imagen={aboutImagen}
+          alt="Casa Insumos"
+          placeholderLabel={dict.about.uploadPlaceholder}
+          sizes="(min-width: 1024px) 40vw, 100vw"
+        />
 
         <div className="flex flex-col gap-6">
           <ScrollReveal delayMs={80} className="flex flex-col gap-2">

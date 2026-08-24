@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
+import { getModuloActivo, type ModuloClave } from "@/lib/data/modulos";
 
 /**
  * Verifica que haya una sesión de staff válida (JEFE o SOCIO); si no, redirige al
@@ -23,3 +24,13 @@ export const verifyJefe = cache(async () => {
   if (session.rol !== "JEFE") redirect("/admin/socio");
   return session;
 });
+
+/**
+ * Bloquea el acceso a un módulo de negocio si fue desactivado desde
+ * /admin/configuracion/modulos, incluso para el Jefe — un módulo apagado
+ * solo se reactiva desde esa pantalla.
+ */
+export async function verifyModuloActivo(clave: ModuloClave) {
+  const activo = await getModuloActivo(clave);
+  if (!activo) redirect("/admin");
+}

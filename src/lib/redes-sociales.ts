@@ -1,26 +1,21 @@
-import {
-  AtSign,
-  Camera,
-  Link2,
-  Mail,
-  Music2,
-  ThumbsUp,
-  Video,
-  type LucideIcon,
-} from "lucide-react";
+import { Link2, Mail } from "lucide-react";
+import { SiFacebook, SiInstagram, SiTiktok, SiX, SiYoutube } from "react-icons/si";
+import type { IconType } from "react-icons";
 
 export interface PlataformaRedSocial {
   value: string;
   label: string;
-  icon: LucideIcon;
+  icon: IconType;
 }
 
+// Íconos de marca reales (react-icons/si), no aproximaciones genéricas de
+// Lucide — Mail y Link2 quedan en Lucide porque no representan una marca.
 export const PLATAFORMAS_REDES_SOCIALES: PlataformaRedSocial[] = [
-  { value: "instagram", label: "Instagram", icon: Camera },
-  { value: "facebook", label: "Facebook", icon: ThumbsUp },
-  { value: "tiktok", label: "TikTok", icon: Music2 },
-  { value: "youtube", label: "YouTube", icon: Video },
-  { value: "x", label: "X / Twitter", icon: AtSign },
+  { value: "instagram", label: "Instagram", icon: SiInstagram },
+  { value: "facebook", label: "Facebook", icon: SiFacebook },
+  { value: "tiktok", label: "TikTok", icon: SiTiktok },
+  { value: "youtube", label: "YouTube", icon: SiYoutube },
+  { value: "x", label: "X / Twitter", icon: SiX },
   { value: "email", label: "Gmail / Correo Electrónico", icon: Mail },
   { value: "otro", label: "Otro", icon: Link2 },
 ];

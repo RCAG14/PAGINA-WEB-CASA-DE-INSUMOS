@@ -14,6 +14,7 @@ export interface PaqueteDesarrolloInput {
   nombre: string;
   tagline: string;
   precio: number;
+  mantenimientoMensual: number | null;
   features: string[];
   destacado: boolean;
   activo: boolean;
@@ -23,7 +24,12 @@ export async function getPaquetesDesarrolloAdmin() {
   const rows = await prisma.paqueteDesarrollo.findMany({ orderBy: { orden: "asc" } });
   // El campo `precio` es un Decimal de Prisma — no es un objeto plano serializable
   // a través del límite Server → Client Component, por eso se convierte a number aquí.
-  return rows.map((p) => ({ ...p, precio: toDecimalNumber(p.precio) }));
+  return rows.map(({ mantenimiento_mensual, ...p }) => ({
+    ...p,
+    precio: toDecimalNumber(p.precio),
+    mantenimientoMensual:
+      mantenimiento_mensual === null ? null : toDecimalNumber(mantenimiento_mensual),
+  }));
 }
 
 export async function getPaquetesDesarrollo() {
@@ -36,6 +42,8 @@ export async function getPaquetesDesarrollo() {
     nombre: p.nombre,
     tagline: p.tagline,
     precio: toDecimalNumber(p.precio),
+    mantenimientoMensual:
+      p.mantenimiento_mensual === null ? null : toDecimalNumber(p.mantenimiento_mensual),
     features: p.features,
     destacado: p.destacado,
   }));
@@ -43,16 +51,23 @@ export async function getPaquetesDesarrollo() {
 
 export async function crearPaqueteDesarrollo(input: PaqueteDesarrolloInput) {
   const count = await prisma.paqueteDesarrollo.count();
+  const { mantenimientoMensual, ...rest } = input;
   try {
-    return await prisma.paqueteDesarrollo.create({ data: { ...input, orden: count } });
+    return await prisma.paqueteDesarrollo.create({
+      data: { ...rest, mantenimiento_mensual: mantenimientoMensual, orden: count },
+    });
   } catch (error) {
     throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
   }
 }
 
 export async function actualizarPaqueteDesarrollo(id: string, input: PaqueteDesarrolloInput) {
+  const { mantenimientoMensual, ...rest } = input;
   try {
-    return await prisma.paqueteDesarrollo.update({ where: { id }, data: input });
+    return await prisma.paqueteDesarrollo.update({
+      where: { id },
+      data: { ...rest, mantenimiento_mensual: mantenimientoMensual },
+    });
   } catch (error) {
     throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
   }

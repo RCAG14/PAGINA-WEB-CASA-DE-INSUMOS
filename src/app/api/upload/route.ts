@@ -4,6 +4,7 @@ import { deleteFromSupabaseStorage, uploadToSupabaseStorage } from "@/lib/supaba
 // Carpetas del bucket permitidas — evita que el cliente suba a rutas arbitrarias.
 const ALLOWED_FOLDERS = new Set([
   "casa-de-insumos/landing/hero",
+  "casa-de-insumos/landing/hero-decoracion",
   "casa-de-insumos/landing/about",
   "casa-de-insumos/landing/banners",
   "casa-de-insumos/landing/logo",

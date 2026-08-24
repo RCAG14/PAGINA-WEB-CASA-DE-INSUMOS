@@ -15,7 +15,7 @@ export async function LandingServiceButtons() {
   const { dict } = await getDictionary();
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {dict.landingServices.items.map((servicio, i) => {
         const Icon = ICONS[i];
         const href = HREFS[i];
@@ -50,12 +50,12 @@ export async function LandingServiceButtons() {
             {disponible ? (
               <Link
                 href={href!}
-                className="group flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-border/60 bg-card p-6 shadow-elevation-sm transition-[box-shadow,border-color] hover:border-primary/50 hover:shadow-elevation-lg"
+                className="group flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-primary/25 bg-card p-6 shadow-elevation-sm transition-[box-shadow,border-color] hover:border-primary hover:shadow-elevation-lg"
               >
                 {contenido}
               </Link>
             ) : (
-              <div className="flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-border/60 bg-card p-6 opacity-80">
+              <div className="flex h-full min-h-57.5 flex-col gap-3 rounded-xl border border-primary/25 bg-card p-6 opacity-80">
                 {contenido}
               </div>
             )}
