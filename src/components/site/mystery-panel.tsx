@@ -41,7 +41,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
                 </span>
               </div>
               <p className="font-heading text-xl font-semibold text-primary">
-                {formatPrice(box.valorEstimadoMin)}
+                {formatPrice(box.valorEstimadoMax)}
               </p>
               <p className="text-xs text-muted-foreground">
                 {box.cantidadEstimadaMin} {dict.mysteryPanel.minItemsSuffix}
@@ -55,7 +55,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
                 </span>
               </div>
               <p className="font-heading text-xl font-semibold">
-                {formatPrice(box.valorEstimadoMax)}
+                {formatPrice(box.valorEstimadoMin)}
               </p>
               <p className="text-xs text-muted-foreground">
                 {dict.mysteryPanel.maxItemsPrefix} {box.cantidadEstimadaMax}{" "}

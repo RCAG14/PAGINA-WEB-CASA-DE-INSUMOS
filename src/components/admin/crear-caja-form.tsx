@@ -106,7 +106,9 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
     }
 
     if (tipoVenta === "sorpresa" && valorMax < valorMin) {
-      setError("El valor máximo no puede ser menor que el valor mínimo garantizado.");
+      setError(
+        "El valor mínimo garantizado (menos artículos) debe ser mayor o igual al valor máximo potencial (más artículos)."
+      );
       return;
     }
 
@@ -491,8 +493,8 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   min={0}
                   step="0.01"
                   required
-                  value={valorMin}
-                  onChange={(e) => setValorMin(Number(e.target.value))}
+                  value={valorMax}
+                  onChange={(e) => setValorMax(Number(e.target.value))}
                 />
               </div>
               <div className="border border-dashed border-primary/40 bg-background px-3 py-2">
@@ -536,8 +538,8 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   min={0}
                   step="0.01"
                   required
-                  value={valorMax}
-                  onChange={(e) => setValorMax(Number(e.target.value))}
+                  value={valorMin}
+                  onChange={(e) => setValorMin(Number(e.target.value))}
                 />
               </div>
               <div className="border border-dashed border-border bg-background px-3 py-2">
