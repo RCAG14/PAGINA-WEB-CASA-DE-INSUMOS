@@ -64,7 +64,7 @@ export function WebDevPricingCard({
         </span>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <span className="font-mono-technical text-[10px] uppercase tracking-wider text-accent">
             {dict.modalTitle}
@@ -105,7 +105,41 @@ export function WebDevPricingCard({
                 <p className="text-xs text-muted-foreground">{dict.maintenanceNote}</p>
               )}
             </div>
+            {paquete.mantenimientoMensual !== null && (
+              <p className="w-full text-[11px] leading-relaxed text-muted-foreground">
+                {dict.maintenanceExplain}
+              </p>
+            )}
           </div>
+
+          {paquete.desglose.length > 0 && (
+            <div>
+              <p className="mb-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+                {dict.breakdownLabel}
+              </p>
+              <ul className="flex flex-col divide-y divide-border/60 rounded-lg border border-border/60">
+                {paquete.desglose.map((item) => (
+                  <li key={item.concepto} className="flex items-start justify-between gap-4 px-3 py-2">
+                    <div>
+                      <p className="text-sm font-medium">{item.concepto}</p>
+                      {item.motivo && (
+                        <p className="text-xs text-muted-foreground">{item.motivo}</p>
+                      )}
+                    </div>
+                    <span className="shrink-0 font-mono-technical text-xs font-semibold text-primary">
+                      {formatPrice(item.monto)}
+                    </span>
+                  </li>
+                ))}
+                <li className="flex items-center justify-between gap-4 bg-muted/40 px-3 py-2">
+                  <span className="text-sm font-semibold">{dict.breakdownTotal}</span>
+                  <span className="font-mono-technical text-xs font-bold text-primary">
+                    {formatPrice(paquete.precio)}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          )}
 
           <div>
             <p className="mb-2 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">

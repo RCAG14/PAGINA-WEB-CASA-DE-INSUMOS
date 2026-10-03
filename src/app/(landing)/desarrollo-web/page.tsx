@@ -50,7 +50,7 @@ export default async function DesarrolloWebPage() {
       <WebDevAffiliates />
       <WebDevReviews />
       <WebDevContact />
-      <WhatsAppBubble numero={whatsappNumero} />
+      <WhatsAppBubble numero={whatsappNumero} servicio="webdev" />
     </>
   );
 }

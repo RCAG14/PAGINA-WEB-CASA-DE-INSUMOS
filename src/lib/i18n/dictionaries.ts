@@ -249,6 +249,13 @@ const es = {
     emptyCartDesc: "Agrega al menos una caja para continuar con el checkout.",
     viewCatalog: "Ver catálogo",
   },
+  whatsappBubble: {
+    question: "¿Sobre qué servicio quieres consultar?",
+    hint: "Te abrimos WhatsApp con tu consulta lista.",
+    options: { cajas: "Cajas de Amazon", webdev: "Desarrollo web" },
+    ariaChat: "Chatear por WhatsApp",
+    ariaClose: "Cerrar opciones de WhatsApp",
+  },
   homeLanding: {
     description:
       "Líderes en logística y distribución técnica por caja en Bolivia. Especialistas en cajas de devoluciones de Amazon, importaciones y desarrollo web a medida.",
@@ -262,6 +269,23 @@ const es = {
     servicesTitle: "Elegí lo que necesitás",
     scrollToServices: "Servicios",
     scrollToContact: "Contacto",
+    choices: {
+      title: "Cajas de devoluciones de Amazon y desarrollo web en Bolivia",
+      cajas: {
+        eyebrow: "Cajas de devoluciones",
+        titulo: "Cajas de Amazon",
+        descripcion:
+          "Cajas de devoluciones de Amazon en Bolivia por lote, en modalidad sorpresa o listada, con manifiesto verificable.",
+        cta: "Ver catálogo de cajas",
+      },
+      webdev: {
+        eyebrow: "Desarrollo web",
+        titulo: "Desarrollo Web a Medida",
+        descripcion:
+          "Sitios web, sistemas, dashboards y chatbots — desarrollo web en Bolivia a medida para cualquier negocio.",
+        cta: "Ver paquetes",
+      },
+    },
   },
   landingServices: {
     items: [
@@ -326,6 +350,18 @@ const es = {
       maintenanceSuffix: "/ mes",
       maintenanceNote: "No incluye costo de mantenimiento mensual.",
       featuresLabel: "Incluye",
+      breakdownLabel: "¿Qué estás pagando?",
+      breakdownTotal: "Total",
+      maintenanceExplain:
+        "Desde el 2º año cubre la renovación del dominio y el hosting, respaldos y cambios menores de contenido.",
+      extrasEyebrow: "Extras opcionales",
+      extrasTitle: "Sumá solo lo que tu proyecto necesita",
+      extrasDescription:
+        "Cada extra se cotiza aparte y se suma al paquete que elijas. Te explicamos qué cubre cada costo.",
+      extrasFrom: "desde",
+      extrasColExtra: "Extra",
+      extrasColReason: "Por qué se cobra",
+      extrasColPrice: "Costo",
     },
     portfolio: {
       eyebrow: "Trabajos realizados",
@@ -624,6 +660,13 @@ const en: typeof es = {
     emptyCartDesc: "Add at least one box to continue with checkout.",
     viewCatalog: "View catalog",
   },
+  whatsappBubble: {
+    question: "Which service do you want to ask about?",
+    hint: "We'll open WhatsApp with your question ready.",
+    options: { cajas: "Amazon boxes", webdev: "Web development" },
+    ariaChat: "Chat on WhatsApp",
+    ariaClose: "Close WhatsApp options",
+  },
   homeLanding: {
     description:
       "Leaders in logistics and technical distribution by box in Bolivia. Specialists in Amazon return boxes, importing and custom web development.",
@@ -637,6 +680,21 @@ const en: typeof es = {
     servicesTitle: "Choose what you need",
     scrollToServices: "Services",
     scrollToContact: "Contact",
+    choices: {
+      title: "Amazon return boxes and web development in Bolivia",
+      cajas: {
+        eyebrow: "Return boxes",
+        titulo: "Amazon Boxes",
+        descripcion: "Amazon return lots in mystery or listed mode, with a verifiable manifest.",
+        cta: "View box catalog",
+      },
+      webdev: {
+        eyebrow: "Web development",
+        titulo: "Custom Web Development",
+        descripcion: "Websites, systems, dashboards and chatbots built to measure for any business.",
+        cta: "View packages",
+      },
+    },
   },
   landingServices: {
     items: [
@@ -699,6 +757,18 @@ const en: typeof es = {
       maintenanceSuffix: "/ mo",
       maintenanceNote: "Does not include a monthly maintenance cost.",
       featuresLabel: "Includes",
+      breakdownLabel: "What are you paying for?",
+      breakdownTotal: "Total",
+      maintenanceExplain:
+        "From year 2 it covers domain and hosting renewal, backups and minor content changes.",
+      extrasEyebrow: "Optional extras",
+      extrasTitle: "Add only what your project needs",
+      extrasDescription:
+        "Each extra is quoted separately and added to the package you choose. We explain what each cost covers.",
+      extrasFrom: "from",
+      extrasColExtra: "Extra",
+      extrasColReason: "Why it costs",
+      extrasColPrice: "Cost",
     },
     portfolio: {
       eyebrow: "Work we've done",

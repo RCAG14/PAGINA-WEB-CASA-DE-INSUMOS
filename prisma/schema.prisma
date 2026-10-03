@@ -319,6 +319,10 @@ model PaqueteDesarrollo {
   // Una línea por ítem del checklist de features mostrado en la tarjeta.
   features String[]
 
+  // Desglose del precio mostrado en el modal de detalles: qué paga el cliente
+  // y por qué. Array de { concepto: string, monto: number, motivo: string }.
+  desglose Json @default("[]")
+
   // Se resalta visualmente como la opción recomendada en la landing.
   destacado Boolean @default(false)
   activo    Boolean @default(true)
@@ -328,6 +332,30 @@ model PaqueteDesarrollo {
   actualizado_en DateTime @updatedAt
 
   @@map("paquetes_desarrollo")
+}
+
+// Extras opcionales que se cotizan aparte de los paquetes de Desarrollo Web
+// (sección adicional, pasarela de pago, app móvil...). Se listan debajo de los
+// paquetes en /desarrollo-web con su costo y el motivo del cobro.
+model ExtraDesarrollo {
+  id String @id @default(cuid())
+
+  nombre String  @unique
+  motivo String
+  precio Decimal @db.Decimal(10, 2)
+
+  // Texto corto después del precio: "c/u", "por hora", "por año"... (opcional).
+  unidad String?
+  // Si es true se muestra "desde Bs X" — el monto final depende del alcance.
+  precio_desde Boolean @default(false)
+
+  activo Boolean @default(true)
+  orden  Int     @default(0)
+
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  @@map("extras_desarrollo")
 }
 
 // Estado on/off de cada módulo de negocio del portal (/admin). El título,

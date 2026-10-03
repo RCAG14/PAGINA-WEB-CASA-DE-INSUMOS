@@ -4,8 +4,7 @@ import { getDictionary } from "@/lib/i18n/locale";
 import { getSession } from "@/lib/auth/session";
 import { HomeHeader } from "@/components/site/home-header";
 import { HomeFooter } from "@/components/site/home-footer";
-import { HomeHero } from "@/components/site/home-hero";
-import { LandingServiceButtons } from "@/components/site/landing-service-buttons";
+import { LandingChoices } from "@/components/site/landing-choices";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
 
@@ -26,11 +25,11 @@ export async function LandingScreen() {
       />
 
       <main className="flex-1">
-        <HomeHero />
+        <LandingChoices />
 
         <section
           id="sobre-nosotros"
-          className="flex min-h-screen items-start border-b border-border bg-background"
+          className="flex items-start border-b border-border bg-muted/40"
         >
           <ScrollReveal className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 px-4 py-14 text-center sm:px-6">
             <span className="font-mono-technical text-sm text-primary">
@@ -43,23 +42,6 @@ export async function LandingScreen() {
               {dict.homeLanding.aboutDescription}
             </p>
           </ScrollReveal>
-        </section>
-
-        <section
-          id="servicios"
-          className="flex min-h-screen items-start border-b border-border bg-muted/40"
-        >
-          <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-            <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
-              <span className="font-mono-technical text-sm text-primary">
-                {dict.homeLanding.servicesEyebrow}
-              </span>
-              <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-                {dict.homeLanding.servicesTitle}
-              </h2>
-            </ScrollReveal>
-            <LandingServiceButtons />
-          </div>
         </section>
       </main>
 

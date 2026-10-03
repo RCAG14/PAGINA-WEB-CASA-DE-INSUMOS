@@ -16,7 +16,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import type { PaqueteDesarrolloInput } from "@/lib/data/desarrollo";
+import type { DesgloseItem, PaqueteDesarrolloInput } from "@/lib/data/desarrollo";
+
+// El desglose se edita como texto, una línea por concepto: "Concepto | monto | motivo".
+function desgloseToText(items: DesgloseItem[]) {
+  return items.map((d) => `${d.concepto} | ${d.monto} | ${d.motivo}`).join("\n");
+}
+
+function parseDesgloseText(text: string): DesgloseItem[] {
+  return text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [concepto = "", monto = "", ...motivo] = line.split("|").map((p) => p.trim());
+      return { concepto, monto: Number(monto.replace(",", ".")) || 0, motivo: motivo.join(" | ") };
+    })
+    .filter((d) => d.concepto);
+}
 
 const EMPTY_VALUES: PaqueteDesarrolloInput = {
   nombre: "",
@@ -24,6 +41,7 @@ const EMPTY_VALUES: PaqueteDesarrolloInput = {
   precio: 0,
   mantenimientoMensual: null,
   features: [],
+  desglose: [],
   destacado: false,
   activo: true,
 };
@@ -43,12 +61,16 @@ export function PaqueteFormDialog({
   const initial: PaqueteDesarrolloInput = paquete ?? EMPTY_VALUES;
   const [values, setValues] = useState<PaqueteDesarrolloInput>(initial);
   const [featuresText, setFeaturesText] = useState(initial.features.join("\n"));
+  const [desgloseText, setDesgloseText] = useState(desgloseToText(initial.desglose));
+  const desglose = parseDesgloseText(desgloseText);
+  const sumaDesglose = desglose.reduce((acc, d) => acc + d.monto, 0);
 
   function handleOpenChange(next: boolean) {
     setOpen(next);
     if (next) {
       setValues(initial);
       setFeaturesText(initial.features.join("\n"));
+      setDesgloseText(desgloseToText(initial.desglose));
     }
   }
 
@@ -58,14 +80,14 @@ export function PaqueteFormDialog({
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
-    onSubmit({ ...values, features });
+    onSubmit({ ...values, features, desglose });
     setOpen(false);
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={trigger}>{triggerContent}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle className="font-mono-technical text-sm uppercase tracking-wider">
@@ -156,6 +178,34 @@ export function PaqueteFormDialog({
                 value={featuresText}
                 onChange={(e) => setFeaturesText(e.target.value)}
               />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="pd-desglose" className="text-xs">
+                Desglose del precio — una línea por concepto: Concepto | monto | motivo
+              </Label>
+              <Textarea
+                id="pd-desglose"
+                rows={5}
+                placeholder={
+                  "Diseño y desarrollo | 300 | Horas de diseño, maquetado y pruebas\nDominio .com (1er año) | 120 | Registro anual del nombre de tu web"
+                }
+                value={desgloseText}
+                onChange={(e) => setDesgloseText(e.target.value)}
+              />
+              {desglose.length > 0 && (
+                <p
+                  className={
+                    sumaDesglose === values.precio
+                      ? "text-[11px] text-muted-foreground"
+                      : "text-[11px] text-destructive"
+                  }
+                >
+                  Suma del desglose: Bs {sumaDesglose}
+                  {sumaDesglose !== values.precio &&
+                    ` — no coincide con el precio (Bs ${values.precio})`}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">

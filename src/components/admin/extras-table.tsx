@@ -2,14 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { ArrowDown, ArrowUp, Pencil, Plus, Star, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from "lucide-react";
 import {
-  actualizarPaqueteDesarrolloAction,
-  crearPaqueteDesarrolloAction,
-  eliminarPaqueteDesarrolloAction,
-  reordenarPaqueteDesarrolloAction,
+  actualizarExtraDesarrolloAction,
+  crearExtraDesarrolloAction,
+  eliminarExtraDesarrolloAction,
+  reordenarExtraDesarrolloAction,
 } from "@/app/admin/desarrollo-web/actions";
-import { PaqueteFormDialog } from "@/components/admin/paquete-form-dialog";
+import { ExtraFormDialog } from "@/components/admin/extra-form-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -21,11 +21,11 @@ import {
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/format";
 import { toast, getErrorMessage } from "@/lib/toast";
-import type { getPaquetesDesarrolloAdmin } from "@/lib/data/desarrollo";
+import type { getExtrasDesarrolloAdmin } from "@/lib/data/desarrollo";
 
-type PaqueteDesarrolloRow = Awaited<ReturnType<typeof getPaquetesDesarrolloAdmin>>[number];
+type ExtraDesarrolloRow = Awaited<ReturnType<typeof getExtrasDesarrolloAdmin>>[number];
 
-export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }) {
+export function ExtrasTable({ extras }: { extras: ExtraDesarrolloRow[] }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
 
@@ -45,12 +45,12 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
   }
 
   function mover(index: number, direccion: -1 | 1) {
-    const vecino = paquetes[index + direccion];
-    const actual = paquetes[index];
+    const vecino = extras[index + direccion];
+    const actual = extras[index];
     if (!vecino) return;
     run(
-      () => reordenarPaqueteDesarrolloAction(actual.id, actual.orden, vecino.id, vecino.orden),
-      "No se pudo reordenar el paquete"
+      () => reordenarExtraDesarrolloAction(actual.id, actual.orden, vecino.id, vecino.orden),
+      "No se pudo reordenar el extra"
     );
   }
 
@@ -59,14 +59,14 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
       <div className="flex items-center justify-between">
         <div>
           <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-            Paquetes
+            Extras
           </p>
           <p className="text-xs text-muted-foreground">
-            Se muestran en /desarrollo-web en este orden. Cada uno arma su propio mensaje de
-            WhatsApp para cotizar.
+            Servicios opcionales que se cotizan aparte. Se muestran debajo de los paquetes con su
+            costo y el motivo del cobro.
           </p>
         </div>
-        <PaqueteFormDialog
+        <ExtraFormDialog
           trigger={<Button />}
           triggerContent={
             <>
@@ -75,9 +75,9 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
           }
           onSubmit={(values) =>
             run(
-              () => crearPaqueteDesarrolloAction(values),
-              "No se pudo crear el paquete",
-              "Paquete creado correctamente."
+              () => crearExtraDesarrolloAction(values),
+              "No se pudo crear el extra",
+              "Extra creado correctamente."
             )
           }
         />
@@ -88,13 +88,10 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
-                Paquete
+                Extra
               </TableHead>
               <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
                 Precio
-              </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
-                Features
               </TableHead>
               <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
                 Estado
@@ -105,35 +102,28 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paquetes.map((p, i) => (
-              <TableRow key={p.id}>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">{p.nombre}</span>
-                    {p.destacado && (
-                      <span className="flex items-center gap-1 rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
-                        <Star className="size-2.5" strokeWidth={2} />
-                        Recomendado
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{p.tagline}</p>
+            {extras.map((e, i) => (
+              <TableRow key={e.id}>
+                <TableCell className="whitespace-normal">
+                  <span className="text-sm font-medium">{e.nombre}</span>
+                  <p className="text-xs text-muted-foreground">{e.motivo}</p>
                 </TableCell>
-                <TableCell className="text-right font-mono-technical text-xs font-semibold text-primary">
-                  {formatPrice(p.precio)}
-                </TableCell>
-                <TableCell className="text-xs text-muted-foreground">
-                  {p.features.length} ítem{p.features.length === 1 ? "" : "s"}
+                <TableCell className="text-right font-mono-technical text-xs font-semibold whitespace-nowrap text-primary">
+                  {e.precioDesde && "desde "}
+                  {formatPrice(e.precio)}
+                  {e.unidad && (
+                    <span className="font-normal text-muted-foreground"> {e.unidad}</span>
+                  )}
                 </TableCell>
                 <TableCell>
                   <span
                     className={
-                      p.activo
+                      e.activo
                         ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
                         : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
                     }
                   >
-                    {p.activo ? "Visible" : "Oculto"}
+                    {e.activo ? "Visible" : "Oculto"}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -151,42 +141,40 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                       variant="outline"
                       size="icon-sm"
                       aria-label="Mover abajo"
-                      disabled={i === paquetes.length - 1}
+                      disabled={i === extras.length - 1}
                       onClick={() => mover(i, 1)}
                     >
                       <ArrowDown className="size-3.5" />
                     </Button>
-                    <PaqueteFormDialog
-                      paquete={{
-                        id: p.id,
-                        nombre: p.nombre,
-                        tagline: p.tagline,
-                        precio: p.precio,
-                        mantenimientoMensual: p.mantenimientoMensual,
-                        features: p.features,
-                        desglose: p.desglose,
-                        destacado: p.destacado,
-                        activo: p.activo,
+                    <ExtraFormDialog
+                      extra={{
+                        id: e.id,
+                        nombre: e.nombre,
+                        motivo: e.motivo,
+                        precio: e.precio,
+                        unidad: e.unidad,
+                        precioDesde: e.precioDesde,
+                        activo: e.activo,
                       }}
                       trigger={<Button variant="outline" size="icon-sm" />}
                       triggerContent={<Pencil className="size-3.5" />}
                       onSubmit={(values) =>
                         run(
-                          () => actualizarPaqueteDesarrolloAction(p.id, values),
-                          "No se pudo actualizar el paquete",
-                          "Paquete actualizado correctamente."
+                          () => actualizarExtraDesarrolloAction(e.id, values),
+                          "No se pudo actualizar el extra",
+                          "Extra actualizado correctamente."
                         )
                       }
                     />
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Eliminar paquete"
+                      aria-label="Eliminar extra"
                       onClick={() =>
                         run(
-                          () => eliminarPaqueteDesarrolloAction(p.id),
-                          "No se pudo eliminar el paquete",
-                          `"${p.nombre}" se eliminó correctamente.`
+                          () => eliminarExtraDesarrolloAction(e.id),
+                          "No se pudo eliminar el extra",
+                          `"${e.nombre}" se eliminó correctamente.`
                         )
                       }
                       className="text-muted-foreground hover:text-destructive"
@@ -197,10 +185,10 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                 </TableCell>
               </TableRow>
             ))}
-            {paquetes.length === 0 && (
+            {extras.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="py-10 text-center text-sm text-muted-foreground">
-                  No hay paquetes creados todavía.
+                <TableCell colSpan={4} className="py-10 text-center text-sm text-muted-foreground">
+                  No hay extras creados todavía.
                 </TableCell>
               </TableRow>
             )}

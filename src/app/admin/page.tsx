@@ -39,10 +39,10 @@ export default async function AdminPortalPage() {
   return (
     <div className="mx-auto flex min-h-svh max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6">
       <header className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <span
             className={cn(
-              "relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg",
+              "relative flex size-13 shrink-0 items-center justify-center overflow-hidden rounded-lg",
               logo?.url ? "bg-sidebar-foreground/95" : "bg-primary/10 text-primary"
             )}
           >
@@ -51,18 +51,18 @@ export default async function AdminPortalPage() {
                 src={logo.url}
                 alt="Casa Insumos"
                 fill
-                sizes="32px"
+                sizes="52px"
                 className="object-contain p-0.5"
               />
             ) : (
-              <Square className="size-4" strokeWidth={2.5} />
+              <Square className="size-6" strokeWidth={2.5} />
             )}
           </span>
           <div className="flex flex-col leading-none">
-            <span className="font-heading text-sm font-bold uppercase tracking-wide">
+            <span className="font-heading text-xl font-bold uppercase tracking-wide sm:text-2xl">
               Casa Insumos
             </span>
-            <span className="font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground">
+            <span className="mt-1 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
               Portal de módulos — ERP/WMS
             </span>
           </div>

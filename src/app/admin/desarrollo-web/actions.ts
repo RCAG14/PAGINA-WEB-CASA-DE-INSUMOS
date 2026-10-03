@@ -2,6 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import {
+  actualizarExtraDesarrollo,
+  actualizarOrdenExtraDesarrollo,
+  crearExtraDesarrollo,
+  eliminarExtraDesarrollo,
+  type ExtraDesarrolloInput,
   actualizarOrdenPaqueteDesarrollo,
   actualizarOrdenTrabajoRealizado,
   actualizarPaqueteDesarrollo,
@@ -51,6 +56,38 @@ export async function reordenarPaqueteDesarrolloAction(
   await Promise.all([
     actualizarOrdenPaqueteDesarrollo(idA, ordenB),
     actualizarOrdenPaqueteDesarrollo(idB, ordenA),
+  ]);
+  revalidarTodo();
+}
+
+export async function crearExtraDesarrolloAction(input: ExtraDesarrolloInput) {
+  await verifyJefe();
+  await crearExtraDesarrollo(input);
+  revalidarTodo();
+}
+
+export async function actualizarExtraDesarrolloAction(id: string, input: ExtraDesarrolloInput) {
+  await verifyJefe();
+  await actualizarExtraDesarrollo(id, input);
+  revalidarTodo();
+}
+
+export async function eliminarExtraDesarrolloAction(id: string) {
+  await verifyJefe();
+  await eliminarExtraDesarrollo(id);
+  revalidarTodo();
+}
+
+export async function reordenarExtraDesarrolloAction(
+  idA: string,
+  ordenA: number,
+  idB: string,
+  ordenB: number
+) {
+  await verifyJefe();
+  await Promise.all([
+    actualizarOrdenExtraDesarrollo(idA, ordenB),
+    actualizarOrdenExtraDesarrollo(idB, ordenA),
   ]);
   revalidarTodo();
 }

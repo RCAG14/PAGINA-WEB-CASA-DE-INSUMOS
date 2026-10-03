@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import sharp from "sharp";
 import { deleteFromSupabaseStorage, uploadToSupabaseStorage } from "@/lib/supabase";
 
 // Carpetas del bucket permitidas — evita que el cliente suba a rutas arbitrarias.
@@ -12,6 +13,31 @@ const ALLOWED_FOLDERS = new Set([
   "casa-de-insumos/desarrollo-web/trabajos",
   "casa-de-insumos/desarrollo-web/hero",
 ]);
+
+const LOGO_FOLDER = "casa-de-insumos/landing/logo";
+
+/**
+ * Recorta el borde vacío (transparente o del color de fondo) del logo para que
+ * el dibujo ocupe toda la caja de BrandMark — si no, un PNG de 500×500 con el
+ * isotipo al centro se ve diminuto. Se guarda como PNG para conservar la
+ * transparencia. SVG y GIF se dejan tal cual.
+ */
+async function recortarLogo(buffer: Buffer, fileName: string, contentType: string) {
+  if (contentType === "image/svg+xml" || contentType === "image/gif") {
+    return { buffer, fileName, contentType };
+  }
+  try {
+    const recortado = await sharp(buffer).trim().png().toBuffer();
+    return {
+      buffer: recortado,
+      fileName: fileName.replace(/\.[^.]+$/, "") + ".png",
+      contentType: "image/png",
+    };
+  } catch {
+    // `trim` falla si la imagen es de un solo color — se sube sin tocar.
+    return { buffer, fileName, contentType };
+  }
+}
 
 const MAX_SIZE_BYTES: Record<"image" | "video", number> = {
   image: 10 * 1024 * 1024,
@@ -47,14 +73,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  const original = Buffer.from(await file.arrayBuffer());
+  const { buffer, fileName, contentType } =
+    folder === LOGO_FOLDER
+      ? await recortarLogo(original, file.name, file.type)
+      : { buffer: original, fileName: file.name, contentType: file.type };
 
   try {
-    const result = await uploadToSupabaseStorage(buffer, {
-      folder,
-      fileName: file.name,
-      contentType: file.type,
-    });
+    const result = await uploadToSupabaseStorage(buffer, { folder, fileName, contentType });
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error subiendo a Supabase Storage:", error);

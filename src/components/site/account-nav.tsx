@@ -29,6 +29,11 @@ interface AccountNavProps {
   variant?: "inline" | "stacked";
 }
 
+// Ítems del menú de cuenta: más aire que el default y un resaltado suave en
+// vez del bloque de color `accent`, que hacía ver cada opción como un botón.
+const ITEM_CLASS =
+  "gap-2.5 rounded-md px-2.5 py-2 text-sm text-foreground/85 focus:bg-primary/8 focus:text-primary not-data-[variant=destructive]:focus:**:text-primary";
+
 export function AccountNav({ session, className, variant = "inline" }: AccountNavProps) {
   const { dict } = useI18n();
   const isStaff = session?.rol === "JEFE" || session?.rol === "SOCIO";
@@ -101,23 +106,39 @@ export function AccountNav({ session, className, variant = "inline" }: AccountNa
       >
         <User className="size-4" strokeWidth={1.5} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" sideOffset={8} className="w-64 p-1.5">
         <DropdownMenuGroup>
-          <DropdownMenuLabel className="font-mono-technical text-xs text-muted-foreground">
-            {dict.header.helloPrefix} {session.nombre}
+          <DropdownMenuLabel className="flex items-center gap-3 px-2 py-2">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-semibold text-primary">
+              {session.nombre.charAt(0).toUpperCase()}
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="text-xs font-normal text-muted-foreground">
+                {dict.header.helloPrefix}
+              </span>
+              <span className="truncate text-sm font-semibold text-foreground">
+                {session.nombre}
+              </span>
+            </span>
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator className="my-1.5" />
+        <DropdownMenuGroup>
           {isStaff && (
-            <DropdownMenuItem render={<Link href="/admin" />}>
-              <ShieldCheck className="size-3.5" strokeWidth={1.5} />
+            <DropdownMenuItem render={<Link href="/admin" />} className={ITEM_CLASS}>
+              <ShieldCheck className="size-4" strokeWidth={1.75} />
               {dict.header.adminPanel}
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
+            className={cn(ITEM_CLASS, "p-0")}
             render={
               <form action={logoutSiteAction} className="w-full">
-                <button type="submit" className="flex w-full items-center gap-1.5 text-left">
-                  <LogOut className="size-3.5" strokeWidth={1.5} />
+                <button
+                  type="submit"
+                  className="flex w-full items-center gap-2.5 px-2.5 py-2 text-left"
+                >
+                  <LogOut className="size-4" strokeWidth={1.75} />
                   {dict.header.logout}
                 </button>
               </form>

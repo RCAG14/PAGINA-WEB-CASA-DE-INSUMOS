@@ -1,4 +1,9 @@
-import { buildWhatsAppLink } from "@/lib/utils";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Boxes, MonitorCog, X } from "lucide-react";
+import { buildWhatsAppLink, cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n/locale-context";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -8,22 +13,117 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-const MENSAJE_WHATSAPP_FLOTANTE =
-  "vengo de la pagina, pregunto por casa insumos, quisiera mas información...";
+export type ServicioWhatsApp = "cajas" | "webdev";
 
-/** Enlace directo a WhatsApp con el número configurado — sin formulario previo. */
-export function WhatsAppBubble({ numero }: { numero: string | null }) {
+// El mensaje llega al negocio, por eso va siempre en español sin importar el
+// idioma que esté viendo el visitante.
+const MENSAJES: Record<ServicioWhatsApp, string> = {
+  cajas:
+    "Hola, vengo de la página de Casa Insumos y quisiera más información sobre las cajas de devoluciones de Amazon.",
+  webdev:
+    "Hola, vengo de la página de Casa Insumos y quisiera más información sobre el servicio de desarrollo web.",
+};
+
+const ICONOS = { cajas: Boxes, webdev: MonitorCog } as const;
+
+const BUBBLE_CLASS =
+  "flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40";
+
+/**
+ * Botón flotante de WhatsApp. Con `servicio` abre el chat directo con un
+ * mensaje sobre ese servicio; sin él (portada) primero pregunta cuál de los
+ * dos servicios quiere consultar el visitante.
+ */
+export function WhatsAppBubble({
+  numero,
+  servicio,
+}: {
+  numero: string | null;
+  servicio?: ServicioWhatsApp;
+}) {
+  const { dict } = useI18n();
+  const t = dict.whatsappBubble;
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(e: PointerEvent) {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
   if (!numero) return null;
 
+  if (servicio) {
+    return (
+      <a
+        href={buildWhatsAppLink(numero, MENSAJES[servicio])}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.ariaChat}
+        className={cn("fixed bottom-5 left-4 z-50 sm:bottom-6 sm:left-6", BUBBLE_CLASS)}
+      >
+        <WhatsAppIcon className="size-6" />
+      </a>
+    );
+  }
+
+  const opciones: ServicioWhatsApp[] = ["cajas", "webdev"];
+
   return (
-    <a
-      href={buildWhatsAppLink(numero, MENSAJE_WHATSAPP_FLOTANTE)}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chatear por WhatsApp"
-      className="fixed bottom-5 left-4 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 sm:bottom-6 sm:left-6"
-    >
-      <WhatsAppIcon className="size-6" />
-    </a>
+    <div ref={ref} className="fixed bottom-5 left-4 z-50 flex flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+      {open && (
+        <div
+          id="whatsapp-opciones"
+          role="dialog"
+          aria-label={t.question}
+          className="w-72 origin-bottom-left animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-4 shadow-elevation-lg"
+        >
+          <p className="font-heading text-sm font-semibold text-foreground">{t.question}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{t.hint}</p>
+          <div className="mt-3 flex flex-col gap-2">
+            {opciones.map((s) => {
+              const Icon = ICONOS[s];
+              return (
+                <a
+                  key={s}
+                  href={buildWhatsAppLink(numero, MENSAJES[s])}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 rounded-xl border border-border px-3 py-2.5 text-sm font-medium transition-colors hover:border-primary hover:bg-primary/5 hover:text-primary focus-visible:border-primary focus-visible:bg-primary/5 focus-visible:outline-none"
+                >
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Icon className="size-4" strokeWidth={1.75} />
+                  </span>
+                  {t.options[s]}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? t.ariaClose : t.ariaChat}
+        aria-expanded={open}
+        aria-controls="whatsapp-opciones"
+        className={BUBBLE_CLASS}
+      >
+        {open ? <X className="size-6" /> : <WhatsAppIcon className="size-6" />}
+      </button>
+    </div>
   );
 }

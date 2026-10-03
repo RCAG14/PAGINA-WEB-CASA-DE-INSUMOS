@@ -2,6 +2,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
+import { EXTRAS_DESARROLLO, PAQUETES_DESARROLLO } from "./data/desarrollo";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL no está configurada.");
@@ -444,56 +445,20 @@ async function main() {
   }
 
   console.log("Sembrando paquetes de Desarrollo Web a Medida...");
-  const PAQUETES_DESARROLLO = [
-    {
-      nombre: "Básico",
-      tagline: "Presencia digital simple y profesional.",
-      precio: 1500,
-      features: [
-        "Sitio web de hasta 5 páginas",
-        "Diseño responsive (mobile y desktop)",
-        "Formulario de contacto",
-        "Optimización SEO básica",
-        "1 mes de soporte post-entrega",
-      ],
-      destacado: false,
-      orden: 0,
-    },
-    {
-      nombre: "Estándar",
-      tagline: "Sitio o sistema a medida con panel propio.",
-      precio: 3500,
-      features: [
-        "Todo lo del plan Básico",
-        "Hasta 10 páginas o módulos",
-        "Panel de administración de contenido",
-        "Integración con WhatsApp",
-        "Analítica de visitas",
-        "3 meses de soporte post-entrega",
-      ],
-      destacado: true,
-      orden: 1,
-    },
-    {
-      nombre: "Premium",
-      tagline: "Sistema web completo, a tu medida.",
-      precio: 7000,
-      features: [
-        "Todo lo del plan Estándar",
-        "Dashboard con roles de usuario",
-        "Integraciones a medida (pagos, chatbot, reservas)",
-        "Base de datos y backend a medida",
-        "Soporte prioritario 6 meses",
-      ],
-      destacado: false,
-      orden: 2,
-    },
-  ];
   for (const paquete of PAQUETES_DESARROLLO) {
     await prisma.paqueteDesarrollo.upsert({
       where: { nombre: paquete.nombre },
       update: {},
       create: paquete,
+    });
+  }
+
+  console.log("Sembrando extras de Desarrollo Web a Medida...");
+  for (const [orden, extra] of EXTRAS_DESARROLLO.entries()) {
+    await prisma.extraDesarrollo.upsert({
+      where: { nombre: extra.nombre },
+      update: {},
+      create: { ...extra, orden },
     });
   }
 

@@ -43,21 +43,21 @@ export function ConfiguracionSidebar({ logoUrl }: { logoUrl?: string | null }) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2 py-1.5">
+        <div className="flex items-center gap-2.5 py-1.5">
           <span
             className={cn(
-              "relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg text-sidebar-primary shadow-glow-primary",
+              "relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-sidebar-primary shadow-glow-primary group-data-[collapsible=icon]:size-8",
               logoUrl ? "bg-sidebar-foreground/95" : "bg-sidebar-primary/15"
             )}
           >
             {logoUrl ? (
-              <Image src={logoUrl} alt="Casa Insumos" fill sizes="32px" className="object-contain p-0.5" />
+              <Image src={logoUrl} alt="Casa Insumos" fill sizes="44px" className="object-contain p-0.5" />
             ) : (
-              <Square className="size-4" strokeWidth={2.5} />
+              <Square className="size-5" strokeWidth={2.5} />
             )}
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
-            <span className="font-heading text-xs font-bold uppercase tracking-wide text-sidebar-foreground">
+            <span className="font-heading text-base font-bold uppercase tracking-wide text-sidebar-foreground">
               Casa Insumos
             </span>
             <span className="font-mono-technical text-[9px] uppercase tracking-wider text-sidebar-foreground/50">

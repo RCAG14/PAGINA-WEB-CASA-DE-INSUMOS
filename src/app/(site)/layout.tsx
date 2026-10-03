@@ -27,7 +27,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SiteFooterGate>
           <SiteFooter />
         </SiteFooterGate>
-        <WhatsAppBubble numero={whatsappNumero} />
+        <WhatsAppBubble numero={whatsappNumero} servicio="cajas" />
       </CartProvider>
     </LogoProvider>
   );
