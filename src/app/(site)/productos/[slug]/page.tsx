@@ -9,7 +9,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { CatalogHeader } from "@/components/site/catalog-header";
 import { BoxVisual } from "@/components/site/box-visual";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
 import { ClassificationBadge } from "@/components/site/classification-badge";
@@ -46,7 +45,6 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
 
   return (
     <>
-      <CatalogHeader containerClassName={HOME_CONTAINER} />
       <div className={cn(HOME_CONTAINER, "py-6 lg:py-10")}>
         <Breadcrumb className="mb-6">
           <BreadcrumbList>

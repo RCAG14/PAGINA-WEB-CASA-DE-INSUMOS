@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { CatalogHeader } from "@/components/site/catalog-header";
 import { HeroSection } from "@/components/site/hero-section";
 import { HowToBuy } from "@/components/site/how-to-buy";
 import { PromoBanners } from "@/components/site/promo-banners";
 import { CatalogSection } from "@/components/site/catalog-section";
 import { CatalogBrowserSkeleton } from "@/components/site/catalog-browser-skeleton";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
-import { HomeFooter } from "@/components/site/home-footer";
-import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
-import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { HOME_CONTAINER } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
@@ -31,16 +27,12 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogoPage() {
-  const [logo, whatsappNumero, { dict }] = await Promise.all([
-    getLogo(),
-    getNumeroWhatsappPrincipal(),
-    getDictionary(),
-  ]);
+  const { dict } = await getDictionary();
 
   // Orden pensado para comprar rápido: hero corto → catálogo → cómo comprar.
+  // Navbar y footer los pone el layout (site), igual que en ficha, carrito y checkout.
   return (
     <>
-      <CatalogHeader containerClassName={HOME_CONTAINER} />
       <HeroSection />
       <PromoBanners />
       <section id="catalogo" className="scroll-mt-20">
@@ -62,12 +54,6 @@ export default async function CatalogoPage() {
         </div>
       </section>
       <HowToBuy />
-      <HomeFooter
-        logoUrl={logo?.url ?? null}
-        whatsappNumero={whatsappNumero}
-        containerClassName={HOME_CONTAINER}
-        description={dict.footer.cajasDescription}
-      />
     </>
   );
 }

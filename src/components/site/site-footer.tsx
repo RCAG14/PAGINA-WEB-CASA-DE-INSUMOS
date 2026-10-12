@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ExternalLink, Link2, Mail, MapPin, MessageCircle } from "lucide-react";
-import { getRedesSociales } from "@/lib/data/contacto";
+import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
+import { getLogo } from "@/lib/data/landing";
+import { HOME_CONTAINER } from "@/lib/layout";
+import type { SeccionSitio } from "@/lib/secciones";
 import { getDictionary } from "@/lib/i18n/locale";
 import { getPlataformaRedSocial, getRedSocialHref } from "@/lib/redes-sociales";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
@@ -23,29 +26,34 @@ const CONTACT_LINK =
   "flex items-center gap-2.5 text-sm text-sidebar-foreground/85 transition-colors hover:text-accent";
 
 /**
- * Footer propio de la home ("/") — deliberadamente simple y separado del
- * footer antiguo del flujo de compra (hoy lo usan todas las páginas): sin
- * listado de clasificaciones, solo identidad + contacto directo + servicios.
+ * Footer reutilizable del sitio público: `<SiteFooter seccion="webdev" />`.
+ * Busca por su cuenta logo, WhatsApp, redes y textos; la sección solo elige
+ * la descripción (cada negocio describe únicamente lo suyo).
  *
  * Columnas en escritorio (marca | contacto | servicios) y apiladas en celular.
- * `containerClassName` permite alinearlo con el ancho de la página que lo usa;
- * `id` cambia el ancla cuando la página ya tiene su propio bloque "#contacto";
- * `description` reemplaza el texto general (cada negocio describe solo lo suyo).
+ * `id` cambia el ancla cuando la página ya tiene su propio bloque "#contacto"
+ * (desarrollo web).
  */
-export async function HomeFooter({
-  logoUrl,
-  whatsappNumero = null,
-  containerClassName = "mx-auto max-w-6xl px-4 sm:px-6",
+export async function SiteFooter({
+  seccion,
   id = "contacto",
-  description,
 }: {
-  logoUrl: string | null;
-  whatsappNumero?: string | null;
-  containerClassName?: string;
+  seccion: SeccionSitio;
   id?: string;
-  description?: string;
 }) {
-  const [redesSociales, { dict }] = await Promise.all([getRedesSociales(), getDictionary()]);
+  const [logo, whatsappNumero, redesSociales, { dict }] = await Promise.all([
+    getLogo(),
+    getNumeroWhatsappPrincipal(),
+    getRedesSociales(),
+    getDictionary(),
+  ]);
+  const logoUrl = logo?.url ?? null;
+  const description = {
+    portada: dict.footer.description,
+    cajas: dict.footer.cajasDescription,
+    webdev: dict.webdev.contact.footerDescription,
+  }[seccion];
+  const containerClassName = HOME_CONTAINER;
   const servicios = dict.homeLanding.choices;
 
   return (
@@ -67,7 +75,7 @@ export async function HomeFooter({
             <span className="font-heading text-xl font-bold tracking-tight">Casa Insumos</span>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-sidebar-foreground/70">
-            {description ?? dict.footer.description}
+            {description}
           </p>
 
           {redesSociales.length > 0 && (

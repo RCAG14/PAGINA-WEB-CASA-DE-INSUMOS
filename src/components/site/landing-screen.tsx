@@ -1,9 +1,7 @@
-import { getLogo } from "@/lib/data/landing";
 import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { getDictionary } from "@/lib/i18n/locale";
-import { getSession } from "@/lib/auth/session";
-import { HomeHeader } from "@/components/site/home-header";
-import { HomeFooter } from "@/components/site/home-footer";
+import { SiteNavbar } from "@/components/site/site-navbar";
+import { SiteFooter } from "@/components/site/site-footer";
 import { LandingChoices } from "@/components/site/landing-choices";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { WhatsAppServicePicker } from "@/components/site/whatsapp-bubble";
@@ -14,20 +12,14 @@ import { HOME_CONTAINER } from "@/lib/layout";
 const ABOUT_ICONS = [MapPin, MessageCircle, ListChecks];
 
 export async function LandingScreen() {
-  const [logo, whatsappNumero, { dict }, session] = await Promise.all([
-    getLogo(),
+  const [whatsappNumero, { dict }] = await Promise.all([
     getNumeroWhatsappPrincipal(),
     getDictionary(),
-    getSession(),
   ]);
-  const logoUrl = logo?.url ?? null;
 
   return (
     <>
-      <HomeHeader
-        logoUrl={logoUrl}
-        session={session ? { nombre: session.nombre, rol: session.rol } : null}
-      />
+      <SiteNavbar seccion="portada" />
 
       <main className="flex-1">
         <LandingChoices />
@@ -93,11 +85,7 @@ export async function LandingScreen() {
         </section>
       </main>
 
-      <HomeFooter
-        logoUrl={logoUrl}
-        whatsappNumero={whatsappNumero}
-        containerClassName={HOME_CONTAINER}
-      />
+      <SiteFooter seccion="portada" />
     </>
   );
 }
