@@ -265,24 +265,52 @@ const es = {
     aboutTitle: "Dos líneas de negocio, un mismo compromiso",
     aboutDescription:
       "Casa Insumos nació para resolver dos necesidades del revendedor boliviano: acceso a mercadería de liquidación con trazabilidad real, y herramientas digitales propias para vender mejor. Somos un equipo local, con atención directa y resultados medibles.",
+    aboutPoints: [
+      {
+        titulo: "Equipo local en Bolivia",
+        descripcion: "Atendemos desde Bolivia y conocemos al revendedor boliviano.",
+      },
+      {
+        titulo: "Atención directa",
+        descripcion: "Coordinas pedidos y consultas por WhatsApp, sin intermediarios.",
+      },
+      {
+        titulo: "Sabes qué compras",
+        descripcion: "Las cajas listadas muestran su contenido antes de comprar.",
+      },
+    ],
+    contactTitle: "¿Tienes dudas?",
+    contactDescription: "Escríbenos y te ayudamos a elegir la caja o el paquete que necesitas.",
+    contactCta: "Escribir por WhatsApp",
+    contactMessage:
+      "Hola, vengo de la página de Casa Insumos y quisiera más información.",
     servicesEyebrow: "Nuestros servicios",
     servicesTitle: "Elegí lo que necesitás",
     scrollToServices: "Servicios",
     scrollToContact: "Contacto",
     choices: {
+      eyebrow: "Casa Insumos · Bolivia",
       title: "Cajas de devoluciones de Amazon y desarrollo web en Bolivia",
+      subtitle: "Elige el servicio que necesitas para empezar.",
+      priceFrom: "Desde",
       cajas: {
         eyebrow: "Cajas de devoluciones",
         titulo: "Cajas de Amazon",
-        descripcion:
-          "Cajas de devoluciones de Amazon en Bolivia por lote, en modalidad sorpresa o listada, con manifiesto verificable.",
+        puntos: [
+          "Por lote con contenido listado, o caja sorpresa",
+          "Manifiesto verificable en cada ficha",
+          "Pago y envío coordinados por WhatsApp",
+        ],
         cta: "Ver catálogo de cajas",
       },
       webdev: {
         eyebrow: "Desarrollo web",
         titulo: "Desarrollo Web a Medida",
-        descripcion:
-          "Sitios web, sistemas, dashboards y chatbots — desarrollo web en Bolivia a medida para cualquier negocio.",
+        puntos: [
+          "Sitios web, sistemas, dashboards y chatbots",
+          "Paquetes con precio claro y extras opcionales",
+          "Cotización directa por WhatsApp",
+        ],
         cta: "Ver paquetes",
       },
     },
@@ -676,22 +704,52 @@ const en: typeof es = {
     aboutTitle: "Two business lines, one commitment",
     aboutDescription:
       "Casa Insumos was built to solve two needs for Bolivian resellers: access to traceable liquidation merchandise, and their own digital tools to sell better. We're a local team, with direct support and measurable results.",
+    aboutPoints: [
+      {
+        titulo: "Local team in Bolivia",
+        descripcion: "We work from Bolivia and know the Bolivian reseller.",
+      },
+      {
+        titulo: "Direct support",
+        descripcion: "Orders and questions are handled over WhatsApp, no middlemen.",
+      },
+      {
+        titulo: "Know what you buy",
+        descripcion: "Listed boxes show their contents before you buy.",
+      },
+    ],
+    contactTitle: "Have questions?",
+    contactDescription: "Message us and we'll help you pick the right box or package.",
+    contactCta: "Message us on WhatsApp",
+    contactMessage:
+      "Hola, vengo de la página de Casa Insumos y quisiera más información.",
     servicesEyebrow: "Our services",
     servicesTitle: "Choose what you need",
     scrollToServices: "Services",
     scrollToContact: "Contact",
     choices: {
+      eyebrow: "Casa Insumos · Bolivia",
       title: "Amazon return boxes and web development in Bolivia",
+      subtitle: "Choose the service you need to get started.",
+      priceFrom: "From",
       cajas: {
         eyebrow: "Return boxes",
         titulo: "Amazon Boxes",
-        descripcion: "Amazon return lots in mystery or listed mode, with a verifiable manifest.",
+        puntos: [
+          "Lots with listed contents, or mystery boxes",
+          "Verifiable manifest on every spec sheet",
+          "Payment and shipping arranged on WhatsApp",
+        ],
         cta: "View box catalog",
       },
       webdev: {
         eyebrow: "Web development",
         titulo: "Custom Web Development",
-        descripcion: "Websites, systems, dashboards and chatbots built to measure for any business.",
+        puntos: [
+          "Websites, systems, dashboards and chatbots",
+          "Clearly priced packages and optional extras",
+          "Direct quotes over WhatsApp",
+        ],
         cta: "View packages",
       },
     },

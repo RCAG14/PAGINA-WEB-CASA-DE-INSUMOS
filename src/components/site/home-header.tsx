@@ -3,6 +3,7 @@
 import type { AccountNavSession } from "@/components/site/account-nav";
 import { Navbar } from "@/components/site/navbar";
 import { useI18n } from "@/lib/i18n/locale-context";
+import { HOME_CONTAINER } from "@/lib/layout";
 
 /**
  * Header propio de la home ("/") — a propósito NO es SiteHeader: la home es
@@ -22,6 +23,7 @@ export function HomeHeader({
     <Navbar
       logoUrl={logoUrl}
       session={session}
+      containerClassName={HOME_CONTAINER}
       links={[
         { href: "#servicios", label: dict.header.navServices },
         { href: "#sobre-nosotros", label: dict.header.navAbout },

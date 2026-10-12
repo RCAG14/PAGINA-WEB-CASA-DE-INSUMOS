@@ -69,6 +69,15 @@ export async function getPaquetesDesarrollo() {
   }));
 }
 
+/** Precio del paquete activo más barato — referencia "desde" de la portada. */
+export async function getPrecioMinimoPaquetes(): Promise<number | null> {
+  const { _min } = await prisma.paqueteDesarrollo.aggregate({
+    where: { activo: true },
+    _min: { precio: true },
+  });
+  return _min.precio === null ? null : toDecimalNumber(_min.precio);
+}
+
 export async function crearPaqueteDesarrollo(input: PaqueteDesarrolloInput) {
   const count = await prisma.paqueteDesarrollo.count();
   const { mantenimientoMensual, desglose, ...rest } = input;

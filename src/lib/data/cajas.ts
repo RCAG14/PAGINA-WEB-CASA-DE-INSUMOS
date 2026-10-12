@@ -85,6 +85,15 @@ export async function getCajas(): Promise<Box[]> {
   return rows.map(toBoxViewModel);
 }
 
+/** Precio de la caja más barata con stock — referencia "desde" de la portada. */
+export async function getPrecioMinimoCajas(): Promise<number | null> {
+  const { _min } = await prisma.caja.aggregate({
+    where: { stock_disponible: { gt: 0 } },
+    _min: { precio_venta_caja: true },
+  });
+  return _min.precio_venta_caja === null ? null : toDecimalNumber(_min.precio_venta_caja);
+}
+
 export async function getCajaBySlug(slug: string): Promise<Box | null> {
   const row = await prisma.caja.findUnique({ where: { slug }, include: cajaInclude });
   return row ? toBoxViewModel(row) : null;

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Boxes, MonitorCog, X } from "lucide-react";
-import { buildWhatsAppLink, cn } from "@/lib/utils";
+import { buildWhatsAppLink } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/locale-context";
+import { MENSAJES_WHATSAPP, type ServicioWhatsApp } from "@/lib/whatsapp";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -13,38 +14,29 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-export type ServicioWhatsApp = "cajas" | "webdev";
-
-// El mensaje llega al negocio, por eso va siempre en español sin importar el
-// idioma que esté viendo el visitante.
-const MENSAJES: Record<ServicioWhatsApp, string> = {
-  cajas:
-    "Hola, vengo de la página de Casa Insumos y quisiera más información sobre las cajas de devoluciones de Amazon.",
-  webdev:
-    "Hola, vengo de la página de Casa Insumos y quisiera más información sobre el servicio de desarrollo web.",
-};
+const MENSAJES = MENSAJES_WHATSAPP;
 
 const ICONOS = { cajas: Boxes, webdev: MonitorCog } as const;
 
-const BUBBLE_CLASS =
-  "flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/40";
-
 /**
- * Botón flotante de WhatsApp. Con `servicio` abre el chat directo con un
- * mensaje sobre ese servicio; sin él (portada) primero pregunta cuál de los
- * dos servicios quiere consultar el visitante.
+ * Botón de WhatsApp que antes de abrir el chat pregunta sobre qué servicio
+ * quiere consultar el visitante (portada, donde conviven los dos negocios).
+ * El panel se abre encima del botón y se cierra con clic afuera o Escape.
  */
-export function WhatsAppBubble({
+export function WhatsAppServicePicker({
   numero,
-  servicio,
+  className,
+  children,
 }: {
   numero: string | null;
-  servicio?: ServicioWhatsApp;
+  className?: string;
+  children: React.ReactNode;
 }) {
   const { dict } = useI18n();
   const t = dict.whatsappBubble;
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const panelId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -64,32 +56,18 @@ export function WhatsAppBubble({
 
   if (!numero) return null;
 
-  if (servicio) {
-    return (
-      <a
-        href={buildWhatsAppLink(numero, MENSAJES[servicio])}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={t.ariaChat}
-        className={cn("fixed bottom-5 left-4 z-50 sm:bottom-6 sm:left-6", BUBBLE_CLASS)}
-      >
-        <WhatsAppIcon className="size-6" />
-      </a>
-    );
-  }
-
   const opciones: ServicioWhatsApp[] = ["cajas", "webdev"];
 
   return (
-    <div ref={ref} className="fixed bottom-5 left-4 z-50 flex flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+    <div ref={ref} className="relative shrink-0">
       {open && (
         <div
-          id="whatsapp-opciones"
+          id={panelId}
           role="dialog"
           aria-label={t.question}
-          className="w-72 origin-bottom-left animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-4 shadow-elevation-lg"
+          className="absolute bottom-full left-0 z-50 mb-3 w-72 max-w-[calc(100vw-2rem)] origin-bottom-left animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 rounded-2xl border border-border bg-card p-4 text-left text-foreground shadow-elevation-lg sm:left-auto sm:right-0 sm:origin-bottom-right"
         >
-          <p className="font-heading text-sm font-semibold text-foreground">{t.question}</p>
+          <p className="font-heading text-sm font-semibold">{t.question}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">{t.hint}</p>
           <div className="mt-3 flex flex-col gap-2">
             {opciones.map((s) => {
@@ -117,12 +95,13 @@ export function WhatsAppBubble({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? t.ariaClose : t.ariaChat}
         aria-expanded={open}
-        aria-controls="whatsapp-opciones"
-        className={BUBBLE_CLASS}
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+        className={className}
       >
-        {open ? <X className="size-6" /> : <WhatsAppIcon className="size-6" />}
+        {open ? <X className="size-4" strokeWidth={2} /> : <WhatsAppIcon className="size-4" />}
+        {children}
       </button>
     </div>
   );

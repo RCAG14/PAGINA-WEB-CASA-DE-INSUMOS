@@ -7,6 +7,7 @@ import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { AccountNav, type AccountNavSession } from "@/components/site/account-nav";
 import { BrandMark } from "@/components/site/brand-mark";
 import { useI18n } from "@/lib/i18n/locale-context";
+import { cn } from "@/lib/utils";
 
 export interface NavbarLink {
   href: string;
@@ -19,18 +20,21 @@ export interface NavbarLink {
  * `lg` los enlaces e idioma pasan al menú desplegable.
  *
  * `session === undefined` oculta la opción de cuenta (ej. catálogo de cajas);
- * `null` muestra "Iniciar sesión".
+ * `null` muestra "Iniciar sesión". `containerClassName` reemplaza el ancho
+ * por defecto (`max-w-6xl` + gutters) para alinearlo con páginas más anchas.
  */
 export function Navbar({
   logoUrl,
   links,
   session,
   actions,
+  containerClassName = "mx-auto max-w-6xl px-4 sm:px-6",
 }: {
   logoUrl: string | null;
   links: NavbarLink[];
   session?: AccountNavSession | null;
   actions?: ReactNode;
+  containerClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const { dict } = useI18n();
@@ -38,7 +42,7 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
-      <div className="mx-auto flex h-19 max-w-6xl items-center gap-4 px-4 sm:px-6">
+      <div className={cn("flex h-19 items-center gap-4", containerClassName)}>
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
