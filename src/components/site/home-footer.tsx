@@ -7,7 +7,8 @@ import { buildWhatsAppLink, cn } from "@/lib/utils";
 import { BrandMark } from "@/components/site/brand-mark";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
+// Vacía o con solo espacios cuenta como "sin correo": antes dibujaba una fila sin texto.
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
 // Solo las URLs de "Insertar un mapa" se pueden cargar en un iframe; un enlace
 // para compartir (maps.app.goo.gl/...) Google lo bloquea y queda un recuadro vacío.
 const MAPS_EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.startsWith(

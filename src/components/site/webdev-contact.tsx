@@ -6,7 +6,8 @@ import { buildWhatsAppLink, cn } from "@/lib/utils";
 import { MENSAJES_WHATSAPP } from "@/lib/whatsapp";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
+// Vacía o con solo espacios cuenta como "sin correo": antes dibujaba una fila sin texto.
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
 const MENSAJE_AFILIADOS = "Hola, quiero información sobre el programa de afiliados de desarrollo web.";
 
 /**

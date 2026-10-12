@@ -2,7 +2,8 @@ import { SITE_URL } from "@/lib/site-url";
 import { getRedSocialHref } from "@/lib/redes-sociales";
 
 const MAPS_LINK = "https://maps.app.goo.gl/w8YaHofM24kX5KN97";
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? null;
+// Vacía o con solo espacios cuenta como "sin correo": antes dibujaba una fila sin texto.
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
 
 interface OrganizationJsonLdProps {
   logoUrl?: string | null;
