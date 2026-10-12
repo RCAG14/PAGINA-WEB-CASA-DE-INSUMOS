@@ -132,13 +132,7 @@
     font-family: var(--font-mono), sans-serif;
   }
 
-  .bg-grid-technical {
-    background-image:
-      linear-gradient(to right, color-mix(in oklch, var(--line) 35%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklch, var(--line) 35%, transparent) 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
-
+  /* Verde de la marca con dos brillos suaves, sin cuadrícula (fondo limpio). */
   .bg-blueprint-dark {
     background-color: var(--sidebar);
     background-image:
@@ -151,14 +145,7 @@
         ellipse 65% 60% at 88% 92%,
         color-mix(in oklch, var(--primary) 22%, transparent),
         transparent 68%
-      ),
-      linear-gradient(to right, rgba(246, 242, 230, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(246, 242, 230, 0.04) 1px, transparent 1px);
-    background-size:
-      auto,
-      auto,
-      64px 64px,
-      64px 64px;
+      );
   }
 
   .glass-panel {
