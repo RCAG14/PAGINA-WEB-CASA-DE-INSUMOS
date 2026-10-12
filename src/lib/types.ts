@@ -87,6 +87,8 @@ export interface CartLine {
   precio: number;
   cantidad: number;
   stock: number;
+  /** Foto de la caja; opcional porque los carritos guardados antes no la tienen. */
+  imagenUrl?: string | null;
 }
 
 export type OrderStatus =

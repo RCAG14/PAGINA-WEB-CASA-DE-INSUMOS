@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { CLASSIFICATION_ICON_MAP } from "@/lib/classification-icons";
+import { CartThumb } from "@/components/site/cart-thumb";
 import { BoxTypeBadge } from "@/components/site/box-type-badge";
 import { formatPrice } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
@@ -37,14 +37,14 @@ export function CartSheet() {
       >
         <ShoppingCart className="size-4" />
         {totalItems > 0 && (
-          <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-accent font-mono-technical text-[9px] font-semibold text-accent-foreground shadow-glow-accent">
+          <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-accent-foreground">
             {totalItems}
           </span>
         )}
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md">
         <SheetHeader className="border-b border-border/60">
-          <SheetTitle className="font-mono-technical text-sm uppercase tracking-wider">
+          <SheetTitle className="font-heading text-lg font-semibold">
             {dict.cartSheet.title} ({totalItems})
           </SheetTitle>
         </SheetHeader>
@@ -56,7 +56,7 @@ export function CartSheet() {
             <SheetClose
               render={
                 <Link
-                  href="/cajas-devoluciones-amazon-bolivia"
+                  href="/cajas-devoluciones-amazon-bolivia#catalogo"
                   className={buttonVariants({ variant: "secondary", size: "sm" })}
                 />
               }
@@ -70,12 +70,9 @@ export function CartSheet() {
             <div className="flex-1 overflow-y-auto px-4">
               <ul className="flex flex-col divide-y divide-border">
                 {lines.map((line) => {
-                  const Icon = CLASSIFICATION_ICON_MAP[line.clasificacionIcono];
                   return (
                     <li key={line.boxId} className="flex gap-3 py-3">
-                      <div className="flex size-14 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted">
-                        <Icon className="size-5 text-primary" strokeWidth={1.5} />
-                      </div>
+                      <CartThumb line={line} />
                       <div className="flex flex-1 flex-col gap-1">
                         <div className="flex items-start justify-between gap-2">
                           <Link
@@ -89,36 +86,33 @@ export function CartSheet() {
                             aria-label={dict.cartSheet.removeFromCart}
                             className="text-muted-foreground transition-colors hover:text-destructive"
                           >
-                            <Trash2 className="size-3.5" />
+                            <Trash2 className="size-4" />
                           </button>
                         </div>
-                        <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
-                          {line.skuCaja}
-                        </span>
                         <BoxTypeBadge tipo={line.tipo} className="w-fit" />
                         <div className="flex items-center justify-between pt-1">
                           <div className="flex items-center overflow-hidden rounded-lg border border-border/60">
                             <button
                               onClick={() => setQty(line.boxId, line.cantidad - 1)}
                               disabled={line.cantidad <= 1}
-                              className="flex size-6 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
+                              className="flex size-8 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
                               aria-label={dict.cartSheet.decreaseQty}
                             >
                               <Minus className="size-3" />
                             </button>
-                            <span className="w-6 text-center font-mono-technical text-xs">
+                            <span className="w-7 text-center text-sm font-semibold">
                               {line.cantidad}
                             </span>
                             <button
                               onClick={() => setQty(line.boxId, line.cantidad + 1)}
                               disabled={line.cantidad >= line.stock}
-                              className="flex size-6 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
+                              className="flex size-8 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
                               aria-label={dict.cartSheet.increaseQty}
                             >
                               <Plus className="size-3" />
                             </button>
                           </div>
-                          <span className="font-mono-technical text-sm font-semibold text-primary">
+                          <span className="font-heading text-base font-semibold text-primary">
                             {formatPrice(line.precio * line.cantidad)}
                           </span>
                         </div>
@@ -130,29 +124,33 @@ export function CartSheet() {
             </div>
 
             <SheetFooter className="border-t border-border/60">
-              <div className="flex items-center justify-between font-mono-technical text-sm">
+              <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">{dict.cartSheet.subtotal}</span>
-                <span className="font-semibold text-primary">{formatPrice(subtotal)}</span>
+                <span className="font-heading text-xl font-bold text-primary">{formatPrice(subtotal)}</span>
               </div>
               <Separator />
-              <SheetClose
-                render={
-                  <Link href="/carrito" className={buttonVariants({ className: "w-full" })} />
-                }
-                nativeButton={false}
-              >
-                {dict.cartSheet.viewFullCart}
-              </SheetClose>
+              {/* "Comprar" es la acción principal; ver el carrito completo, secundaria. */}
               <SheetClose
                 render={
                   <Link
                     href="/checkout"
-                    className={buttonVariants({ variant: "secondary", className: "w-full" })}
+                    className={buttonVariants({ size: "lg", className: "w-full" })}
                   />
                 }
                 nativeButton={false}
               >
                 {dict.cartSheet.buy}
+              </SheetClose>
+              <SheetClose
+                render={
+                  <Link
+                    href="/carrito"
+                    className={buttonVariants({ variant: "outline", className: "w-full" })}
+                  />
+                }
+                nativeButton={false}
+              >
+                {dict.cartSheet.viewFullCart}
               </SheetClose>
             </SheetFooter>
           </>

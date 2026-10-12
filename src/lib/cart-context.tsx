@@ -77,6 +77,7 @@ function reducer(state: CartState, action: CartAction): CartState {
         clasificacionLabel: action.box.clasificacion.label,
         clasificacionIcono: action.box.clasificacion.icon,
         skuCaja: action.box.specs.skuCaja,
+        imagenUrl: action.box.imagenUrl ?? null,
         precio: action.box.precio,
         cantidad: Math.min(action.cantidad, maxQty),
         stock: maxQty,

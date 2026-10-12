@@ -6,6 +6,7 @@ import type { AccountNavSession } from "@/components/site/account-nav";
 import { Navbar } from "@/components/site/navbar";
 import { useLogo } from "@/lib/logo-context";
 import { useI18n } from "@/lib/i18n/locale-context";
+import { HOME_CONTAINER } from "@/lib/layout";
 
 export function SiteHeader({ session }: { session: AccountNavSession | null }) {
   const pathname = usePathname();
@@ -23,9 +24,12 @@ export function SiteHeader({ session }: { session: AccountNavSession | null }) {
       logoUrl={logoUrl}
       session={session}
       actions={<CartSheet />}
+      containerClassName={HOME_CONTAINER}
+      // Carrito y checkout son parte de la compra de cajas: mismos enlaces que
+      // el catálogo ("#sobre-nosotros" ya no existe).
       links={[
-        { href: "/#servicios", label: dict.header.navServices },
-        { href: "/cajas-devoluciones-amazon-bolivia#sobre-nosotros", label: dict.header.navAbout },
+        { href: "/cajas-devoluciones-amazon-bolivia#catalogo", label: dict.header.navCatalog },
+        { href: "/cajas-devoluciones-amazon-bolivia#como-comprar", label: dict.howToBuy.eyebrow },
         { href: "#contacto", label: dict.header.navContact },
       ]}
     />

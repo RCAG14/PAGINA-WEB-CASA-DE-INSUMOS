@@ -21,8 +21,8 @@ export async function SpecSheet({ specs }: { specs: BoxSpecs }) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
-      <div className="border-b border-border bg-sidebar px-3 py-2">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+      <div className="border-b border-border/60 bg-secondary px-4 py-3">
+        <p className="font-heading text-base font-semibold text-primary">
           {dict.specSheet.title}
         </p>
       </div>
@@ -30,12 +30,12 @@ export async function SpecSheet({ specs }: { specs: BoxSpecs }) {
         {rows.map((row, i) => (
           <div
             key={row.key}
-            className={`flex items-center justify-between gap-4 px-3 py-2.5 ${
+            className={`flex items-center justify-between gap-4 px-4 py-2.5 ${
               i % 2 === 1 ? "bg-muted/50" : ""
             }`}
           >
-            <dt className="text-xs text-muted-foreground">{row.label}</dt>
-            <dd className="text-right font-mono-technical text-xs font-medium text-foreground">
+            <dt className="text-sm text-muted-foreground">{row.label}</dt>
+            <dd className="text-right text-sm font-medium text-foreground">
               {specs[row.key]}
             </dd>
           </div>

@@ -23,42 +23,42 @@ export function AddToCartPanel({ box }: { box: Box }) {
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
-      <div className="flex items-center justify-between">
-        <span className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+    <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
+      <div className="flex items-center justify-between gap-4">
+        <span className="text-sm font-medium text-muted-foreground">
           {dict.addToCartPanel.quantity}
         </span>
-        <span className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-          {box.stock} {dict.addToCartPanel.inStockSuffix}
+        <span className="text-sm text-muted-foreground">
+          {dict.productPage.total}:{" "}
+          <span className="font-heading text-lg font-bold text-primary">
+            {formatPrice(box.precio * qty)}
+          </span>
         </span>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
+      {/* Cantidad y botón en una sola fila: menos alto y la acción más a mano. */}
+      <div className="flex items-center gap-3">
         <QuantityStepper value={qty} max={Math.max(box.stock, 1)} onChange={setQty} />
-        <span className="font-mono-technical text-xl font-semibold text-primary">
-          {formatPrice(box.precio * qty)}
-        </span>
+        <Button
+          size="lg"
+          disabled={outOfStock}
+          onClick={handleAdd}
+          className="flex-1"
+          variant={added ? "secondary" : "default"}
+        >
+          {outOfStock ? (
+            dict.addToCartPanel.outOfStock
+          ) : added ? (
+            <>
+              <Check className="size-4" /> {dict.addToCartPanel.added}
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="size-4" /> {dict.addToCartPanel.addToCart}
+            </>
+          )}
+        </Button>
       </div>
-
-      <Button
-        size="lg"
-        disabled={outOfStock}
-        onClick={handleAdd}
-        className="w-full"
-        variant={added ? "secondary" : "default"}
-      >
-        {outOfStock ? (
-          dict.addToCartPanel.outOfStock
-        ) : added ? (
-          <>
-            <Check className="size-4" /> {dict.addToCartPanel.added}
-          </>
-        ) : (
-          <>
-            <ShoppingCart className="size-4" /> {dict.addToCartPanel.addToCart}
-          </>
-        )}
-      </Button>
     </div>
   );
 }

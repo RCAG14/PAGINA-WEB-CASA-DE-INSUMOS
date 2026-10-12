@@ -15,8 +15,8 @@ export async function BoxContentList({ items }: { items: BoxItemSpec[] }) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
-      <div className="border-b border-border bg-sidebar px-3 py-2">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+      <div className="border-b border-border/60 bg-secondary px-4 py-3">
+        <p className="font-heading text-base font-semibold text-primary">
           {dict.boxContentList.title} — {items.length}{" "}
           {items.length === 1 ? dict.boxContentList.itemSuffix : dict.boxContentList.itemsSuffix}
         </p>
@@ -24,16 +24,16 @@ export async function BoxContentList({ items }: { items: BoxItemSpec[] }) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-xs font-semibold">
               {dict.boxContentList.headerItem}
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-xs font-semibold">
               {dict.boxContentList.headerCondition}
             </TableHead>
-            <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-right text-xs font-semibold">
               {dict.boxContentList.headerQty}
             </TableHead>
-            <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-right text-xs font-semibold">
               {dict.boxContentList.headerPrice}
             </TableHead>
           </TableRow>
@@ -42,11 +42,11 @@ export async function BoxContentList({ items }: { items: BoxItemSpec[] }) {
           {items.map((item) => (
             <TableRow key={item.productoId}>
               <TableCell className="text-sm">{item.nombre}</TableCell>
-              <TableCell className="text-xs text-muted-foreground">{item.condicion}</TableCell>
-              <TableCell className="text-right font-mono-technical text-xs font-medium">
+              <TableCell className="text-sm text-muted-foreground">{item.condicion}</TableCell>
+              <TableCell className="text-right text-sm font-medium">
                 {item.cantidad}
               </TableCell>
-              <TableCell className="text-right font-mono-technical text-xs font-medium text-primary">
+              <TableCell className="text-right text-sm font-semibold text-primary">
                 {formatPrice(item.precioVentaSugerido)}
               </TableCell>
             </TableRow>

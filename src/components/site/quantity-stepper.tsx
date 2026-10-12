@@ -25,7 +25,7 @@ export function QuantityStepper({
       >
         <Minus className="size-3.5" />
       </button>
-      <span className="w-10 text-center font-mono-technical text-sm">{value}</span>
+      <span className="w-10 text-center text-sm font-semibold">{value}</span>
       <button
         type="button"
         onClick={() => onChange(Math.min(max, value + 1))}
