@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import { UserPlus } from "lucide-react";
+import { ArrowLeft, UserPlus } from "lucide-react";
 import { registrarClienteAction } from "@/app/(landing)/registro/actions";
 import type { AuthState } from "@/app/(landing)/login/actions";
 import { Button } from "@/components/ui/button";
@@ -22,54 +22,55 @@ export function RegisterForm() {
     <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden">
       <Link
         href="/"
-        className="absolute left-4 top-4 font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/60 transition-colors hover:text-sidebar-foreground sm:left-6 sm:top-6"
+        className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground sm:left-6 sm:top-6"
       >
-        {dict.webdev.backHome}
+        <ArrowLeft className="size-4" />
+        Casa Insumos
       </Link>
       <LanguageSwitcher className="absolute right-4 top-4 text-sidebar-foreground sm:right-6 sm:top-6" />
 
       <div className="relative mx-auto w-full max-w-sm px-4 py-16 sm:px-6">
-        <div className="rounded-xl border border-sidebar-foreground/15 bg-card/90 p-6 shadow-elevation-xl backdrop-blur-md">
+        <div className="rounded-2xl bg-card p-6 shadow-elevation-xl sm:p-8">
           <div className="mb-6 flex flex-col items-center gap-2 text-center">
-            <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <span className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <UserPlus className="size-5" strokeWidth={2.5} />
             </span>
-            <h1 className="font-heading text-lg font-bold">{dict.auth.registerTitle}</h1>
+            <h1 className="font-heading text-2xl font-bold">{dict.auth.registerTitle}</h1>
           </div>
 
           <form action={formAction} className="flex flex-col gap-4">
             {state?.error && (
               <Alert className="border-destructive/50 bg-destructive/10">
-                <AlertTitle className="font-mono-technical text-xs uppercase tracking-wider text-destructive">
+                <AlertTitle className="text-sm font-semibold text-destructive">
                   {dict.auth.registerErrorTitle}
                 </AlertTitle>
-                <AlertDescription className="text-xs text-destructive">{state.error}</AlertDescription>
+                <AlertDescription className="text-sm text-destructive">{state.error}</AlertDescription>
               </Alert>
             )}
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="nombre" className="text-xs">
+              <Label htmlFor="nombre">
                 {dict.auth.nombre}
               </Label>
               <Input id="nombre" name="nombre" required autoComplete="name" autoFocus />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="username" className="text-xs">
+              <Label htmlFor="username">
                 {dict.auth.username}
               </Label>
               <Input id="username" name="username" required autoComplete="username" />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="password" className="text-xs">
+              <Label htmlFor="password">
                 {dict.auth.password}
               </Label>
               <Input id="password" name="password" type="password" required autoComplete="new-password" />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="confirmar" className="text-xs">
+              <Label htmlFor="confirmar">
                 {dict.auth.confirmPassword}
               </Label>
               <Input id="confirmar" name="confirmar" type="password" required autoComplete="new-password" />
@@ -80,7 +81,7 @@ export function RegisterForm() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-muted-foreground">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             {dict.auth.haveAccount}{" "}
             <Link href="/login" className="font-medium text-primary hover:underline">
               {dict.auth.loginLink}
