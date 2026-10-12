@@ -1,17 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import {
   ArrowDown,
   ArrowUp,
   BadgeCheck,
-  Clapperboard,
-  GalleryHorizontal,
-  Image as ImageIcon,
   Pencil,
   Plus,
-  Sparkles,
   Tag,
   Trash2,
   type LucideIcon,
@@ -27,7 +23,6 @@ import {
   type ContenidoLandingFormValues,
 } from "@/components/admin/landing-media-form-dialog";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ContenidoLanding } from "@/generated/prisma/client";
 import type { FormatoMedia, SitioContenido, TipoContenidoLanding } from "@/lib/data/landing";
 import type { Box, CategoryMeta } from "@/lib/types";
@@ -60,98 +55,24 @@ const LOGO_SECTION: SectionConfig = {
   allowMultiple: false,
 };
 
-// También fija, fuera del selector de negocio: es la ilustración de fondo
-// del Hero de la portada ("/"), que es una sola pantalla compartida por
-// ambos negocios (no pertenece a Venta de Cajas ni a Páginas Web).
-const HOME_HERO_DECORACION_SECTION: SectionConfig = {
-  tipo: "hero_decoracion",
+// Banners de promociones: se muestran en el catálogo de cajas, antes de la lista.
+// Video, carrusel e ilustración del hero e imagen de "Sobre nosotros" ya no se
+// usan en el sitio (las páginas tienen ilustraciones propias), por eso no se
+// ofrecen aquí; lo que ya estaba subido sigue en la base de datos.
+const BANNERS_SECTION: SectionConfig = {
+  tipo: "banner_promo",
   sitio: "cajas",
-  titulo: "Ilustración del Hero de la portada",
+  titulo: "Banners de promociones",
   descripcion:
-    "Gráfico decorativo que aparece detrás del texto en el encabezado de la página de inicio (\"/\"), con un leve desvanecimiento.",
+    "Tarjetas promocionales con botón de llamada a la acción, mostradas en el catálogo de cajas antes de la lista de cajas.",
   formato: "imagen",
-  folder: "casa-de-insumos/landing/hero-decoracion",
-  withCta: false,
-  icon: Sparkles,
-  allowMultiple: false,
+  folder: "casa-de-insumos/landing/banners",
+  withCta: true,
+  icon: Tag,
+  allowMultiple: true,
 };
 
-const CAJAS_SECTIONS: SectionConfig[] = [
-  {
-    tipo: "hero_video",
-    sitio: "cajas",
-    titulo: "Video de fondo del Hero",
-    descripcion:
-      "Video en bucle de fondo del encabezado principal. Si hay uno activo, tiene prioridad sobre el carrusel de imágenes.",
-    formato: "video",
-    folder: "casa-de-insumos/landing/hero",
-    withCta: false,
-    icon: Clapperboard,
-    allowMultiple: false,
-  },
-  {
-    tipo: "hero_imagen",
-    sitio: "cajas",
-    titulo: "Carrusel de imágenes del Hero",
-    descripcion:
-      "Fondo del encabezado cuando no hay video activo. Rotan en el orden mostrado abajo.",
-    formato: "imagen",
-    folder: "casa-de-insumos/landing/hero",
-    withCta: false,
-    icon: GalleryHorizontal,
-    allowMultiple: true,
-  },
-  {
-    tipo: "about_imagen",
-    sitio: "cajas",
-    titulo: 'Imagen de "Sobre nosotros"',
-    descripcion: "Foto que acompaña el bloque de propuesta de valor de la página principal.",
-    formato: "imagen",
-    folder: "casa-de-insumos/landing/about",
-    withCta: false,
-    icon: ImageIcon,
-    allowMultiple: false,
-  },
-  {
-    tipo: "banner_promo",
-    sitio: "cajas",
-    titulo: "Banners de promociones",
-    descripcion:
-      "Tarjetas promocionales con botón de llamada a la acción, mostradas antes del catálogo.",
-    formato: "imagen",
-    folder: "casa-de-insumos/landing/banners",
-    withCta: true,
-    icon: Tag,
-    allowMultiple: true,
-  },
-];
-
-const WEBDEV_SECTIONS: SectionConfig[] = [
-  {
-    tipo: "hero_video",
-    sitio: "webdev",
-    titulo: "Video de fondo del Hero",
-    descripcion:
-      "Video en bucle de fondo del encabezado de Páginas Web. Si hay uno activo, tiene prioridad sobre el carrusel de imágenes.",
-    formato: "video",
-    folder: "casa-de-insumos/desarrollo-web/hero",
-    withCta: false,
-    icon: Clapperboard,
-    allowMultiple: false,
-  },
-  {
-    tipo: "hero_imagen",
-    sitio: "webdev",
-    titulo: "Carrusel de imágenes del Hero",
-    descripcion:
-      "Fondo del encabezado de Páginas Web cuando no hay video activo. Rotan en el orden mostrado abajo.",
-    formato: "imagen",
-    folder: "casa-de-insumos/desarrollo-web/hero",
-    withCta: false,
-    icon: GalleryHorizontal,
-    allowMultiple: true,
-  },
-];
+const SECCIONES: SectionConfig[] = [LOGO_SECTION, BANNERS_SECTION];
 
 function toFormValues(item: ContenidoLanding): ContenidoLandingFormValues {
   return {
@@ -176,7 +97,6 @@ export function LandingMediaManager({
 }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
-  const [negocio, setNegocio] = useState<SitioContenido>("cajas");
 
   function refrescar() {
     router.refresh();
@@ -197,23 +117,11 @@ export function LandingMediaManager({
     });
   }
 
-  const sectionsVisibles = [
-    LOGO_SECTION,
-    HOME_HERO_DECORACION_SECTION,
-    ...(negocio === "cajas" ? CAJAS_SECTIONS : WEBDEV_SECTIONS),
-  ];
 
   return (
     <div className="flex flex-col gap-6">
-      <Tabs value={negocio} onValueChange={(v) => setNegocio((v as SitioContenido) ?? "cajas")}>
-        <TabsList>
-          <TabsTrigger value="cajas">Venta de Cajas</TabsTrigger>
-          <TabsTrigger value="webdev">Páginas Web</TabsTrigger>
-        </TabsList>
-      </Tabs>
-
       <div className="flex flex-col gap-10">
-      {sectionsVisibles.map((section) => {
+      {SECCIONES.map((section) => {
         const sectionItems = items
           .filter((i) => i.tipo === section.tipo && i.sitio === section.sitio)
           .sort((a, b) => a.orden - b.orden);
@@ -227,7 +135,7 @@ export function LandingMediaManager({
                   <section.icon className="size-4" strokeWidth={1.5} />
                 </span>
                 <div>
-                  <p className="font-mono-technical text-[11px] uppercase tracking-wider text-foreground">
+                  <p className="font-mono-technical text-xs uppercase tracking-wider text-foreground">
                     {section.titulo}
                   </p>
                   <p className="max-w-xl text-xs text-muted-foreground">{section.descripcion}</p>
@@ -304,8 +212,8 @@ export function LandingMediaManager({
                       <span
                         className={
                           item.activo
-                            ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
-                            : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
+                            ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground"
+                            : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground"
                         }
                       >
                         {item.activo ? "Visible" : "Oculto"}

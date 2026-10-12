@@ -12,7 +12,7 @@ export default async function AdminPedidosPage() {
     <>
       <AdminTopbar title="Pedidos" eyebrow="Gestión de Cajas Amazon y Retornos" />
       <div className="flex flex-col gap-4 p-4 sm:p-6">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+        <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {pedidos.length.toString().padStart(2, "0")} pedidos registrados en la base de datos
         </p>
         <Panel>

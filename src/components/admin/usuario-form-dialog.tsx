@@ -135,7 +135,7 @@ export function UsuarioFormDialog({
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {ROLES.find((r) => r.value === values.rol)?.descripcion}
               </p>
             </div>
@@ -162,7 +162,7 @@ export function UsuarioFormDialog({
                   <RefreshCw className="size-3.5" />
                 </Button>
               </div>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Compártela por un canal seguro. Puede usarla para iniciar sesión en{" "}
                 <span className="font-mono-technical">/admin/login</span>.
               </p>

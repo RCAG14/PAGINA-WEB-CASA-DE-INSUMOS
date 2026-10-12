@@ -38,7 +38,7 @@ export function PanelHeader({
         className
       )}
     >
-      <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+      <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
         {label}
       </p>
       {action ?? icon}

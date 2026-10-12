@@ -41,7 +41,7 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
             Trabajos realizados
           </p>
           <p className="text-xs text-muted-foreground">
@@ -93,8 +93,8 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                 <span
                   className={
                     trabajo.activo
-                      ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary-foreground"
-                      : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-muted-foreground"
+                      ? "absolute right-1.5 top-1.5 rounded-full border border-primary bg-primary px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground"
+                      : "absolute right-1.5 top-1.5 rounded-full border border-border/60 bg-background/90 px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground"
                   }
                 >
                   {trabajo.activo ? "Visible" : "Oculto"}
@@ -103,7 +103,7 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
 
               <div>
                 <p className="truncate text-xs font-medium">{trabajo.titulo}</p>
-                <p className="truncate font-mono-technical text-[10px] uppercase tracking-wider text-accent">
+                <p className="truncate font-mono-technical text-xs uppercase tracking-wider text-accent">
                   {trabajo.categoria}
                 </p>
               </div>

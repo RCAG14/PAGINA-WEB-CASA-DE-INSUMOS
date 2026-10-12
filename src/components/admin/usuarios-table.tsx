@@ -67,7 +67,7 @@ export function UsuariosTable({
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
             Cuentas de staff
           </p>
           <p className="text-xs text-muted-foreground">
@@ -93,22 +93,22 @@ export function UsuariosTable({
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Usuario
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Acceso
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Rol
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Creado
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Activo
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Acciones
               </TableHead>
             </TableRow>
@@ -126,7 +126,7 @@ export function UsuariosTable({
                       </span>
                       <span className="text-sm font-medium">{u.nombre}</span>
                       {esUsuarioActual && (
-                        <Badge variant="outline" className="text-[10px]">
+                        <Badge variant="outline" className="text-xs">
                           Tú
                         </Badge>
                       )}

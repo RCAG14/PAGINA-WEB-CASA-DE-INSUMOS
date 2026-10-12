@@ -109,7 +109,7 @@ export function InventarioTable({
         </Link>
       </div>
 
-      <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+      <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
         {filtered.length.toString().padStart(2, "0")} de {boxes.length.toString().padStart(2, "0")}{" "}
         cajas mostradas
       </p>
@@ -118,22 +118,22 @@ export function InventarioTable({
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Caja
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Clasificación
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Tipo
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Precio
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Stock
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Acciones
               </TableHead>
             </TableRow>
@@ -156,7 +156,7 @@ export function InventarioTable({
                       </div>
                       <div className="flex flex-col">
                         <span className="text-sm font-medium leading-tight">{box.nombre}</span>
-                        <span className="font-mono-technical text-[10px] text-muted-foreground">
+                        <span className="font-mono-technical text-xs text-muted-foreground">
                           {box.specs.skuCaja}
                         </span>
                       </div>
@@ -175,7 +175,7 @@ export function InventarioTable({
                     <span
                       className={
                         lowStock
-                          ? "rounded-full border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive"
+                          ? "rounded-full border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-xs font-semibold text-destructive"
                           : "font-mono-technical text-xs"
                       }
                     >

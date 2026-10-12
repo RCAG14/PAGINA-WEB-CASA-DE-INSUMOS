@@ -64,7 +64,7 @@ export function AdminSidebar({ logoUrl }: { logoUrl?: string | null }) {
             <span className="font-heading text-base font-bold uppercase tracking-wide text-sidebar-foreground">
               Casa Insumos
             </span>
-            <span className="font-mono-technical text-[9px] uppercase tracking-wider text-sidebar-foreground/50">
+            <span className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/50">
               Cajas Amazon y Retornos
             </span>
           </div>
@@ -73,7 +73,7 @@ export function AdminSidebar({ logoUrl }: { logoUrl?: string | null }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="font-mono-technical text-[10px] uppercase tracking-wider">
+          <SidebarGroupLabel className="font-mono-technical text-xs uppercase tracking-wider">
             Gestión
           </SidebarGroupLabel>
           <SidebarGroupContent>

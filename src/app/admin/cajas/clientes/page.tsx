@@ -35,19 +35,19 @@ export default async function AdminClientesPage() {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Cliente
                   </TableHead>
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Contacto
                   </TableHead>
-                  <TableHead className="text-center font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="text-center font-mono-technical text-xs uppercase tracking-wider">
                     Pedidos
                   </TableHead>
-                  <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                     Total gastado
                   </TableHead>
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Producto favorito
                   </TableHead>
                 </TableRow>
@@ -64,7 +64,7 @@ export default async function AdminClientesPage() {
                             {c.email}
                           </span>
                         )}
-                        <span className="font-mono-technical text-[10px] text-muted-foreground">
+                        <span className="font-mono-technical text-xs text-muted-foreground">
                           {c.telefono}
                         </span>
                       </div>

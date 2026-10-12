@@ -73,7 +73,7 @@ export function MultiStorageUploader({
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       {label && (
-        <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {label} — {value.length}/{max}
         </span>
       )}
@@ -110,7 +110,7 @@ export function MultiStorageUploader({
             ) : (
               <>
                 <ImagePlus className="size-5" strokeWidth={1.5} />
-                <span className="font-mono-technical text-[9px] uppercase tracking-wider">Agregar</span>
+                <span className="font-mono-technical text-[11px] uppercase tracking-wider">Agregar</span>
               </>
             )}
           </button>

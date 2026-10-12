@@ -66,10 +66,10 @@ function ProximamenteCard({ nombre }: { nombre: string }) {
   return (
     <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-muted/30 text-center">
       <Clock className="size-5 text-muted-foreground" strokeWidth={1.5} />
-      <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+      <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
         {nombre}
       </p>
-      <span className="rounded-full border border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
+      <span className="rounded-full border border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary">
         Próximamente
       </span>
     </div>

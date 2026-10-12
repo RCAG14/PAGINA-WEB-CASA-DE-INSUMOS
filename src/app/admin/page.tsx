@@ -62,14 +62,14 @@ export default async function AdminPortalPage() {
             <span className="font-heading text-xl font-bold uppercase tracking-wide sm:text-2xl">
               Casa Insumos
             </span>
-            <span className="mt-1 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+            <span className="mt-1 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
               Portal de módulos — ERP/WMS
             </span>
           </div>
         </div>
         <Link
           href="/"
-          className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
+          className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground hover:text-primary"
         >
           Volver a la tienda
         </Link>
@@ -108,15 +108,15 @@ export default async function AdminPortalPage() {
                 <mod.icon className="size-5" strokeWidth={1.5} />
               </span>
               <div className="flex items-center gap-2">
-                <span className="font-mono-technical text-[10px] text-muted-foreground">
+                <span className="font-mono-technical text-xs text-muted-foreground">
                   MOD-{String(i + 1).padStart(2, "0")}
                 </span>
                 {mod.activo ? (
-                  <span className="rounded-full bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground shadow-glow-accent">
+                  <span className="rounded-full bg-primary px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary-foreground shadow-glow-accent">
                     Activo
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 rounded-full border border-dashed border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary">
+                  <span className="flex items-center gap-1 rounded-full border border-dashed border-accent bg-accent/15 px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary">
                     <Lock className="size-2.5" />
                     Próximamente
                   </span>

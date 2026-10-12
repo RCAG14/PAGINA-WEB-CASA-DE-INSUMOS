@@ -185,7 +185,7 @@ export function LandingMediaFormDialog({
                     )}
                   </div>
                   {boxes && (
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       Escribe un enlace manual o usa{" "}
                       <SearchCheck className="inline size-3 align-[-1px]" /> para elegir un
                       producto del catálogo.

@@ -17,7 +17,7 @@ export function StatCard({
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-4 shadow-elevation-sm">
       <div className="flex items-center justify-between">
-        <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
         <span className="flex size-7 items-center justify-center rounded-lg border border-border/60 bg-primary/10 text-primary">
@@ -31,7 +31,7 @@ export function StatCard({
           {trend && (
             <span
               className={cn(
-                "font-mono-technical text-[11px] font-medium",
+                "font-mono-technical text-xs font-medium",
                 trend.positive ? "text-primary" : "text-destructive"
               )}
             >

@@ -58,7 +58,7 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
             Paquetes
           </p>
           <p className="text-xs text-muted-foreground">
@@ -87,19 +87,19 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Paquete
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Precio
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Features
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Estado
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Acciones
               </TableHead>
             </TableRow>
@@ -111,7 +111,7 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium">{p.nombre}</span>
                     {p.destacado && (
-                      <span className="flex items-center gap-1 rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
+                      <span className="flex items-center gap-1 rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-primary">
                         <Star className="size-2.5" strokeWidth={2} />
                         Recomendado
                       </span>
@@ -129,8 +129,8 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                   <span
                     className={
                       p.activo
-                        ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
-                        : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
+                        ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary-foreground"
+                        : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground"
                     }
                   >
                     {p.activo ? "Visible" : "Oculto"}

@@ -84,7 +84,7 @@ export function StorageUploader({
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       {label && (
-        <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
       )}
@@ -112,7 +112,7 @@ export function StorageUploader({
             ) : (
               <ImagePlus className="size-6" strokeWidth={1.5} />
             )}
-            <span className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <span className="font-mono-technical text-xs uppercase tracking-wider">
               Sin archivo
             </span>
           </div>

@@ -15,7 +15,7 @@ export default async function SocioLayout({ children }: { children: React.ReactN
           <span className="font-heading text-xl font-bold tracking-tight sm:text-2xl">
             Casa Insumos
           </span>
-          <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+          <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
             Panel de Socio — Solo lectura
           </span>
           <h1 className="font-heading text-sm font-semibold">{session.nombre}</h1>
@@ -23,7 +23,7 @@ export default async function SocioLayout({ children }: { children: React.ReactN
         <form action={logoutAction} className="ml-auto">
           <button
             type="submit"
-            className="flex items-center gap-1.5 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground hover:text-primary"
+            className="flex items-center gap-1.5 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground hover:text-primary"
           >
             <LogOut className="size-3.5" />
             Cerrar sesión

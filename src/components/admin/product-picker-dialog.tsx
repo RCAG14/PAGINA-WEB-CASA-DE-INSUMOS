@@ -159,7 +159,7 @@ export function ProductPickerDialog({
                 <span className="line-clamp-2 text-xs font-medium leading-tight">
                   {box.nombre}
                 </span>
-                <span className="font-mono-technical text-[11px] font-semibold text-primary">
+                <span className="font-mono-technical text-xs font-semibold text-primary">
                   {formatPrice(box.precio)}
                 </span>
               </button>

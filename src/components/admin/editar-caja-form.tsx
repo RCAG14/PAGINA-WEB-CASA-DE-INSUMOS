@@ -133,7 +133,7 @@ export function EditarCajaForm({
 
       <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
         <div className="border-b border-border bg-sidebar px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground">
             Datos de la caja
           </p>
         </div>
@@ -258,7 +258,7 @@ export function EditarCajaForm({
 
       <section className="border border-border">
         <div className="flex items-center justify-between border-b border-border bg-primary px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground">
             02 — Manifiesto y logística internacional
           </p>
           <div className="flex items-center gap-2">
@@ -324,7 +324,7 @@ export function EditarCajaForm({
       {tipoVenta === "sorpresa" && (
         <section className="border border-border">
           <div className="border-b border-border bg-primary px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground">
               04 — Imágenes de referencia (artículos)
             </p>
           </div>

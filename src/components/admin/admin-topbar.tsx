@@ -41,7 +41,7 @@ export async function AdminTopbar({
       <SidebarTrigger />
       <Separator orientation="vertical" className="h-5" />
       <div className="flex flex-col leading-tight">
-        <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+        <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {eyebrow}
         </span>
         <h1 className="font-heading text-sm font-semibold">{title}</h1>
@@ -63,17 +63,17 @@ export async function AdminTopbar({
             }
           >
             <Avatar className="size-6">
-              <AvatarFallback className="bg-primary text-[10px] text-primary-foreground">
+              <AvatarFallback className="bg-primary text-xs text-primary-foreground">
                 {iniciales}
               </AvatarFallback>
             </Avatar>
-            <span className="font-mono-technical text-[11px] uppercase tracking-wider">
+            <span className="font-mono-technical text-xs uppercase tracking-wider">
               {session ? session.nombre : "Operador"}
             </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <DropdownMenuLabel className="font-mono-technical text-xs uppercase tracking-wider">
                 {session ? (ROL_LABEL[session.rol] ?? session.rol) : "Cuenta"}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

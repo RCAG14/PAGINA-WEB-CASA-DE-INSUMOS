@@ -74,25 +74,25 @@ export function PedidosTable({ pedidos }: { pedidos: AdminOrder[] }) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Pedido
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Cliente
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Fecha
             </TableHead>
-            <TableHead className="text-center font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-center font-mono-technical text-xs uppercase tracking-wider">
               Cajas
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Estado
             </TableHead>
-            <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
               Total
             </TableHead>
-            <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
               Cambiar estado
             </TableHead>
           </TableRow>

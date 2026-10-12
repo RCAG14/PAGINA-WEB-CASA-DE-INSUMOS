@@ -53,7 +53,7 @@ export function ClasificacionesTable({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+        <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
           {classifications.length.toString().padStart(2, "0")} clasificaciones activas
         </p>
         <ClassificationFormDialog
@@ -88,19 +88,19 @@ export function ClasificacionesTable({
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Clasificación
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Slug
               </TableHead>
-              <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                 Descripción
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Cajas asociadas
               </TableHead>
-              <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+              <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                 Acciones
               </TableHead>
             </TableRow>

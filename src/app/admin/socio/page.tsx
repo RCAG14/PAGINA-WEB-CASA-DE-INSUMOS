@@ -92,16 +92,16 @@ export default async function SocioDashboardPage() {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Caja
                 </TableHead>
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   SKU
                 </TableHead>
-                <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                   Unidades vendidas
                 </TableHead>
-                <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                   Ingreso generado
                 </TableHead>
               </TableRow>

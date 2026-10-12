@@ -161,7 +161,7 @@ export function PaqueteFormDialog({
                   }))
                 }
               />
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 Solo se muestra en el modal de detalles del paquete, no en la tarjeta.
               </p>
             </div>
@@ -197,8 +197,8 @@ export function PaqueteFormDialog({
                 <p
                   className={
                     sumaDesglose === values.precio
-                      ? "text-[11px] text-muted-foreground"
-                      : "text-[11px] text-destructive"
+                      ? "text-xs text-muted-foreground"
+                      : "text-xs text-destructive"
                   }
                 >
                   Suma del desglose: Bs {sumaDesglose}

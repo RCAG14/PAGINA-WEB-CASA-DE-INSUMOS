@@ -64,7 +64,7 @@ export default async function CajasDashboardPage() {
         <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
           <Panel className="p-4">
             <div className="mb-4 flex items-center justify-between">
-              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+              <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
                 Stock disponible por clasificación
               </p>
               <Boxes className="size-4 text-muted-foreground" />
@@ -74,12 +74,12 @@ export default async function CajasDashboardPage() {
 
           <Panel className="p-4">
             <div className="mb-4 flex items-center justify-between">
-              <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+              <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
                 SKU con stock bajo
               </p>
               <Link
                 href="/admin/cajas/inventario"
-                className="font-mono-technical text-[10px] uppercase tracking-wider text-primary hover:underline"
+                className="font-mono-technical text-xs uppercase tracking-wider text-primary hover:underline"
               >
                 Ver inventario
               </Link>
@@ -94,11 +94,11 @@ export default async function CajasDashboardPage() {
                   <li key={box.id} className="flex items-center justify-between gap-3 py-2.5">
                     <div className="flex flex-col">
                       <span className="text-xs font-medium leading-tight">{box.nombre}</span>
-                      <span className="font-mono-technical text-[10px] text-muted-foreground">
+                      <span className="font-mono-technical text-xs text-muted-foreground">
                         {box.sku_lote}
                       </span>
                     </div>
-                    <span className="rounded-md border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-[11px] font-semibold text-destructive">
+                    <span className="rounded-md border border-destructive/40 bg-destructive/10 px-2 py-0.5 font-mono-technical text-xs font-semibold text-destructive">
                       {box.stock_disponible} u.
                     </span>
                   </li>
@@ -114,7 +114,7 @@ export default async function CajasDashboardPage() {
             action={
               <Link
                 href="/admin/cajas/pedidos"
-                className="font-mono-technical text-[10px] uppercase tracking-wider text-primary hover:underline"
+                className="font-mono-technical text-xs uppercase tracking-wider text-primary hover:underline"
               >
                 Ver todos
               </Link>
@@ -128,19 +128,19 @@ export default async function CajasDashboardPage() {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Pedido
                   </TableHead>
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Cliente
                   </TableHead>
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Fecha
                   </TableHead>
-                  <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                     Estado
                   </TableHead>
-                  <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                  <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                     Total
                   </TableHead>
                 </TableRow>

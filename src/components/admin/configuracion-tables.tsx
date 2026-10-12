@@ -60,7 +60,7 @@ export function ConfiguracionTables({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
               Redes sociales
             </p>
             <p className="text-xs text-muted-foreground">
@@ -88,16 +88,16 @@ export function ConfiguracionTables({
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Plataforma
                 </TableHead>
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Enlace
                 </TableHead>
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Estado
                 </TableHead>
-                <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                   Acciones
                 </TableHead>
               </TableRow>
@@ -122,8 +122,8 @@ export function ConfiguracionTables({
                     <span
                       className={
                         r.activo
-                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
-                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
+                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary-foreground"
+                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground"
                       }
                     >
                       {r.activo ? "Visible" : "Oculto"}
@@ -177,7 +177,7 @@ export function ConfiguracionTables({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
               Números de redireccionamiento
             </p>
             <p className="text-xs text-muted-foreground">
@@ -206,16 +206,16 @@ export function ConfiguracionTables({
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Etiqueta
                 </TableHead>
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Número
                 </TableHead>
-                <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
                   Estado
                 </TableHead>
-                <TableHead className="text-right font-mono-technical text-[10px] uppercase tracking-wider">
+                <TableHead className="text-right font-mono-technical text-xs uppercase tracking-wider">
                   Acciones
                 </TableHead>
               </TableRow>
@@ -230,7 +230,7 @@ export function ConfiguracionTables({
                       </span>
                       <span className="text-sm font-medium">{n.etiqueta}</span>
                       {i === 0 && n.activo && (
-                        <span className="rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
+                        <span className="rounded-full border border-accent/60 bg-accent/15 px-1.5 py-0.5 font-mono-technical text-[11px] uppercase tracking-wider text-primary">
                           Principal
                         </span>
                       )}
@@ -243,8 +243,8 @@ export function ConfiguracionTables({
                     <span
                       className={
                         n.activo
-                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-primary-foreground"
-                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground"
+                          ? "rounded-full border border-primary bg-primary px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-primary-foreground"
+                          : "rounded-full border border-border/60 px-2 py-0.5 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground"
                       }
                     >
                       {n.activo ? "Activo" : "Inactivo"}

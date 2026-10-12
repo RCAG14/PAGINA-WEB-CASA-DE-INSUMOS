@@ -164,7 +164,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
 
       <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
         <div className="border-b border-border bg-sidebar px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground">
             01 — Definición de la caja
           </p>
         </div>
@@ -300,7 +300,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
 
       <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
         <div className="flex items-center justify-between border-b border-border bg-sidebar px-3 py-2">
-          <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+          <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground">
             02 — Manifiesto y logística internacional
           </p>
           <div className="flex items-center gap-2">
@@ -366,7 +366,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
       {tipoVenta === "listada" ? (
         <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
           <div className="flex items-center justify-between border-b border-border bg-sidebar px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground">
               03 — Detalle de productos (distribución del costo)
             </p>
             <Button type="button" size="sm" variant="secondary" onClick={addRow}>
@@ -378,7 +378,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
             {detalle.map((row, i) => (
               <div key={i} className="grid gap-3 p-4 sm:grid-cols-6">
                 <div className="flex flex-col gap-1 sm:col-span-2">
-                  <Label className="text-[10px] text-muted-foreground">Producto</Label>
+                  <Label className="text-xs text-muted-foreground">Producto</Label>
                   <Input
                     required
                     value={row.nombre}
@@ -386,7 +386,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label className="text-[10px] text-muted-foreground">Condición</Label>
+                  <Label className="text-xs text-muted-foreground">Condición</Label>
                   <Input
                     required
                     value={row.condicion}
@@ -394,7 +394,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label className="text-[10px] text-muted-foreground">Cantidad</Label>
+                  <Label className="text-xs text-muted-foreground">Cantidad</Label>
                   <Input
                     type="number"
                     min={1}
@@ -404,7 +404,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label className="text-[10px] text-muted-foreground">Costo asignado (Bs)</Label>
+                  <Label className="text-xs text-muted-foreground">Costo asignado (Bs)</Label>
                   <Input
                     type="number"
                     min={0}
@@ -416,7 +416,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                 </div>
                 <div className="flex items-end gap-2">
                   <div className="flex flex-1 flex-col gap-1">
-                    <Label className="text-[10px] text-muted-foreground">Precio sugerido (Bs)</Label>
+                    <Label className="text-xs text-muted-foreground">Precio sugerido (Bs)</Label>
                     <Input
                       type="number"
                       min={0}
@@ -460,7 +460,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
       ) : (
         <section className="overflow-hidden rounded-xl border border-border/60 shadow-elevation-sm">
           <div className="border-b border-border bg-sidebar px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-sidebar-foreground">
               03 — Rango de contenido sorpresa
             </p>
           </div>
@@ -472,12 +472,12 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
             <div className="flex flex-col gap-3 rounded-lg border-2 border-accent bg-accent/10 p-4">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="size-4 text-primary" />
-                <span className="font-mono-technical text-[10px] font-bold uppercase tracking-wider text-primary">
+                <span className="font-mono-technical text-xs font-bold uppercase tracking-wider text-primary">
                   Mínimo garantizado
                 </span>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label className="text-[10px] text-muted-foreground">Cantidad mínima de artículos</Label>
+                <Label className="text-xs text-muted-foreground">Cantidad mínima de artículos</Label>
                 <Input
                   type="number"
                   min={1}
@@ -487,7 +487,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label className="text-[10px] text-muted-foreground">Valor mínimo garantizado (Bs)</Label>
+                <Label className="text-xs text-muted-foreground">Valor mínimo garantizado (Bs)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -507,7 +507,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                     ? `Tu costo máximo por pieza será de ${formatPrice(costoPorPiezaMin)}`
                     : "Ingresa una cantidad mínima mayor a 0"}
                 </p>
-                <p className="mt-1 text-[10px] text-muted-foreground">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Calculado sobre el &quot;Precio de venta de la caja&quot; ({formatPrice(precioVentaCaja)})
                   de la sección 01 — lo que paga el revendedor, no tu costo interno.
                 </p>
@@ -517,12 +517,12 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
             <div className="flex flex-col gap-3 rounded-lg border border-border/60 p-4">
               <div className="flex items-center gap-1.5">
                 <Sparkles className="size-4 text-muted-foreground" />
-                <span className="font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground">
+                <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
                   Máximo potencial
                 </span>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label className="text-[10px] text-muted-foreground">Cantidad máxima de artículos</Label>
+                <Label className="text-xs text-muted-foreground">Cantidad máxima de artículos</Label>
                 <Input
                   type="number"
                   min={1}
@@ -532,7 +532,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label className="text-[10px] text-muted-foreground">Valor máximo potencial (Bs)</Label>
+                <Label className="text-xs text-muted-foreground">Valor máximo potencial (Bs)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -552,7 +552,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
                     ? `Tu costo bajará a solo ${formatPrice(costoPorPiezaMax)} por pieza`
                     : "Ingresa una cantidad máxima mayor a 0"}
                 </p>
-                <p className="mt-1 text-[10px] text-muted-foreground">
+                <p className="mt-1 text-xs text-muted-foreground">
                   Calculado sobre el &quot;Precio de venta de la caja&quot; ({formatPrice(precioVentaCaja)})
                   de la sección 01 — lo que paga el revendedor, no tu costo interno.
                 </p>
@@ -565,7 +565,7 @@ export function CrearCajaForm({ classifications }: { classifications: CategoryMe
       {tipoVenta === "sorpresa" && (
         <section className="border border-border">
           <div className="border-b border-border bg-primary px-3 py-2">
-            <p className="font-mono-technical text-[11px] uppercase tracking-wider text-primary-foreground">
+            <p className="font-mono-technical text-xs uppercase tracking-wider text-primary-foreground">
               04 — Imágenes de referencia (artículos)
             </p>
           </div>

@@ -95,7 +95,7 @@ export function ClassificationFormDialog({
                 onChange={(e) => setValues((v) => ({ ...v, label: e.target.value }))}
               />
               {!classification && values.label && (
-                <span className="font-mono-technical text-[10px] text-muted-foreground">
+                <span className="font-mono-technical text-xs text-muted-foreground">
                   slug: {slugify(values.label)}
                 </span>
               )}

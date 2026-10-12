@@ -48,13 +48,13 @@ export function ModulosTable({ modulos }: { modulos: ModuloRow[] }) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Módulo
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Descripción
             </TableHead>
-            <TableHead className="font-mono-technical text-[10px] uppercase tracking-wider">
+            <TableHead className="font-mono-technical text-xs uppercase tracking-wider">
               Activo
             </TableHead>
           </TableRow>
