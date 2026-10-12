@@ -3,6 +3,7 @@
 import type { AccountNavSession } from "@/components/site/account-nav";
 import { Navbar } from "@/components/site/navbar";
 import { useI18n } from "@/lib/i18n/locale-context";
+import { HOME_CONTAINER } from "@/lib/layout";
 
 /**
  * Header propio de desarrollo-web — cada mini-landing es autocontenida y tiene
@@ -22,9 +23,10 @@ export function WebDevHeader({
     <Navbar
       logoUrl={logoUrl}
       session={session}
+      containerClassName={HOME_CONTAINER}
       links={[
-        { href: "#tipos", label: dict.webdev.types.eyebrow },
         { href: "#paquetes", label: dict.webdev.pricing.eyebrow },
+        { href: "#trabajos", label: dict.header.navWork },
         { href: "#contacto", label: dict.header.navContact },
       ]}
     />

@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { VisitTracker } from "@/components/site/visit-tracker";
 import { WebDevHeader } from "@/components/site/webdev-header";
 import { WebDevHero } from "@/components/site/webdev-hero";
-import { WebDevTypes } from "@/components/site/webdev-types";
 import { WebDevPricing } from "@/components/site/webdev-pricing";
 import { WebDevPortfolio } from "@/components/site/webdev-portfolio";
-import { WebDevAffiliates } from "@/components/site/webdev-affiliates";
-import { WebDevReviews } from "@/components/site/webdev-reviews";
 import { WebDevContact } from "@/components/site/webdev-contact";
-import { WhatsAppBubble } from "@/components/site/whatsapp-bubble";
+import { HomeFooter } from "@/components/site/home-footer";
+import { HOME_CONTAINER } from "@/lib/layout";
 import { getLogo } from "@/lib/data/landing";
 import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
 import { getSession } from "@/lib/auth/session";
+import { getDictionary } from "@/lib/i18n/locale";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +29,11 @@ export const metadata: Metadata = {
 };
 
 export default async function DesarrolloWebPage() {
-  const [logo, whatsappNumero, session] = await Promise.all([
+  const [logo, whatsappNumero, session, { dict }] = await Promise.all([
     getLogo(),
     getNumeroWhatsappPrincipal(),
     getSession(),
+    getDictionary(),
   ]);
 
   return (
@@ -44,13 +44,19 @@ export default async function DesarrolloWebPage() {
         session={session ? { nombre: session.nombre, rol: session.rol } : null}
       />
       <WebDevHero />
-      <WebDevTypes />
       <WebDevPricing />
       <WebDevPortfolio />
-      <WebDevAffiliates />
-      <WebDevReviews />
       <WebDevContact />
-      <WhatsAppBubble numero={whatsappNumero} servicio="webdev" />
+      {/* Sin burbuja flotante (igual que la portada): hero, paquetes y contacto
+          ya tienen su botón de WhatsApp. La sección de reseñas vuelve cuando
+          haya reseñas reales para mostrar (WebDevReviews). */}
+      <HomeFooter
+        logoUrl={logo?.url ?? null}
+        whatsappNumero={whatsappNumero}
+        containerClassName={HOME_CONTAINER}
+        id="pie"
+        description={dict.webdev.contact.footerDescription}
+      />
     </>
   );
 }

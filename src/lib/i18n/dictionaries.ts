@@ -6,6 +6,7 @@ const es = {
     navServices: "Servicios",
     navAbout: "Sobre Nosotros",
     navContact: "Contacto",
+    navWork: "Trabajos",
     login: "Iniciar sesión",
     logout: "Cerrar sesión",
     adminPanel: "Panel administrador",
@@ -344,17 +345,22 @@ const es = {
     backHome: "← Casa Insumos",
     hero: {
       eyebrow: "Desarrollo Web en Bolivia",
-      title: "Desarrollo web en Bolivia: plataformas propias para revendedores y negocios de liquidación",
+      title: "Desarrollo web a medida para negocios en Bolivia",
       description:
-        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas — desarrollo web en Bolivia a medida para cualquier tipo de negocio, no solo para el rubro de liquidación.",
+        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas, hechos a medida para cualquier tipo de negocio en Bolivia.",
       ctaPricing: "Ver paquetes",
       ctaTypes: "Qué desarrollamos",
+      ctaQuote: "Cotizar por WhatsApp",
+      factPriceFrom: "Paquetes desde",
+      factProjects: "Proyectos realizados",
+      factQuote: "Cotización",
+      factQuoteValue: "Por WhatsApp",
     },
     types: {
       eyebrow: "Qué desarrollamos",
       title: "Un desarrollo para cada tipo de negocio",
       description:
-        "No trabajamos solo para revendedores de cajas de retorno: construimos plataformas para cualquier rubro que necesite presencia digital o un sistema propio.",
+        "Construimos plataformas para cualquier rubro que necesite presencia digital o un sistema propio.",
       items: [
         { titulo: "Sitios web", descripcion: "Landing pages, sitios institucionales y catálogos digitales." },
         { titulo: "Sistemas web", descripcion: "Plataformas a medida con lógica de negocio propia y base de datos." },
@@ -376,6 +382,10 @@ const es = {
       priceLabel: "Precio del proyecto",
       maintenanceLabel: "Mantenimiento mensual",
       maintenanceSuffix: "/ mes",
+      maintenanceCardNote: "de mantenimiento desde el 2º año",
+      breakdownHint: "Ver en qué se divide el precio",
+      moreFeatures: "más incluidos",
+      extrasToggle: "Ver extras opcionales",
       maintenanceNote: "No incluye costo de mantenimiento mensual.",
       featuresLabel: "Incluye",
       breakdownLabel: "¿Qué estás pagando?",
@@ -394,6 +404,8 @@ const es = {
     portfolio: {
       eyebrow: "Trabajos realizados",
       title: "Algunos proyectos que desarrollamos",
+      showAll: "Ver todos los proyectos",
+      showLess: "Ver menos",
     },
     affiliates: {
       eyebrow: "Programa de afiliados",
@@ -411,6 +423,10 @@ const es = {
     contact: {
       eyebrow: "Contacto",
       title: "Contanos tu proyecto",
+      footerDescription:
+        "Desarrollo web a medida en Bolivia: sitios web, sistemas, dashboards y chatbots para cualquier tipo de negocio.",
+      description: "Escríbenos por WhatsApp qué necesitas y te respondemos con una propuesta y un precio.",
+      cta: "Escribir por WhatsApp",
       locationLabel: "Encuéntranos en Casa Insumos",
       mapPlaceholder: "Mapa de ubicación próximamente",
       copyright: "© 2026 Casa Insumos",
@@ -445,6 +461,7 @@ const en: typeof es = {
     navServices: "Services",
     navAbout: "About Us",
     navContact: "Contact",
+    navWork: "Work",
     login: "Log in",
     logout: "Log out",
     adminPanel: "Admin panel",
@@ -781,17 +798,22 @@ const en: typeof es = {
     backHome: "← Casa Insumos",
     hero: {
       eyebrow: "Custom Web Development",
-      title: "Your own platforms for resellers and liquidation businesses",
+      title: "Custom web development for businesses in Bolivia",
       description:
-        "Websites, web systems, dashboards, chatbots and sales or booking systems — built to measure for any kind of business, not just liquidation.",
+        "Websites, web systems, dashboards, chatbots and sales or booking systems, built to measure for any kind of business in Bolivia.",
       ctaPricing: "View packages",
       ctaTypes: "What we build",
+      ctaQuote: "Get a quote on WhatsApp",
+      factPriceFrom: "Packages from",
+      factProjects: "Projects delivered",
+      factQuote: "Quotes",
+      factQuoteValue: "Via WhatsApp",
     },
     types: {
       eyebrow: "What we build",
       title: "Development for every kind of business",
       description:
-        "We don't just work for return-box resellers: we build platforms for any business that needs a digital presence or its own system.",
+        "We build platforms for any business that needs a digital presence or its own system.",
       items: [
         { titulo: "Websites", descripcion: "Landing pages, corporate sites and digital catalogs." },
         { titulo: "Web systems", descripcion: "Custom platforms with their own business logic and database." },
@@ -813,6 +835,10 @@ const en: typeof es = {
       priceLabel: "Project price",
       maintenanceLabel: "Monthly maintenance",
       maintenanceSuffix: "/ mo",
+      maintenanceCardNote: "maintenance from year 2",
+      breakdownHint: "See how the price breaks down",
+      moreFeatures: "more included",
+      extrasToggle: "See optional extras",
       maintenanceNote: "Does not include a monthly maintenance cost.",
       featuresLabel: "Includes",
       breakdownLabel: "What are you paying for?",
@@ -831,6 +857,8 @@ const en: typeof es = {
     portfolio: {
       eyebrow: "Work we've done",
       title: "Some projects we've built",
+      showAll: "See all projects",
+      showLess: "Show less",
     },
     affiliates: {
       eyebrow: "Affiliate program",
@@ -848,6 +876,10 @@ const en: typeof es = {
     contact: {
       eyebrow: "Contact",
       title: "Tell us about your project",
+      footerDescription:
+        "Custom web development in Bolivia: websites, systems, dashboards and chatbots for any kind of business.",
+      description: "Message us on WhatsApp with what you need and we'll reply with a proposal and a price.",
+      cta: "Message us on WhatsApp",
       locationLabel: "Find us at Casa Insumos",
       mapPlaceholder: "Location map coming soon",
       copyright: "© 2026 Casa Insumos",

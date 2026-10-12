@@ -1,68 +1,136 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Code2 } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  CalendarCheck,
+  Code2,
+  Layers,
+  LayoutDashboard,
+  LayoutTemplate,
+  MessageCircle,
+  Server,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { HeroBackground } from "@/components/site/hero-background";
-import { ScrollReveal } from "@/components/site/scroll-reveal";
-import { getHeroImagenes, getHeroVideo } from "@/lib/data/landing";
+import { getPrecioMinimoPaquetes, getTrabajosRealizados } from "@/lib/data/desarrollo";
+import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
+import { formatPrice } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/locale";
+import { HOME_CONTAINER } from "@/lib/layout";
+import { buildWhatsAppLink, cn } from "@/lib/utils";
+import { MENSAJES_WHATSAPP } from "@/lib/whatsapp";
 
-// Velo mucho más liviano que el default de HeroBackground: el video/carrusel
-// debe verse con claridad, no quedar tapado por un degradé oscuro pesado —
-// mismo ajuste que el Hero del catálogo de cajas.
-const HERO_OVERLAY = "bg-linear-to-t from-sidebar/60 via-sidebar/25 to-sidebar/10";
+// Mismo orden que dict.webdev.types.items.
+const TIPO_ICONS = [LayoutTemplate, Server, LayoutDashboard, Bot, CalendarCheck, Layers];
 
 export async function WebDevHero() {
-  const [heroVideo, heroImagenes, { dict }] = await Promise.all([
-    getHeroVideo("webdev"),
-    getHeroImagenes("webdev"),
-    getDictionary(),
-  ]);
+  const [precioDesde, trabajos, whatsappNumero, { dict }] =
+    await Promise.all([
+      getPrecioMinimoPaquetes(),
+      getTrabajosRealizados(),
+      getNumeroWhatsappPrincipal(),
+      getDictionary(),
+    ]);
+  const t = dict.webdev.hero;
+
+  // Datos reales de la base: solo se muestran los que existen.
+  const facts = [
+    precioDesde !== null && { label: t.factPriceFrom, value: formatPrice(precioDesde) },
+    trabajos.length > 0 && { label: t.factProjects, value: String(trabajos.length) },
+    whatsappNumero && { label: t.factQuote, value: t.factQuoteValue },
+  ].filter((f): f is { label: string; value: string } => Boolean(f));
 
   return (
-    <section className="bg-blueprint-dark relative flex min-h-screen items-center overflow-hidden border-b border-sidebar-foreground/10">
-      <HeroBackground
-        video={heroVideo ? { url: heroVideo.url } : null}
-        imagenes={heroImagenes.map((i) => ({ url: i.url }))}
-        overlayClassName={HERO_OVERLAY}
-      />
+    <section className="bg-blueprint-dark relative flex items-center overflow-hidden border-b border-sidebar-foreground/10 ">
+      {/* Fondo: verde liso de la marca (bg-blueprint-dark) + ilustración propia a la
+          derecha, en vez de la foto del carrusel del admin, que no comunicaba
+          el servicio. Sin ScrollReveal: es el primer pantallazo. */}
+      <div
+        className={cn(
+          HOME_CONTAINER,
+          "relative grid items-center gap-10 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:py-16"
+        )}
+      >
+        <div className="flex max-w-2xl flex-col gap-5 text-sidebar-foreground">
+          <span className="flex items-center gap-3 font-mono-technical text-xs font-semibold uppercase tracking-wider">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent shadow-elevation-sm">
+              <Code2 className="size-5 text-accent-foreground" strokeWidth={1.75} />
+            </span>
+            {t.eyebrow}
+          </span>
+          <h1 className="text-pretty font-heading text-3xl font-bold leading-tight sm:text-4xl xl:text-5xl">
+            {t.title}
+          </h1>
+          {/* Qué desarrollamos: antes era una sección aparte de 6 tarjetas que
+              repetía la descripción; como etiquetas se entiende de un vistazo. */}
+          <ul aria-label={dict.webdev.types.eyebrow} className="flex flex-wrap gap-2">
+            {dict.webdev.types.items.map((tipo, i) => {
+              const Icon = TIPO_ICONS[i];
+              return (
+                <li
+                  key={tipo.titulo}
+                  title={tipo.descripcion}
+                  className="flex items-center gap-1.5 rounded-full border border-sidebar-foreground/20 bg-sidebar-foreground/10 px-3 py-1.5 text-sm"
+                >
+                  <Icon className="size-4 text-chart-4" strokeWidth={1.75} />
+                  {tipo.titulo}
+                </li>
+              );
+            })}
+          </ul>
 
-      <ScrollReveal className="relative mx-auto flex max-w-4xl flex-col items-center gap-5 px-4 py-16 text-center sm:px-6">
-        <span className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-accent shadow-elevation-sm">
-          <Code2 className="size-6 text-accent-foreground" strokeWidth={1.5} />
-        </span>
+          <div className="mt-1 flex flex-wrap gap-3">
+            <Button
+              render={<Link href="#paquetes" />}
+              nativeButton={false}
+              size="lg"
+              variant="secondary"
+              className="shadow-elevation-md"
+            >
+              {t.ctaPricing}
+              <ArrowRight className="size-4" />
+            </Button>
+            {whatsappNumero && (
+              <Button
+                render={
+                  <a
+                    href={buildWhatsAppLink(whatsappNumero, MENSAJES_WHATSAPP.webdev)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+                nativeButton={false}
+                size="lg"
+                variant="outline"
+                className="border-2 border-sidebar-foreground bg-sidebar-foreground/10 text-sidebar-foreground backdrop-blur-sm hover:bg-sidebar-foreground/20"
+              >
+                <MessageCircle className="size-4" />
+                {t.ctaQuote}
+              </Button>
+            )}
+          </div>
 
-        <span className="font-mono-technical text-xs font-semibold uppercase tracking-wider text-sidebar-foreground [text-shadow:0_1px_10px_rgba(0,0,0,0.4)]">
-          {dict.webdev.hero.eyebrow}
-        </span>
-        <h1 className="max-w-2xl font-heading text-3xl font-bold leading-tight text-sidebar-foreground [text-shadow:0_2px_16px_rgba(0,0,0,0.45)] sm:text-4xl">
-          {dict.webdev.hero.title}
-        </h1>
-        <p className="max-w-xl text-sm text-sidebar-foreground [text-shadow:0_1px_10px_rgba(0,0,0,0.4)] sm:text-base">
-          {dict.webdev.hero.description}
-        </p>
-
-        <div className="mt-2 flex flex-wrap justify-center gap-3">
-          <Button
-            render={<Link href="#paquetes" />}
-            nativeButton={false}
-            size="lg"
-            variant="secondary"
-            className="shadow-elevation-md"
-          >
-            {dict.webdev.hero.ctaPricing}
-            <ArrowRight className="size-4" />
-          </Button>
-          <Button
-            render={<Link href="#tipos" />}
-            nativeButton={false}
-            size="lg"
-            variant="outline"
-            className="border-2 border-sidebar-foreground bg-sidebar-foreground/10 text-sidebar-foreground backdrop-blur-sm hover:bg-sidebar-foreground/20"
-          >
-            {dict.webdev.hero.ctaTypes}
-          </Button>
+          {facts.length > 0 && (
+            <dl className="mt-3 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-sidebar-foreground/20">
+              {facts.map((f) => (
+                <div key={f.label} className="bg-sidebar/60 px-3 py-3 backdrop-blur-md sm:px-4">
+                  <dt className="text-xs text-sidebar-foreground/75">{f.label}</dt>
+                  <dd className="font-heading text-base font-semibold sm:text-lg">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
-      </ScrollReveal>
+
+        <Image
+          src="/portada/hero-webdev.svg"
+          alt=""
+          width={850}
+          height={570}
+          priority
+          className="hidden h-auto w-full drop-shadow-2xl lg:block"
+        />
+      </div>
     </section>
   );
 }

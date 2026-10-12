@@ -3,6 +3,9 @@ import { ArrowUpRight, LayoutTemplate } from "lucide-react";
 import { getTrabajosRealizados } from "@/lib/data/desarrollo";
 import { getDictionary } from "@/lib/i18n/locale";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { WebDevPortfolioGrid } from "@/components/site/webdev-portfolio-grid";
+import { HOME_CONTAINER } from "@/lib/layout";
+import { cn } from "@/lib/utils";
 
 export async function WebDevPortfolio() {
   const [trabajos, { dict }] = await Promise.all([getTrabajosRealizados(), getDictionary()]);
@@ -11,9 +14,9 @@ export async function WebDevPortfolio() {
   return (
     <section
       id="trabajos"
-      className="flex min-h-screen items-center border-b border-border bg-card"
+      className="scroll-mt-20 border-b border-border bg-card"
     >
-      <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+      <div className={cn(HOME_CONTAINER, "py-12 lg:py-16")}>
         <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
             {dict.webdev.portfolio.eyebrow}
@@ -23,8 +26,10 @@ export async function WebDevPortfolio() {
           </h2>
         </ScrollReveal>
 
-        <div className="flex flex-wrap justify-center gap-4">
-          {trabajos.map((trabajo, i) => {
+        <WebDevPortfolioGrid
+          showAllLabel={dict.webdev.portfolio.showAll}
+          showLessLabel={dict.webdev.portfolio.showLess}
+          items={trabajos.map((trabajo, i) => {
             const contenido = (
               <>
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
@@ -42,26 +47,26 @@ export async function WebDevPortfolio() {
                   )}
                 </div>
                 <div className="flex flex-1 flex-col gap-1.5 p-4">
-                  <span className="w-fit font-mono-technical text-[10px] uppercase tracking-wider text-accent">
+                  <span className="w-fit font-mono-technical text-xs uppercase tracking-wider text-accent">
                     {trabajo.categoria}
                   </span>
-                  <h3 className="flex items-center gap-1.5 font-heading text-sm font-semibold leading-snug">
+                  <h3 className="flex items-center gap-1.5 font-heading text-base font-semibold leading-snug">
                     {trabajo.titulo}
                     {trabajo.enlace && (
                       <ArrowUpRight className="size-3.5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     )}
                   </h3>
-                  <p className="text-xs text-muted-foreground">{trabajo.descripcion}</p>
+                  {/* Recortada a 3 líneas: las descripciones vienen del admin con largos
+                      muy distintos y desalineaban la grilla. */}
+                  <p className="line-clamp-3 text-sm text-muted-foreground" title={trabajo.descripcion ?? undefined}>
+                    {trabajo.descripcion}
+                  </p>
                 </div>
               </>
             );
 
             return (
-              <ScrollReveal
-                key={trabajo.id}
-                delayMs={i * 80}
-                className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
-              >
+              <ScrollReveal key={trabajo.id} delayMs={(i % 4) * 80} className="h-full">
                 {trabajo.enlace ? (
                   <Link
                     href={trabajo.enlace}
@@ -79,7 +84,7 @@ export async function WebDevPortfolio() {
               </ScrollReveal>
             );
           })}
-        </div>
+        />
       </div>
     </section>
   );
