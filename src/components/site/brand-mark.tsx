@@ -48,7 +48,7 @@ export function BrandMark({
       style={{ width: size, height: size }}
     >
       {logoUrl ? (
-        <Image src={logoUrl} alt="Casa Insumos" fill sizes={`${size}px`} className="object-contain" />
+        <Image src={logoUrl} alt="Casa de Insumos" fill sizes={`${size}px`} className="object-contain" />
       ) : (
         <BrandGlyph className={cn("size-2/3", glyphClassName)} />
       )}

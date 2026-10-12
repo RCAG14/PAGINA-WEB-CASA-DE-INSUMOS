@@ -72,7 +72,7 @@ export async function SiteFooter({
               className="text-sidebar-foreground"
               glyphClassName="text-sidebar-foreground"
             />
-            <span className="font-heading text-xl font-bold tracking-tight">Casa Insumos</span>
+            <span className="font-heading text-xl font-bold tracking-tight">Casa de Insumos</span>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-sidebar-foreground/70">
             {description}

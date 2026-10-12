@@ -21,7 +21,7 @@ type Opcion = {
 };
 
 /**
- * Portada: un encabezado corto que dice qué es Casa Insumos y dos opciones
+ * Portada: un encabezado corto que dice qué es Casa de Insumos y dos opciones
  * grandes que llevan directo a cada línea de negocio. Cada tarjeta resume lo
  * esencial (puntos clave + precio de referencia) para decidir sin leer más.
  * El fondo de cada tarjeta es una ilustración propia en la paleta de la marca

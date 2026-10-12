@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
+    absolute: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
   },
   description:
     "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado, cotización de importaciones y desarrollo web en Bolivia a medida. Cotiza ahora.",
@@ -20,21 +20,21 @@ export const metadata: Metadata = {
     "liquidación por lote",
     "importación de mercancía",
     "cotización de importaciones",
-    "Casa Insumos",
+    "Casa de Insumos",
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
+    title: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
     description:
       "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
     url: "/",
-    siteName: "Casa Insumos",
+    siteName: "Casa de Insumos",
     locale: "es_ES",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
+    title: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
     description:
       "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
   },

@@ -49,7 +49,7 @@ export default async function AdminPortalPage() {
             {logo?.url ? (
               <Image
                 src={logo.url}
-                alt="Casa Insumos"
+                alt="Casa de Insumos"
                 fill
                 sizes="52px"
                 className="object-contain p-0.5"
@@ -60,7 +60,7 @@ export default async function AdminPortalPage() {
           </span>
           <div className="flex flex-col leading-none">
             <span className="font-heading text-xl font-bold uppercase tracking-wide sm:text-2xl">
-              Casa Insumos
+              Casa de Insumos
             </span>
             <span className="mt-1 font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
               Portal de módulos — ERP/WMS
@@ -83,7 +83,7 @@ export default async function AdminPortalPage() {
           ¿Qué módulo quieres administrar?
         </h1>
         <p className="max-w-2xl text-sm text-muted-foreground">
-          Cada línea de negocio de Casa Insumos tiene su propio espacio de trabajo. Los
+          Cada línea de negocio de Casa de Insumos tiene su propio espacio de trabajo. Los
           módulos marcados como &quot;Próximamente&quot; están planificados para fases
           posteriores del sistema.
         </p>

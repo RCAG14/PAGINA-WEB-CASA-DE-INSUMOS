@@ -13,7 +13,7 @@ export default async function SocioLayout({ children }: { children: React.ReactN
         <BrandMark logoUrl={logo?.url ?? null} size={52} />
         <div className="flex flex-col leading-tight">
           <span className="font-heading text-xl font-bold tracking-tight sm:text-2xl">
-            Casa Insumos
+            Casa de Insumos
           </span>
           <span className="font-mono-technical text-xs uppercase tracking-wider text-muted-foreground">
             Panel de Socio — Solo lectura

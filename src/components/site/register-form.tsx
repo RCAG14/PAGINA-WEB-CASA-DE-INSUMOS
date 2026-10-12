@@ -25,7 +25,7 @@ export function RegisterForm() {
         className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-sidebar-foreground/80 transition-colors hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground sm:left-6 sm:top-6"
       >
         <ArrowLeft className="size-4" />
-        Casa Insumos
+        Casa de Insumos
       </Link>
       <LanguageSwitcher className="absolute right-4 top-4 text-sidebar-foreground sm:right-6 sm:top-6" />
 

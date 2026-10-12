@@ -51,7 +51,7 @@ export function AdminSidebar({ logoUrl }: { logoUrl?: string | null }) {
             {logoUrl ? (
               <Image
                 src={logoUrl}
-                alt="Casa Insumos"
+                alt="Casa de Insumos"
                 fill
                 sizes="44px"
                 className="object-contain p-0.5"
@@ -62,7 +62,7 @@ export function AdminSidebar({ logoUrl }: { logoUrl?: string | null }) {
           </span>
           <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
             <span className="font-heading text-base font-bold uppercase tracking-wide text-sidebar-foreground">
-              Casa Insumos
+              Casa de Insumos
             </span>
             <span className="font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/50">
               Cajas Amazon y Retornos

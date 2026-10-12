@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado y certificación aduanera. Cajas de retorno por lote o sorpresa. Ve el catálogo.",
   alternates: { canonical: "/cajas-devoluciones-amazon-bolivia" },
   openGraph: {
-    title: "Cajas de Devoluciones de Amazon en Bolivia | Casa Insumos",
+    title: "Cajas de Devoluciones de Amazon en Bolivia | Casa de Insumos",
     description:
       "Lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera documentada en Bolivia.",
     url: "/cajas-devoluciones-amazon-bolivia",

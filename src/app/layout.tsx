@@ -31,8 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      template: "%s | Casa Insumos",
-      default: "Casa Insumos | Cajas de Devoluciones Amazon en Bolivia",
+      template: "%s | Casa de Insumos",
+      default: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
     },
     description:
       "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",

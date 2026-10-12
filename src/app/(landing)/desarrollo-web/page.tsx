@@ -10,12 +10,12 @@ import { SiteFooter } from "@/components/site/site-footer";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: { absolute: "Desarrollo Web en Bolivia a Medida | Casa Insumos" },
+  title: { absolute: "Desarrollo Web en Bolivia a Medida | Casa de Insumos" },
   description:
     "Desarrollo web en Bolivia: sitios, sistemas, dashboards y chatbots a medida para cualquier negocio. Paquetes Básico, Estándar y Premium. Cotiza por WhatsApp.",
   alternates: { canonical: "/desarrollo-web" },
   openGraph: {
-    title: "Desarrollo Web en Bolivia a Medida | Casa Insumos",
+    title: "Desarrollo Web en Bolivia a Medida | Casa de Insumos",
     description:
       "Sitios web, sistemas, dashboards y chatbots a medida — desarrollo web en Bolivia para cualquier tipo de negocio.",
     url: "/desarrollo-web",

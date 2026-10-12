@@ -41,7 +41,7 @@ export default async function ProductPage(props: PageProps<"/productos/[slug]">)
   const t = dict.productPage;
   const outOfStock = box.stock === 0;
   const tieneValorEstimado = box.valorRetailEstimado > box.precio;
-  const mensajeWhatsapp = `Hola, vengo de la página de Casa Insumos y quisiera consultar por la caja "${box.nombre}" (${box.specs.skuCaja}).`;
+  const mensajeWhatsapp = `Hola, vengo de la página de Casa de Insumos y quisiera consultar por la caja "${box.nombre}" (${box.specs.skuCaja}).`;
 
   return (
     <>

@@ -22,12 +22,12 @@ const es = {
     servicesLink: "Servicios",
     cartLink: "Carrito",
     adminLink: "Panel administrador",
-    locationTitle: "Encuéntranos en Casa Insumos",
+    locationTitle: "Encuéntranos en Casa de Insumos",
     mapPlaceholder: "Mapa de ubicación próximamente",
     mapLink: "Ver ubicación en Google Maps",
     cajasDescription:
       "Venta de cajas de devoluciones de Amazon en Bolivia: por lote con el contenido listado o en modalidad sorpresa, clasificadas por categoría.",
-    copyright: "© 2026 Casa Insumos. Todos los derechos reservados.",
+    copyright: "© 2026 Casa de Insumos. Todos los derechos reservados.",
   },
   hero: {
     badge: "Cajas de devoluciones de Amazon",
@@ -74,7 +74,7 @@ const es = {
     eyebrow: "00 — Sobre nosotros",
     title: "Expertos en el modelo de catálogo y liquidación",
     description:
-      "Casa Insumos conecta centros de retorno de Amazon en Europa y Reino Unido con revendedores e importadores en Bolivia. Documentamos cada lote de cajas de devoluciones con manifiesto técnico, certificación aduanera y valor retail estimado, para que compres con datos, no con incertidumbre.",
+      "Casa de Insumos conecta centros de retorno de Amazon en Europa y Reino Unido con revendedores e importadores en Bolivia. Documentamos cada lote de cajas de devoluciones con manifiesto técnico, certificación aduanera y valor retail estimado, para que compres con datos, no con incertidumbre.",
     uploadPlaceholder: "Sube una imagen desde el panel administrador",
     values: [
       {
@@ -267,7 +267,7 @@ const es = {
       direccionPlaceholder: "Calle, número, zona",
     },
     section2Title: "Pago y envío",
-    paymentInfo1: "No procesamos pagos en línea. El pago y el envío se coordinan directamente por WhatsApp con el equipo de Casa Insumos.",
+    paymentInfo1: "No procesamos pagos en línea. El pago y el envío se coordinan directamente por WhatsApp con el equipo de Casa de Insumos.",
     paymentInfo2Pre: "Ahí mismo te enviaremos el",
     paymentInfo2Bold: "código QR",
     paymentInfo2Post: "para realizar el pago una vez acordado el método y el envío.",
@@ -303,7 +303,7 @@ const es = {
     aboutEyebrow: "Sobre nosotros",
     aboutTitle: "Dos líneas de negocio, un mismo compromiso",
     aboutDescription:
-      "Casa Insumos nació para resolver dos necesidades del revendedor boliviano: acceso a mercadería de liquidación con trazabilidad real, y herramientas digitales propias para vender mejor. Somos un equipo local, con atención directa y resultados medibles.",
+      "Casa de Insumos nació para resolver dos necesidades del revendedor boliviano: acceso a mercadería de liquidación con trazabilidad real, y herramientas digitales propias para vender mejor. Somos un equipo local, con atención directa y resultados medibles.",
     aboutPoints: [
       {
         titulo: "Equipo local en Bolivia",
@@ -322,13 +322,13 @@ const es = {
     contactDescription: "Escríbenos y te ayudamos a elegir la caja o el paquete que necesitas.",
     contactCta: "Escribir por WhatsApp",
     contactMessage:
-      "Hola, vengo de la página de Casa Insumos y quisiera más información.",
+      "Hola, vengo de la página de Casa de Insumos y quisiera más información.",
     servicesEyebrow: "Nuestros servicios",
     servicesTitle: "Elegí lo que necesitás",
     scrollToServices: "Servicios",
     scrollToContact: "Contacto",
     choices: {
-      eyebrow: "Casa Insumos · Bolivia",
+      eyebrow: "Casa de Insumos · Bolivia",
       title: "Cajas de devoluciones de Amazon y desarrollo web en Bolivia",
       subtitle: "Elige el servicio que necesitas para empezar.",
       priceFrom: "Desde",
@@ -380,7 +380,7 @@ const es = {
     comingSoon: "Próximamente",
   },
   webdev: {
-    backHome: "← Casa Insumos",
+    backHome: "← Casa de Insumos",
     hero: {
       eyebrow: "Desarrollo Web en Bolivia",
       title: "Desarrollo web a medida para negocios en Bolivia",
@@ -465,9 +465,9 @@ const es = {
         "Desarrollo web a medida en Bolivia: sitios web, sistemas, dashboards y chatbots para cualquier tipo de negocio.",
       description: "Escríbenos por WhatsApp qué necesitas y te respondemos con una propuesta y un precio.",
       cta: "Escribir por WhatsApp",
-      locationLabel: "Encuéntranos en Casa Insumos",
+      locationLabel: "Encuéntranos en Casa de Insumos",
       mapPlaceholder: "Mapa de ubicación próximamente",
-      copyright: "© 2026 Casa Insumos",
+      copyright: "© 2026 Casa de Insumos",
     },
   },
   auth: {
@@ -515,12 +515,12 @@ const en: typeof es = {
     servicesLink: "Services",
     cartLink: "Cart",
     adminLink: "Admin panel",
-    locationTitle: "Find us at Casa Insumos",
+    locationTitle: "Find us at Casa de Insumos",
     mapPlaceholder: "Location map coming soon",
     mapLink: "View location on Google Maps",
     cajasDescription:
       "Amazon return boxes in Bolivia: sold by lot with listed contents or as mystery boxes, classified by category.",
-    copyright: "© 2026 Casa Insumos. All rights reserved.",
+    copyright: "© 2026 Casa de Insumos. All rights reserved.",
   },
   hero: {
     badge: "Amazon return boxes",
@@ -567,7 +567,7 @@ const en: typeof es = {
     eyebrow: "00 — About us",
     title: "Experts in the catalog and liquidation model",
     description:
-      "Casa Insumos connects Amazon return centers in Europe and the UK with resellers and importers. We document every lot with a technical manifest, customs certification and estimated retail value, so you buy with data, not uncertainty.",
+      "Casa de Insumos connects Amazon return centers in Europe and the UK with resellers and importers. We document every lot with a technical manifest, customs certification and estimated retail value, so you buy with data, not uncertainty.",
     uploadPlaceholder: "Upload an image from the admin panel",
     values: [
       {
@@ -760,7 +760,7 @@ const en: typeof es = {
       direccionPlaceholder: "Street, number, area",
     },
     section2Title: "Payment and shipping",
-    paymentInfo1: "We don't process online payments. Payment and shipping are coordinated directly via WhatsApp with the Casa Insumos team.",
+    paymentInfo1: "We don't process online payments. Payment and shipping are coordinated directly via WhatsApp with the Casa de Insumos team.",
     paymentInfo2Pre: "We'll send you the",
     paymentInfo2Bold: "QR code",
     paymentInfo2Post: "there to make the payment once the method and shipping are agreed on.",
@@ -796,7 +796,7 @@ const en: typeof es = {
     aboutEyebrow: "About us",
     aboutTitle: "Two business lines, one commitment",
     aboutDescription:
-      "Casa Insumos was built to solve two needs for Bolivian resellers: access to traceable liquidation merchandise, and their own digital tools to sell better. We're a local team, with direct support and measurable results.",
+      "Casa de Insumos was built to solve two needs for Bolivian resellers: access to traceable liquidation merchandise, and their own digital tools to sell better. We're a local team, with direct support and measurable results.",
     aboutPoints: [
       {
         titulo: "Local team in Bolivia",
@@ -815,13 +815,13 @@ const en: typeof es = {
     contactDescription: "Message us and we'll help you pick the right box or package.",
     contactCta: "Message us on WhatsApp",
     contactMessage:
-      "Hola, vengo de la página de Casa Insumos y quisiera más información.",
+      "Hola, vengo de la página de Casa de Insumos y quisiera más información.",
     servicesEyebrow: "Our services",
     servicesTitle: "Choose what you need",
     scrollToServices: "Services",
     scrollToContact: "Contact",
     choices: {
-      eyebrow: "Casa Insumos · Bolivia",
+      eyebrow: "Casa de Insumos · Bolivia",
       title: "Amazon return boxes and web development in Bolivia",
       subtitle: "Choose the service you need to get started.",
       priceFrom: "From",
@@ -871,7 +871,7 @@ const en: typeof es = {
     comingSoon: "Coming soon",
   },
   webdev: {
-    backHome: "← Casa Insumos",
+    backHome: "← Casa de Insumos",
     hero: {
       eyebrow: "Custom Web Development",
       title: "Custom web development for businesses in Bolivia",
@@ -956,9 +956,9 @@ const en: typeof es = {
         "Custom web development in Bolivia: websites, systems, dashboards and chatbots for any kind of business.",
       description: "Message us on WhatsApp with what you need and we'll reply with a proposal and a price.",
       cta: "Message us on WhatsApp",
-      locationLabel: "Find us at Casa Insumos",
+      locationLabel: "Find us at Casa de Insumos",
       mapPlaceholder: "Location map coming soon",
-      copyright: "© 2026 Casa Insumos",
+      copyright: "© 2026 Casa de Insumos",
     },
   },
   auth: {

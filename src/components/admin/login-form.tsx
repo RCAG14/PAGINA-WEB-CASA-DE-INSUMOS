@@ -22,7 +22,7 @@ export function LoginForm({ next, logoUrl }: { next?: string; logoUrl: string | 
           <BrandMark logoUrl={logoUrl} size={56} />
           <div>
             <p className="font-heading text-xl font-bold">
-              Casa Insumos
+              Casa de Insumos
             </p>
             <p className="text-sm text-muted-foreground">
               Acceso al panel administrador
