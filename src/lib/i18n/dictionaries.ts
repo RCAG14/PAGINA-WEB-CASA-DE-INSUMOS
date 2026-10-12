@@ -24,29 +24,51 @@ const es = {
     adminLink: "Panel administrador",
     locationTitle: "Encuéntranos en Casa Insumos",
     mapPlaceholder: "Mapa de ubicación próximamente",
+    mapLink: "Ver ubicación en Google Maps",
+    cajasDescription:
+      "Venta de cajas de devoluciones de Amazon en Bolivia: por lote con el contenido listado o en modalidad sorpresa, clasificadas por categoría.",
     copyright: "© 2026 Casa Insumos. Todos los derechos reservados.",
   },
   hero: {
-    badge: "Cajas de retorno de Amazon · Liquidación por lote · Ed. 2026",
-    title:
-      "Cajas de devoluciones de Amazon en Bolivia con potencial de electrónica, joyería y artículos de alto valor a precio de liquidación.",
+    badge: "Cajas de devoluciones de Amazon",
+    title: "Cajas de devoluciones de Amazon en Bolivia",
     description:
-      "Compra cajas de devoluciones de Amazon en Bolivia por lote, con manifiesto verificado, o arriesga con una caja sorpresa de mayor margen. Cada ficha técnica documenta origen, certificación aduanera y valor retail estimado para que calcules tu rentabilidad de reventa antes de comprar.",
+      "Compra por lote con el contenido a la vista, o elige una caja sorpresa por categoría.",
     ctaCatalog: "Ver catálogo",
-    ctaHowItWorks: "Cómo funciona",
-    stats: [
-      { label: "Margen potencial promedio", value: "+180%" },
-      { label: "Clasificaciones activas", value: "8" },
-      { label: "Origen verificado", value: "6+ países UE/UK" },
-      { label: "Lotes con certificación aduanera", value: "100%" },
+    ctaWhatsapp: "Consultar por WhatsApp",
+    chips: [
+      "Cajas listadas: ves el contenido",
+      "Cajas sorpresa por categoría",
+      "Pago con código QR",
+      "Envío coordinado por WhatsApp",
     ],
-    trustLabel: "Ficha de trazabilidad — cómo funciona",
-    trustItems: [
-      "Manifiesto verificado por lote",
-      "Certificación de seguridad aduanera",
-      "Trazabilidad de origen y centro de retorno",
-      "Clasificación transparente por categoría",
+    factAvailable: "Cajas disponibles",
+    factPriceFrom: "Desde",
+    factCategories: "Categorías",
+  },
+  howToBuy: {
+    eyebrow: "Cómo comprar",
+    title: "Tu caja en 3 pasos",
+    steps: [
+      {
+        titulo: "Elige tu caja",
+        descripcion:
+          "Filtra por categoría y tipo: en las listadas ves el contenido exacto; en las sorpresa, solo la categoría.",
+      },
+      {
+        titulo: "Confirma tu pedido",
+        descripcion:
+          "Agrégala al carrito y completa tus datos. Reservamos el stock por 48 horas, sin cobrarte nada en la web.",
+      },
+      {
+        titulo: "Paga y recibe",
+        descripcion:
+          "Te escribimos por WhatsApp para enviarte el código QR de pago y coordinar el envío.",
+      },
     ],
+    contactTitle: "¿Tienes dudas sobre una caja?",
+    contactDescription: "Escríbenos por WhatsApp y te ayudamos a elegir.",
+    contactCta: "Escribir por WhatsApp",
   },
   about: {
     eyebrow: "00 — Sobre nosotros",
@@ -88,10 +110,11 @@ const es = {
     filterAll: "Todas",
     filterListed: "Listadas",
     filterSurprise: "Sorpresa",
-    allClassifications: "Todas las clasificaciones",
+    allClassifications: "Todas las categorías",
     boxWord: "caja",
     boxesWord: "cajas",
-    resultsSuffix: "listadas",
+    resultsSuffix: "en el catálogo",
+    availableSuffix: "disponibles",
     noResults: "No hay cajas que coincidan con este filtro.",
     searchPlaceholder: "Buscar por nombre o SKU...",
     sortLabel: "Ordenar",
@@ -102,12 +125,15 @@ const es = {
     loadMore: "Mostrar más cajas",
   },
   catalogPage: {
-    eyebrow: "02 — Catálogo",
+    eyebrow: "Catálogo",
     title: "Cajas de devoluciones disponibles en Bolivia",
     description:
-      "Filtra por tipo de caja y clasificación. Las cajas listadas muestran el manifiesto técnico exacto del contenido; las cajas sorpresa confirman solo la clasificación general, con mayor potencial de margen.",
+      "Filtra por categoría o tipo de caja. Las agotadas aparecen al final.",
   },
   productCard: {
+    available: "disponibles",
+    soldOut: "Agotada",
+    estimatedValue: "Valor estimado",
     stockLabel: "Stock",
     marginSuffix: "margen",
     addToCart: "Agregar al carrito",
@@ -479,29 +505,51 @@ const en: typeof es = {
     adminLink: "Admin panel",
     locationTitle: "Find us at Casa Insumos",
     mapPlaceholder: "Location map coming soon",
+    mapLink: "View location on Google Maps",
+    cajasDescription:
+      "Amazon return boxes in Bolivia: sold by lot with listed contents or as mystery boxes, classified by category.",
     copyright: "© 2026 Casa Insumos. All rights reserved.",
   },
   hero: {
-    badge: "Amazon return boxes · Liquidation by lot · 2026 Ed.",
-    title:
-      "Amazon return boxes with potential for electronics, jewelry and high-value items at liquidation prices.",
+    badge: "Amazon return boxes",
+    title: "Amazon return boxes in Bolivia",
     description:
-      "Buy by lot with a verified manifest, or take a chance on a higher-margin mystery box. Every spec sheet documents origin, customs certification and estimated retail value so you can calculate your resale profitability before buying.",
+      "Buy by lot with the contents in plain sight, or pick a mystery box by category.",
     ctaCatalog: "View catalog",
-    ctaHowItWorks: "How it works",
-    stats: [
-      { label: "Average potential margin", value: "+180%" },
-      { label: "Active classifications", value: "8" },
-      { label: "Verified origin", value: "6+ EU/UK countries" },
-      { label: "Lots with customs certification", value: "100%" },
+    ctaWhatsapp: "Ask on WhatsApp",
+    chips: [
+      "Listed boxes: you see the contents",
+      "Mystery boxes by category",
+      "QR code payment",
+      "Shipping arranged on WhatsApp",
     ],
-    trustLabel: "Traceability sheet — how it works",
-    trustItems: [
-      "Manifest verified per lot",
-      "Customs security certification",
-      "Origin and return center traceability",
-      "Transparent classification by category",
+    factAvailable: "Boxes available",
+    factPriceFrom: "From",
+    factCategories: "Categories",
+  },
+  howToBuy: {
+    eyebrow: "How to buy",
+    title: "Your box in 3 steps",
+    steps: [
+      {
+        titulo: "Pick your box",
+        descripcion:
+          "Filter by category and type: listed boxes show the exact contents; mystery boxes only the category.",
+      },
+      {
+        titulo: "Confirm your order",
+        descripcion:
+          "Add it to the cart and fill in your details. We hold the stock for 48 hours, with no charge on the site.",
+      },
+      {
+        titulo: "Pay and receive",
+        descripcion:
+          "We message you on WhatsApp with the QR payment code and to arrange shipping.",
+      },
     ],
+    contactTitle: "Questions about a box?",
+    contactDescription: "Message us on WhatsApp and we'll help you choose.",
+    contactCta: "Message us on WhatsApp",
   },
   about: {
     eyebrow: "00 — About us",
@@ -543,10 +591,11 @@ const en: typeof es = {
     filterAll: "All",
     filterListed: "Listed",
     filterSurprise: "Mystery",
-    allClassifications: "All classifications",
+    allClassifications: "All categories",
     boxWord: "box",
     boxesWord: "boxes",
-    resultsSuffix: "listed",
+    resultsSuffix: "in the catalog",
+    availableSuffix: "available",
     noResults: "No boxes match this filter.",
     searchPlaceholder: "Search by name or SKU...",
     sortLabel: "Sort",
@@ -557,12 +606,15 @@ const en: typeof es = {
     loadMore: "Show more boxes",
   },
   catalogPage: {
-    eyebrow: "02 — Catalog",
+    eyebrow: "Catalog",
     title: "Available return boxes",
     description:
-      "Filter by box type and classification. Listed boxes show the exact technical manifest of the content; mystery boxes only confirm the general classification, with higher margin potential.",
+      "Filter by category or box type. Sold-out boxes are shown last.",
   },
   productCard: {
+    available: "available",
+    soldOut: "Sold out",
+    estimatedValue: "Estimated value",
     stockLabel: "Stock",
     marginSuffix: "margin",
     addToCart: "Add to cart",

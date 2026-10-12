@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CatalogHeader } from "@/components/site/catalog-header";
 import { HeroSection } from "@/components/site/hero-section";
-import { AboutSection } from "@/components/site/about-section";
+import { HowToBuy } from "@/components/site/how-to-buy";
 import { PromoBanners } from "@/components/site/promo-banners";
 import { CatalogSection } from "@/components/site/catalog-section";
 import { CatalogBrowserSkeleton } from "@/components/site/catalog-browser-skeleton";
@@ -10,6 +10,9 @@ import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { HomeFooter } from "@/components/site/home-footer";
 import { getLogo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
+import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
+import { HOME_CONTAINER } from "@/lib/layout";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -28,29 +31,43 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogoPage() {
-  const [logo, { dict }] = await Promise.all([getLogo(), getDictionary()]);
+  const [logo, whatsappNumero, { dict }] = await Promise.all([
+    getLogo(),
+    getNumeroWhatsappPrincipal(),
+    getDictionary(),
+  ]);
 
+  // Orden pensado para comprar rápido: hero corto → catálogo → cómo comprar.
   return (
     <>
-      <CatalogHeader />
+      <CatalogHeader containerClassName={HOME_CONTAINER} />
       <HeroSection />
-      <AboutSection />
       <PromoBanners />
-      <section id="catalogo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6">
-        <ScrollReveal className="mb-8 flex flex-col items-center gap-2 text-center">
-          <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
-            {dict.catalogPage.eyebrow}
-          </span>
-          <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
-            {dict.catalogPage.title}
-          </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">{dict.catalogPage.description}</p>
-        </ScrollReveal>
-        <Suspense fallback={<CatalogBrowserSkeleton />}>
-          <CatalogSection />
-        </Suspense>
+      <section id="catalogo" className="scroll-mt-20">
+        <div className={cn(HOME_CONTAINER, "py-12 lg:py-16")}>
+          <ScrollReveal className="mb-6 flex flex-col items-center gap-2 text-center">
+            <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
+              {dict.catalogPage.eyebrow}
+            </span>
+            <h2 className="font-heading text-2xl font-semibold sm:text-3xl">
+              {dict.catalogPage.title}
+            </h2>
+            <p className="max-w-2xl text-base text-muted-foreground">
+              {dict.catalogPage.description}
+            </p>
+          </ScrollReveal>
+          <Suspense fallback={<CatalogBrowserSkeleton />}>
+            <CatalogSection />
+          </Suspense>
+        </div>
       </section>
-      <HomeFooter logoUrl={logo?.url ?? null} />
+      <HowToBuy />
+      <HomeFooter
+        logoUrl={logo?.url ?? null}
+        whatsappNumero={whatsappNumero}
+        containerClassName={HOME_CONTAINER}
+        description={dict.footer.cajasDescription}
+      />
     </>
   );
 }

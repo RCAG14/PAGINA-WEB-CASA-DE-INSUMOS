@@ -1,107 +1,120 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Boxes, ClipboardCheck, PackageCheck, ScanBarcode } from "lucide-react";
+import { ArrowRight, Check, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { HeroBackground } from "@/components/site/hero-background";
-import { getHeroImagenes, getHeroVideo } from "@/lib/data/landing";
+import { getCajas } from "@/lib/data/cajas";
+import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
+import { formatPrice } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/locale";
+import { HOME_CONTAINER } from "@/lib/layout";
+import { buildWhatsAppLink, cn } from "@/lib/utils";
+import { MENSAJES_WHATSAPP } from "@/lib/whatsapp";
 
-const TRUST_ICONS = [PackageCheck, ClipboardCheck, ScanBarcode, Boxes];
-
-// Velo mucho más liviano que el default de HeroBackground: el video/carrusel
-// debe verse con claridad, no quedar tapado por un degradé oscuro pesado. La
-// legibilidad del texto y las tarjetas la dan sus propios fondos sólidos, no
-// un overlay global sobre todo el hero.
-const HERO_OVERLAY = "bg-linear-to-t from-sidebar/60 via-sidebar/25 to-sidebar/10";
-
+/**
+ * Hero del catálogo de cajas: mismo esquema que el de desarrollo web (verde de
+ * la marca + ilustración propia a la derecha). Los datos de la franja salen de
+ * la base, no de textos fijos, para que siempre sean exactos.
+ */
 export async function HeroSection() {
-  const [heroVideo, heroImagenes, { dict }] = await Promise.all([
-    getHeroVideo("cajas"),
-    getHeroImagenes("cajas"),
+  const [cajas, whatsappNumero, { dict }] = await Promise.all([
+    getCajas(),
+    getNumeroWhatsappPrincipal(),
     getDictionary(),
   ]);
+  const t = dict.hero;
+
+  const disponibles = cajas.filter((c) => c.stock > 0);
+  const precioDesde = disponibles.length
+    ? Math.min(...disponibles.map((c) => c.precio))
+    : null;
+  const categorias = new Set(cajas.map((c) => c.clasificacion.slug)).size;
+
+  const facts = [
+    { label: t.factAvailable, value: String(disponibles.length) },
+    precioDesde !== null && { label: t.factPriceFrom, value: formatPrice(precioDesde) },
+    categorias > 0 && { label: t.factCategories, value: String(categorias) },
+  ].filter((f): f is { label: string; value: string } => Boolean(f));
 
   return (
-    <section className="relative flex min-h-screen items-start overflow-hidden border-b border-border bg-primary">
-      <HeroBackground
-        video={heroVideo ? { url: heroVideo.url } : null}
-        imagenes={heroImagenes.map((i) => ({ url: i.url }))}
-        overlayClassName={HERO_OVERLAY}
-      />
-      <div className="relative mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-20">
-        <div className="flex flex-col gap-6">
-          <span className="animate-in fade-in-0 slide-in-from-bottom-2 inline-flex w-fit items-center gap-2 rounded-full bg-accent px-2.5 py-1 font-mono-technical text-[11px] font-semibold uppercase tracking-wider text-accent-foreground shadow-elevation-sm duration-700 fill-mode-backwards">
-            {dict.hero.badge}
+    <section className="bg-blueprint-dark relative overflow-hidden border-b border-sidebar-foreground/10">
+      {/* Sin ScrollReveal: es el primer pantallazo. */}
+      <div
+        className={cn(
+          HOME_CONTAINER,
+          "relative grid items-center gap-10 py-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:py-14"
+        )}
+      >
+        <div className="flex max-w-2xl flex-col gap-5 text-sidebar-foreground">
+          <span className="font-mono-technical text-xs font-semibold uppercase tracking-wider text-chart-4">
+            {t.badge}
           </span>
-          <h1 className="animate-in fade-in-0 slide-in-from-bottom-3 max-w-xl font-heading text-3xl font-semibold leading-tight text-sidebar-foreground [text-shadow:0_2px_16px_rgba(0,0,0,0.45)] duration-700 delay-100 fill-mode-backwards sm:text-4xl lg:text-5xl">
-            {dict.hero.title}
+          <h1 className="text-pretty font-heading text-3xl font-bold leading-tight sm:text-4xl xl:text-5xl">
+            {t.title}
           </h1>
-          <p className="animate-in fade-in-0 slide-in-from-bottom-3 max-w-lg text-sm text-sidebar-foreground [text-shadow:0_1px_10px_rgba(0,0,0,0.4)] duration-700 delay-200 fill-mode-backwards sm:text-base">
-            {dict.hero.description}
+          <p className="max-w-xl text-base leading-relaxed text-sidebar-foreground/90 sm:text-lg">
+            {t.description}
           </p>
-          <div className="animate-in fade-in-0 slide-in-from-bottom-3 flex flex-wrap gap-3 duration-700 delay-300 fill-mode-backwards">
+
+          <ul className="grid gap-2 sm:grid-cols-2">
+            {t.chips.map((chip) => (
+              <li key={chip} className="flex items-center gap-2 text-sm">
+                <Check className="size-4 shrink-0 text-chart-4" strokeWidth={2.5} />
+                {chip}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-1 flex flex-wrap gap-3">
             <Button
               render={<Link href="#catalogo" />}
               nativeButton={false}
               size="lg"
               variant="secondary"
-              className="group shadow-elevation-md"
+              className="shadow-elevation-md"
             >
-              {dict.hero.ctaCatalog}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              {t.ctaCatalog}
+              <ArrowRight className="size-4" />
             </Button>
-            <Button
-              render={<Link href="#como-funciona" />}
-              nativeButton={false}
-              size="lg"
-              variant="outline"
-              className="border-2 border-sidebar-foreground bg-sidebar-foreground/10 text-sidebar-foreground backdrop-blur-sm hover:bg-sidebar-foreground/20"
-            >
-              {dict.hero.ctaHowItWorks}
-            </Button>
+            {whatsappNumero && (
+              <Button
+                render={
+                  <a
+                    href={buildWhatsAppLink(whatsappNumero, MENSAJES_WHATSAPP.cajas)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+                nativeButton={false}
+                size="lg"
+                variant="outline"
+                className="border-2 border-sidebar-foreground bg-sidebar-foreground/10 text-sidebar-foreground backdrop-blur-sm hover:bg-sidebar-foreground/20"
+              >
+                <MessageCircle className="size-4" />
+                {t.ctaWhatsapp}
+              </Button>
+            )}
           </div>
 
-          <dl className="animate-in fade-in-0 mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-sidebar-foreground/25 duration-700 delay-500 fill-mode-backwards sm:grid-cols-4">
-            {dict.hero.stats.map((s) => (
-              <div
-                key={s.label}
-                className="bg-sidebar-foreground/20 px-3 py-3 backdrop-blur-md"
-              >
-                <dt className="font-mono-technical text-[10px] uppercase tracking-wider text-sidebar-foreground/80">
-                  {s.label}
-                </dt>
-                <dd className="font-heading text-lg font-semibold text-sidebar-foreground">
-                  {s.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          {facts.length > 0 && (
+            <dl className="mt-2 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-sidebar-foreground/20">
+              {facts.map((f) => (
+                <div key={f.label} className="bg-sidebar/60 px-3 py-3 sm:px-4">
+                  <dt className="text-xs text-sidebar-foreground/75">{f.label}</dt>
+                  <dd className="font-heading text-base font-semibold sm:text-lg">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
 
-        <div
-          id="como-funciona"
-          className="animate-in fade-in-0 slide-in-from-right-4 relative rounded-xl border border-sidebar-foreground/25 bg-sidebar-foreground/15 p-5 shadow-elevation-lg backdrop-blur-md duration-700 delay-200 fill-mode-backwards"
-        >
-          <p className="mb-4 font-mono-technical text-[11px] uppercase tracking-wider text-sidebar-foreground/80">
-            {dict.hero.trustLabel}
-          </p>
-          <ul className="flex flex-col gap-3">
-            {dict.hero.trustItems.map((label, i) => {
-              const Icon = TRUST_ICONS[i];
-              return (
-                <li
-                  key={label}
-                  className="flex items-center gap-3 rounded-lg border border-sidebar-foreground/20 bg-sidebar-accent/80 px-3 py-2.5"
-                >
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-accent font-mono-technical text-[11px] font-semibold text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <Icon className="size-4 shrink-0 text-accent" strokeWidth={1.5} />
-                  <span className="text-sm font-medium text-sidebar-foreground">{label}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <Image
+          src="/portada/hero-cajas.svg"
+          alt=""
+          width={790}
+          height={545}
+          priority
+          className="hidden h-auto w-full drop-shadow-2xl lg:block"
+        />
       </div>
     </section>
   );

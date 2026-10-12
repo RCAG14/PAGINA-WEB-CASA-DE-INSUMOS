@@ -4,14 +4,16 @@ import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getBannersPromo } from "@/lib/data/landing";
 import { getDictionary } from "@/lib/i18n/locale";
+import { HOME_CONTAINER } from "@/lib/layout";
+import { cn } from "@/lib/utils";
 
 export async function PromoBanners() {
   const [banners, { dict }] = await Promise.all([getBannersPromo(), getDictionary()]);
   if (banners.length === 0) return null;
 
   return (
-    <section className="flex min-h-screen items-start border-b border-border bg-card">
-      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <section className="border-b border-border bg-card">
+      <div className={cn(HOME_CONTAINER, "py-10")}>
         <ScrollReveal className="mb-6 flex flex-col items-center gap-1 text-center">
           <span className="font-mono-technical text-xs uppercase tracking-wider text-accent">
             {dict.promo.eyebrow}

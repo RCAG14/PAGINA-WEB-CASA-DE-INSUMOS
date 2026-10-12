@@ -11,7 +11,7 @@ import { useI18n } from "@/lib/i18n/locale-context";
  * de vuelta a la home. Usa el LogoProvider/CartProvider que ya provee
  * (site)/layout.tsx — no necesita props.
  */
-export function CatalogHeader() {
+export function CatalogHeader({ containerClassName }: { containerClassName?: string } = {}) {
   const logoUrl = useLogo();
   const { dict } = useI18n();
 
@@ -19,10 +19,13 @@ export function CatalogHeader() {
     <Navbar
       logoUrl={logoUrl}
       actions={<CartSheet />}
+      containerClassName={containerClassName}
       links={[
-        { href: "#catalogo", label: dict.header.navCatalog },
-        { href: "#sobre-nosotros", label: dict.header.navAbout },
-        { href: "#contacto", label: dict.header.navContact },
+        // Rutas completas: este header también se usa en la ficha de producto,
+        // donde estas secciones no existen.
+        { href: "/cajas-devoluciones-amazon-bolivia#catalogo", label: dict.header.navCatalog },
+        { href: "/cajas-devoluciones-amazon-bolivia#como-comprar", label: dict.howToBuy.eyebrow },
+        { href: "/cajas-devoluciones-amazon-bolivia#contacto", label: dict.header.navContact },
       ]}
     />
   );

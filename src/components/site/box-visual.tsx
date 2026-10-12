@@ -23,24 +23,20 @@ export function BoxVisual({ box, className, iconClassName }: BoxVisualProps) {
       className={cn(
         "relative aspect-4/3 w-full overflow-hidden rounded-xl border",
         isSurprise ? "border-dashed border-accent/60" : "border-border/60",
-        "bg-grid-technical bg-card",
+        "bg-secondary/60",
         className
       )}
     >
-      <div className="absolute left-2 top-2 rounded-md bg-background/70 px-1.5 py-0.5 font-mono-technical text-[10px] uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
-        {box.specs.skuCaja}
-      </div>
-
       {isSurprise && (
-        <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-dashed border-accent/70 bg-background/80 px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-primary">
-          <Lock className="size-2.5" />
+        <div className="absolute right-2 top-2 z-10 flex items-center gap-1 rounded-full bg-background/90 px-2 py-1 text-xs font-medium text-primary shadow-sm backdrop-blur-sm">
+          <Lock className="size-3" />
           {dict.boxVisual.contentReserved}
         </div>
       )}
 
       {box.destacada && (
-        <div className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-accent px-1.5 py-0.5 font-mono-technical text-[9px] uppercase tracking-wider text-accent-foreground shadow-glow-accent">
-          <Sparkles className="size-2.5" />
+        <div className="absolute bottom-2 right-2 z-10 flex items-center gap-1 rounded-full bg-accent px-2 py-1 text-xs font-medium text-accent-foreground shadow-sm">
+          <Sparkles className="size-3" />
           {dict.boxVisual.featuredBadge}
         </div>
       )}

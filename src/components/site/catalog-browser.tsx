@@ -69,7 +69,10 @@ export function CatalogBrowser({
       return matchTipo && matchCategoria && matchQuery;
     });
 
+    // Las agotadas van siempre al final, sea cual sea el orden elegido.
     return [...result].sort((a, b) => {
+      const agotadas = Number(a.stock === 0) - Number(b.stock === 0);
+      if (agotadas !== 0) return agotadas;
       switch (orden) {
         case "precio-asc":
           return a.precio - b.precio;
@@ -85,6 +88,7 @@ export function CatalogBrowser({
   }, [boxes, tipo, categoria, query, orden]);
 
   const visible = filtered.slice(0, visibleCount);
+  const disponibles = filtered.filter((b) => b.stock > 0).length;
   const hasMore = visibleCount < filtered.length;
 
   return (
@@ -103,7 +107,7 @@ export function CatalogBrowser({
                 key={value}
                 onClick={() => setTipo(value)}
                 className={cn(
-                  "rounded-lg border px-3 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider transition-colors",
+                  "rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
                   tipo === value
                     ? "border-primary bg-primary text-primary-foreground shadow-glow-accent"
                     : "border-border/60 bg-background text-muted-foreground hover:text-foreground"
@@ -116,20 +120,20 @@ export function CatalogBrowser({
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={dict.catalogBrowser.searchPlaceholder}
-                className="w-full rounded-lg border border-border/60 bg-background py-1.5 pl-7 pr-2.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-52"
+                className="w-full rounded-lg border border-border/60 bg-background py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-64"
               />
             </div>
             <select
               value={orden}
               onChange={(e) => setOrden(e.target.value as SortOrder)}
               aria-label={dict.catalogBrowser.sortLabel}
-              className="rounded-lg border border-border/60 bg-background px-2 py-1.5 font-mono-technical text-[11px] uppercase tracking-wider text-foreground focus:border-primary focus:outline-none"
+              className="rounded-lg border border-border/60 bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
             >
               <option value="destacadas">{dict.catalogBrowser.sortFeatured}</option>
               <option value="precio-asc">{dict.catalogBrowser.sortPriceAsc}</option>
@@ -139,15 +143,16 @@ export function CatalogBrowser({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-3">
-          <LayoutGrid className="size-3.5 shrink-0 text-muted-foreground" />
+        {/* Celular: una sola fila deslizable en vez de 5 filas de categorías. */}
+        <div className="-mx-3 flex items-center gap-2 overflow-x-auto border-t border-border/60 px-3 pt-3 pb-1 sm:mx-0 sm:flex-wrap sm:px-0 sm:pb-0">
+          <LayoutGrid className="size-4 shrink-0 text-muted-foreground" />
           <button
             onClick={() => setCategoria("todas")}
             className={cn(
-              "rounded-full border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
+              "shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm transition-colors",
               categoria === "todas"
-                ? "border-primary text-primary"
-                : "border-transparent text-muted-foreground hover:text-foreground"
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border/60 text-muted-foreground hover:border-primary/40 hover:text-foreground"
             )}
           >
             {dict.catalogBrowser.allClassifications}
@@ -157,10 +162,10 @@ export function CatalogBrowser({
               key={c.slug}
               onClick={() => setCategoria(c.slug)}
               className={cn(
-                "rounded-full border px-2.5 py-1 font-mono-technical text-[10px] uppercase tracking-wider transition-colors",
+                "shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm transition-colors",
                 categoria === c.slug
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border/60 text-muted-foreground hover:border-primary/40 hover:text-foreground"
               )}
             >
               {c.label}
@@ -169,13 +174,14 @@ export function CatalogBrowser({
         </div>
       </div>
 
-      <div className="flex items-baseline justify-between font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground">
-        <span>
-          {filtered.length.toString().padStart(2, "0")}{" "}
-          {filtered.length === 1 ? dict.catalogBrowser.boxWord : dict.catalogBrowser.boxesWord}{" "}
-          {dict.catalogBrowser.resultsSuffix}
+      <p className="text-sm text-muted-foreground">
+        {filtered.length}{" "}
+        {filtered.length === 1 ? dict.catalogBrowser.boxWord : dict.catalogBrowser.boxesWord}{" "}
+        {dict.catalogBrowser.resultsSuffix} ·{" "}
+        <span className="font-semibold text-primary">
+          {disponibles} {dict.catalogBrowser.availableSuffix}
         </span>
-      </div>
+      </p>
 
       {filtered.length > 0 ? (
         <>
@@ -189,7 +195,7 @@ export function CatalogBrowser({
           {hasMore && (
             <button
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              className="self-center rounded-lg border border-border/60 bg-background px-4 py-2 font-mono-technical text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+              className="self-center rounded-lg border border-primary/40 bg-background px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/5"
             >
               {dict.catalogBrowser.loadMore}
             </button>
