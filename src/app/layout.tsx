@@ -3,7 +3,7 @@ import { Poppins, Inter, Montserrat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/lib/i18n/locale-context";
-import { getLocale } from "@/lib/i18n/locale";
+import { getDictionary, getLocale } from "@/lib/i18n/locale";
 import { getLogo } from "@/lib/data/landing";
 import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
@@ -26,16 +26,15 @@ const montserrat = Montserrat({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const logo = await getLogo();
+  const [logo, { dict }] = await Promise.all([getLogo(), getDictionary()]);
 
   return {
     metadataBase: new URL(SITE_URL),
     title: {
       template: "%s | Casa de Insumos",
-      default: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
+      default: dict.meta.defaultTitle,
     },
-    description:
-      "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",
+    description: dict.meta.defaultDescription,
     robots: { index: true, follow: true },
     verification: process.env.GOOGLE_SITE_VERIFICATION
       ? { google: process.env.GOOGLE_SITE_VERIFICATION }

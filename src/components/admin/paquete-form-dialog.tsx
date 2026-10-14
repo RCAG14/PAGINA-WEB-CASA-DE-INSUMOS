@@ -16,31 +16,51 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { TraduccionIngles } from "@/components/admin/traduccion-ingles";
+import { formatUsd } from "@/lib/format";
 import type { DesgloseItem, PaqueteDesarrolloInput } from "@/lib/data/desarrollo";
 
 // El desglose se edita como texto, una línea por concepto: "Concepto | monto | motivo".
+// Su traducción va aparte, en el mismo orden: "Concept | reason".
 function desgloseToText(items: DesgloseItem[]) {
   return items.map((d) => `${d.concepto} | ${d.monto} | ${d.motivo}`).join("\n");
 }
 
-function parseDesgloseText(text: string): DesgloseItem[] {
+function desgloseEnToText(items: DesgloseItem[]) {
+  if (items.every((d) => !d.conceptoEn && !d.motivoEn)) return "";
+  return items.map((d) => `${d.conceptoEn ?? ""} | ${d.motivoEn ?? ""}`).join("\n");
+}
+
+function lineas(text: string) {
   return text
     .split("\n")
     .map((line) => line.trim())
-    .filter(Boolean)
+    .filter(Boolean);
+}
+
+function parseDesgloseText(text: string, textEn: string): DesgloseItem[] {
+  const traducciones = lineas(textEn).map((line) => {
+    const [concepto = "", ...motivo] = line.split("|").map((p) => p.trim());
+    return { conceptoEn: concepto || null, motivoEn: motivo.join(" | ") || null };
+  });
+  return lineas(text)
     .map((line) => {
       const [concepto = "", monto = "", ...motivo] = line.split("|").map((p) => p.trim());
       return { concepto, monto: Number(monto.replace(",", ".")) || 0, motivo: motivo.join(" | ") };
     })
-    .filter((d) => d.concepto);
+    .filter((d) => d.concepto)
+    .map((d, i) => ({ ...d, ...(traducciones[i] ?? { conceptoEn: null, motivoEn: null }) }));
 }
 
 const EMPTY_VALUES: PaqueteDesarrolloInput = {
   nombre: "",
+  nombreEn: null,
   tagline: "",
+  taglineEn: null,
   precio: 0,
   mantenimientoMensual: null,
   features: [],
+  featuresEn: [],
   desglose: [],
   destacado: false,
   activo: true,
@@ -61,8 +81,10 @@ export function PaqueteFormDialog({
   const initial: PaqueteDesarrolloInput = paquete ?? EMPTY_VALUES;
   const [values, setValues] = useState<PaqueteDesarrolloInput>(initial);
   const [featuresText, setFeaturesText] = useState(initial.features.join("\n"));
+  const [featuresEnText, setFeaturesEnText] = useState(initial.featuresEn.join("\n"));
   const [desgloseText, setDesgloseText] = useState(desgloseToText(initial.desglose));
-  const desglose = parseDesgloseText(desgloseText);
+  const [desgloseEnText, setDesgloseEnText] = useState(desgloseEnToText(initial.desglose));
+  const desglose = parseDesgloseText(desgloseText, desgloseEnText);
   const sumaDesglose = desglose.reduce((acc, d) => acc + d.monto, 0);
 
   function handleOpenChange(next: boolean) {
@@ -70,17 +92,20 @@ export function PaqueteFormDialog({
     if (next) {
       setValues(initial);
       setFeaturesText(initial.features.join("\n"));
+      setFeaturesEnText(initial.featuresEn.join("\n"));
       setDesgloseText(desgloseToText(initial.desglose));
+      setDesgloseEnText(desgloseEnToText(initial.desglose));
     }
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const features = featuresText
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
-    onSubmit({ ...values, features, desglose });
+    onSubmit({
+      ...values,
+      features: lineas(featuresText),
+      featuresEn: lineas(featuresEnText),
+      desglose,
+    });
     setOpen(false);
   }
 
@@ -94,8 +119,8 @@ export function PaqueteFormDialog({
               {paquete ? "Editar paquete" : "Nuevo paquete"}
             </DialogTitle>
             <DialogDescription>
-              Se muestra en /desarrollo-web. El botón de cotizar arma el mensaje de WhatsApp con
-              el nombre del paquete.
+              Se muestra en /desarrollo-web. Los montos van en dólares (USD); el visitante
+              puede verlos en bolivianos con el tipo de cambio configurado.
             </DialogDescription>
           </DialogHeader>
 
@@ -128,7 +153,7 @@ export function PaqueteFormDialog({
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="pd-precio" className="text-xs">
-                Precio (Bs)
+                Precio (US$)
               </Label>
               <Input
                 id="pd-precio"
@@ -145,7 +170,7 @@ export function PaqueteFormDialog({
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="pd-mantenimiento" className="text-xs">
-                Mantenimiento mensual (Bs) — opcional
+                Mantenimiento mensual (US$) — opcional
               </Label>
               <Input
                 id="pd-mantenimiento"
@@ -182,13 +207,13 @@ export function PaqueteFormDialog({
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="pd-desglose" className="text-xs">
-                Desglose del precio — una línea por concepto: Concepto | monto | motivo
+                Desglose del precio (US$) — una línea por concepto: Concepto | monto | motivo
               </Label>
               <Textarea
                 id="pd-desglose"
                 rows={5}
                 placeholder={
-                  "Diseño y desarrollo | 300 | Horas de diseño, maquetado y pruebas\nDominio .com (1er año) | 120 | Registro anual del nombre de tu web"
+                  "Diseño y desarrollo | 45 | Horas de diseño, maquetado y pruebas\nDominio .com (1er año) | 17 | Registro anual del nombre de tu web"
                 }
                 value={desgloseText}
                 onChange={(e) => setDesgloseText(e.target.value)}
@@ -201,12 +226,60 @@ export function PaqueteFormDialog({
                       : "text-xs text-destructive"
                   }
                 >
-                  Suma del desglose: Bs {sumaDesglose}
+                  Suma del desglose: {formatUsd(sumaDesglose)}
                   {sumaDesglose !== values.precio &&
-                    ` — no coincide con el precio (Bs ${values.precio})`}
+                    ` — no coincide con el precio (${formatUsd(values.precio)})`}
                 </p>
               )}
             </div>
+
+            <TraduccionIngles>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="pd-nombre-en" className="text-xs">
+                  Name
+                </Label>
+                <Input
+                  id="pd-nombre-en"
+                  placeholder="Basic"
+                  value={values.nombreEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, nombreEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="pd-tagline-en" className="text-xs">
+                  Tagline
+                </Label>
+                <Input
+                  id="pd-tagline-en"
+                  placeholder="A simple, professional online presence."
+                  value={values.taglineEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, taglineEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="pd-features-en" className="text-xs">
+                  Features (one per line)
+                </Label>
+                <Textarea
+                  id="pd-features-en"
+                  rows={5}
+                  value={featuresEnText}
+                  onChange={(e) => setFeaturesEnText(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="pd-desglose-en" className="text-xs">
+                  Desglose — mismas líneas y orden que en español: Concept | reason
+                </Label>
+                <Textarea
+                  id="pd-desglose-en"
+                  rows={4}
+                  placeholder={"Design and development | Design, layout and testing hours"}
+                  value={desgloseEnText}
+                  onChange={(e) => setDesgloseEnText(e.target.value)}
+                />
+              </div>
+            </TraduccionIngles>
 
             <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="pd-destacado" className="text-xs">

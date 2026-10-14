@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   Bot,
@@ -12,9 +13,9 @@ import {
   Server,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getPrecioMinimoPaquetes, getTrabajosRealizados } from "@/lib/data/desarrollo";
+import { PrecioDesarrollo } from "@/components/site/precio-desarrollo";
+import { contarTrabajosRealizados, getPrecioMinimoPaquetes } from "@/lib/data/desarrollo";
 import { getNumeroWhatsappPrincipal } from "@/lib/data/contacto";
-import { formatPrice } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/locale";
 import { HOME_CONTAINER } from "@/lib/layout";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
@@ -24,21 +25,24 @@ import { MENSAJES_WHATSAPP } from "@/lib/whatsapp";
 const TIPO_ICONS = [LayoutTemplate, Server, LayoutDashboard, Bot, CalendarCheck, Layers];
 
 export async function WebDevHero() {
-  const [precioDesde, trabajos, whatsappNumero, { dict }] =
+  const [precioDesde, cantidadTrabajos, whatsappNumero, { dict }] =
     await Promise.all([
       getPrecioMinimoPaquetes(),
-      getTrabajosRealizados(),
+      contarTrabajosRealizados(),
       getNumeroWhatsappPrincipal(),
       getDictionary(),
     ]);
   const t = dict.webdev.hero;
 
   // Datos reales de la base: solo se muestran los que existen.
-  const facts = [
-    precioDesde !== null && { label: t.factPriceFrom, value: formatPrice(precioDesde) },
-    trabajos.length > 0 && { label: t.factProjects, value: String(trabajos.length) },
-    whatsappNumero && { label: t.factQuote, value: t.factQuoteValue },
-  ].filter((f): f is { label: string; value: string } => Boolean(f));
+  const facts: { label: string; value: ReactNode }[] = [];
+  if (precioDesde !== null) {
+    facts.push({ label: t.factPriceFrom, value: <PrecioDesarrollo usd={precioDesde} /> });
+  }
+  if (cantidadTrabajos > 0) {
+    facts.push({ label: t.factProjects, value: String(cantidadTrabajos) });
+  }
+  if (whatsappNumero) facts.push({ label: t.factQuote, value: t.factQuoteValue });
 
   return (
     <section className="bg-blueprint-dark relative flex items-center overflow-hidden border-b border-sidebar-foreground/10 ">

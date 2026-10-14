@@ -18,11 +18,18 @@ import {
   type PaqueteDesarrolloInput,
   type TrabajoRealizadoInput,
 } from "@/lib/data/desarrollo";
+import { actualizarTipoCambioUsdBob } from "@/lib/data/ajustes";
 import { verifyJefe } from "@/lib/auth/dal";
 
 function revalidarTodo() {
   revalidatePath("/admin/desarrollo-web");
   revalidatePath("/desarrollo-web");
+}
+
+export async function actualizarTipoCambioAction(valor: number) {
+  await verifyJefe();
+  await actualizarTipoCambioUsdBob(valor);
+  revalidarTodo();
 }
 
 export async function crearPaqueteDesarrolloAction(input: PaqueteDesarrolloInput) {

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getDictionary } from "@/lib/i18n/locale";
 import { crearCliente, getUsuarioByUsername } from "@/lib/data/usuarios";
 import { createSession } from "@/lib/auth/session";
 
@@ -9,24 +10,25 @@ export interface AuthState {
 }
 
 export async function registrarClienteAction(_prevState: AuthState, formData: FormData): Promise<AuthState> {
+  const { dict } = await getDictionary();
   const nombre = String(formData.get("nombre") ?? "").trim();
   const username = String(formData.get("username") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const confirmar = String(formData.get("confirmar") ?? "");
 
   if (!nombre || !username || !password) {
-    return { error: "Completa todos los campos." };
+    return { error: dict.auth.errors.registerMissing };
   }
   if (password.length < 6) {
-    return { error: "La contraseña debe tener al menos 6 caracteres." };
+    return { error: dict.auth.errors.passwordTooShort };
   }
   if (password !== confirmar) {
-    return { error: "Las contraseñas no coinciden." };
+    return { error: dict.auth.errors.passwordMismatch };
   }
 
   const existente = await getUsuarioByUsername(username);
   if (existente) {
-    return { error: "Ese usuario ya está en uso." };
+    return { error: dict.auth.errors.usernameTaken };
   }
 
   const usuario = await crearCliente({ nombre, username, password });

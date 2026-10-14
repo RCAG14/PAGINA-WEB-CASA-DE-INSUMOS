@@ -446,20 +446,46 @@ async function main() {
 
   console.log("Sembrando paquetes de Desarrollo Web a Medida...");
   for (const paquete of PAQUETES_DESARROLLO) {
-    await prisma.paqueteDesarrollo.upsert({
+    const existente = await prisma.paqueteDesarrollo.findUnique({
       where: { nombre: paquete.nombre },
-      update: {},
-      create: paquete,
     });
+    if (!existente) {
+      await prisma.paqueteDesarrollo.create({ data: paquete });
+    } else if (!existente.nombre_en) {
+      // Ya existía sin traducción: completa solo los textos en inglés. Precios y
+      // textos en español quedan como los dejó el panel.
+      const desglose = Array.isArray(existente.desglose)
+        ? existente.desglose.map((item) => {
+            if (!item || typeof item !== "object" || Array.isArray(item)) return item;
+            const fuente = paquete.desglose.find((d) => d.concepto === item.concepto);
+            return fuente
+              ? { ...item, conceptoEn: fuente.conceptoEn, motivoEn: fuente.motivoEn }
+              : item;
+          })
+        : [];
+      await prisma.paqueteDesarrollo.update({
+        where: { id: existente.id },
+        data: {
+          nombre_en: paquete.nombre_en,
+          tagline_en: paquete.tagline_en,
+          features_en: paquete.features_en,
+          desglose,
+        },
+      });
+    }
   }
 
   console.log("Sembrando extras de Desarrollo Web a Medida...");
   for (const [orden, extra] of EXTRAS_DESARROLLO.entries()) {
-    await prisma.extraDesarrollo.upsert({
-      where: { nombre: extra.nombre },
-      update: {},
-      create: { ...extra, orden },
-    });
+    const existente = await prisma.extraDesarrollo.findUnique({ where: { nombre: extra.nombre } });
+    if (!existente) {
+      await prisma.extraDesarrollo.create({ data: { ...extra, orden } });
+    } else if (!existente.nombre_en) {
+      await prisma.extraDesarrollo.update({
+        where: { id: existente.id },
+        data: { nombre_en: extra.nombre_en, motivo_en: extra.motivo_en, unidad_en: extra.unidad_en },
+      });
+    }
   }
 
   console.log("Sembrando ejemplos de Trabajos Realizados...");

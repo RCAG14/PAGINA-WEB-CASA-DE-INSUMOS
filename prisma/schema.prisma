@@ -305,22 +305,30 @@ model ContenidoLanding {
 // El administrador los gestiona desde /admin/desarrollo-web sin tocar
 // código. El botón de cotización de cada paquete arma un mensaje de WhatsApp
 // personalizado con el nombre del paquete.
+//
+// Desarrollo web es un servicio global: todos sus montos están en dólares
+// (USD). La vista pública puede mostrarlos en bolivianos con el tipo de
+// cambio guardado en `ajustes` (clave "tipo_cambio_usd_bob").
+// Los campos `*_en` son la traducción al inglés; si están vacíos se usa el español.
 model PaqueteDesarrollo {
   id String @id @default(cuid())
 
-  nombre  String  @unique
-  tagline String
-  precio  Decimal @db.Decimal(10, 2)
+  nombre     String  @unique
+  nombre_en  String?
+  tagline    String
+  tagline_en String?
+  precio     Decimal @db.Decimal(10, 2)
 
   // Costo de mantenimiento mensual (opcional). Solo se muestra en el modal
   // de detalles del paquete, no en la tarjeta de la landing.
   mantenimiento_mensual Decimal? @db.Decimal(10, 2)
 
   // Una línea por ítem del checklist de features mostrado en la tarjeta.
-  features String[]
+  features    String[]
+  features_en String[] @default([])
 
   // Desglose del precio mostrado en el modal de detalles: qué paga el cliente
-  // y por qué. Array de { concepto: string, monto: number, motivo: string }.
+  // y por qué. Array de { concepto, monto, motivo, conceptoEn?, motivoEn? }.
   desglose Json @default("[]")
 
   // Se resalta visualmente como la opción recomendada en la landing.
@@ -340,13 +348,17 @@ model PaqueteDesarrollo {
 model ExtraDesarrollo {
   id String @id @default(cuid())
 
-  nombre String  @unique
-  motivo String
-  precio Decimal @db.Decimal(10, 2)
+  nombre    String  @unique
+  nombre_en String?
+  motivo    String
+  motivo_en String?
+  // En dólares (USD), igual que los paquetes.
+  precio    Decimal @db.Decimal(10, 2)
 
   // Texto corto después del precio: "c/u", "por hora", "por año"... (opcional).
-  unidad String?
-  // Si es true se muestra "desde Bs X" — el monto final depende del alcance.
+  unidad    String?
+  unidad_en String?
+  // Si es true se muestra "desde US$ X" — el monto final depende del alcance.
   precio_desde Boolean @default(false)
 
   activo Boolean @default(true)
@@ -378,10 +390,13 @@ model Modulo {
 model TrabajoRealizado {
   id String @id @default(cuid())
 
-  titulo      String
+  titulo         String
+  titulo_en      String?
   // Rubro del cliente — texto libre, ej. "Restaurante", "Inmobiliaria", "Clínica".
-  categoria   String
-  descripcion String
+  categoria      String
+  categoria_en   String?
+  descripcion    String
+  descripcion_en String?
 
   imagen_url  String?
   imagen_path String?
@@ -395,4 +410,15 @@ model TrabajoRealizado {
   actualizado_en DateTime @updatedAt
 
   @@map("trabajos_realizados")
+}
+
+// Ajustes sueltos del sitio editables desde el panel, guardados como
+// clave → valor (texto). Hoy: "tipo_cambio_usd_bob", los bolivianos por dólar
+// con que /desarrollo-web convierte sus precios cuando el visitante lo pide.
+model Ajuste {
+  clave          String   @id
+  valor          String
+  actualizado_en DateTime @updatedAt
+
+  @@map("ajustes")
 }

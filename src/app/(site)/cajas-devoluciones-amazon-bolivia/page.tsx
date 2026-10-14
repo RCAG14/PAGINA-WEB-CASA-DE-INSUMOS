@@ -12,19 +12,22 @@ import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Cajas de Devoluciones de Amazon en Bolivia",
-  description:
-    "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado y certificación aduanera. Cajas de retorno por lote o sorpresa. Ve el catálogo.",
-  alternates: { canonical: "/cajas-devoluciones-amazon-bolivia" },
-  openGraph: {
-    title: "Cajas de Devoluciones de Amazon en Bolivia | Casa de Insumos",
-    description:
-      "Lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera documentada en Bolivia.",
-    url: "/cajas-devoluciones-amazon-bolivia",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  const m = dict.meta.cajas;
+
+  return {
+    title: m.title,
+    description: m.description,
+    alternates: { canonical: "/cajas-devoluciones-amazon-bolivia" },
+    openGraph: {
+      title: m.ogTitle,
+      description: m.ogDescription,
+      url: "/cajas-devoluciones-amazon-bolivia",
+      type: "website",
+    },
+  };
+}
 
 export default async function CatalogoPage() {
   const { dict } = await getDictionary();

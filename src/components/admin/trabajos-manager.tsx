@@ -159,8 +159,11 @@ export function TrabajosManager({ trabajos }: { trabajos: TrabajoRealizado[] }) 
                     trabajo={{
                       id: trabajo.id,
                       titulo: trabajo.titulo,
+                      tituloEn: trabajo.titulo_en,
                       categoria: trabajo.categoria,
+                      categoriaEn: trabajo.categoria_en,
                       descripcion: trabajo.descripcion,
+                      descripcionEn: trabajo.descripcion_en,
                       imagenUrl: trabajo.imagen_url,
                       imagenPath: trabajo.imagen_path,
                       enlace: trabajo.enlace,

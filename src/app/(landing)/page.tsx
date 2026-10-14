@@ -4,52 +4,55 @@ import { VisitTracker } from "@/components/site/visit-tracker";
 import { OrganizationJsonLd } from "@/components/site/organization-jsonld";
 import { getLogo } from "@/lib/data/landing";
 import { getNumeroWhatsappPrincipal, getRedesSociales } from "@/lib/data/contacto";
+import { getDictionary } from "@/lib/i18n/locale";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
-  },
-  description:
-    "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado, cotización de importaciones y desarrollo web en Bolivia a medida. Cotiza ahora.",
-  keywords: [
-    "cajas devoluciones en Bolivia",
-    "cajas de retorno Amazon",
-    "desarrollo web en Bolivia",
-    "liquidación por lote",
-    "importación de mercancía",
-    "cotización de importaciones",
-    "Casa de Insumos",
-  ],
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
-    description:
-      "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
-    url: "/",
-    siteName: "Casa de Insumos",
-    locale: "es_ES",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia",
-    description:
-      "Cajas de devoluciones de Amazon en Bolivia, cotización de importaciones y desarrollo web en Bolivia a medida.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  const m = dict.meta.home;
+
+  return {
+    title: { absolute: m.title },
+    description: m.description,
+    keywords: [
+      "cajas devoluciones en Bolivia",
+      "cajas de retorno Amazon",
+      "desarrollo web a medida",
+      "custom web development",
+      "liquidación por lote",
+      "Amazon return boxes Bolivia",
+      "Casa de Insumos",
+    ],
+    alternates: { canonical: "/" },
+    openGraph: {
+      title: m.title,
+      description: m.ogDescription,
+      url: "/",
+      siteName: "Casa de Insumos",
+      locale: m.ogLocale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: m.title,
+      description: m.ogDescription,
+    },
+  };
+}
 
 export default async function PortalPage() {
-  const [logo, whatsappNumero, redesSociales] = await Promise.all([
+  const [logo, whatsappNumero, redesSociales, { dict }] = await Promise.all([
     getLogo(),
     getNumeroWhatsappPrincipal(),
     getRedesSociales(),
+    getDictionary(),
   ]);
 
   return (
     <>
       <OrganizationJsonLd
+        description={dict.meta.organization}
         logoUrl={logo?.url}
         telefono={whatsappNumero}
         redesSociales={redesSociales}

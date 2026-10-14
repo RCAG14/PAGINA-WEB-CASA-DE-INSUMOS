@@ -8,7 +8,8 @@ import { HOME_CONTAINER } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
 export async function WebDevPortfolio() {
-  const [trabajos, { dict }] = await Promise.all([getTrabajosRealizados(), getDictionary()]);
+  const { locale, dict } = await getDictionary();
+  const trabajos = await getTrabajosRealizados(locale);
   if (trabajos.length === 0) return null;
 
   return (
@@ -33,10 +34,10 @@ export async function WebDevPortfolio() {
             const contenido = (
               <>
                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
-                  {trabajo.imagen_url ? (
+                  {trabajo.imagenUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={trabajo.imagen_url}
+                      src={trabajo.imagenUrl}
                       alt={trabajo.titulo}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

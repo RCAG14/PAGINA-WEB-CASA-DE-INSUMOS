@@ -81,7 +81,7 @@ export async function MysteryPanel({ box }: { box: SurpriseBox }) {
                 >
                   <Image
                     src={url}
-                    alt={`Artículo de referencia ${i + 1} — ejemplo de producto en caja sorpresa de devoluciones de Amazon en Bolivia`}
+                    alt={dict.mysteryPanel.referenceImageAlt.replace("{n}", String(i + 1))}
                     fill
                     sizes="120px"
                     className="object-cover"

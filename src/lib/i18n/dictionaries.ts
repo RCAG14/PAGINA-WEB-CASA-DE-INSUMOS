@@ -1,6 +1,36 @@
 export type Locale = "es" | "en";
 
 const es = {
+  meta: {
+    defaultTitle: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia y Desarrollo Web",
+    defaultDescription:
+      "Cajas de retorno de Amazon en Bolivia, listadas y sorpresa, con manifiesto verificado, y desarrollo web a medida para negocios de cualquier país.",
+    home: {
+      title: "Casa de Insumos | Cajas de Devoluciones Amazon en Bolivia y Desarrollo Web",
+      description:
+        "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado y desarrollo web a medida para negocios de cualquier país. Cotiza ahora.",
+      ogDescription:
+        "Cajas de devoluciones de Amazon en Bolivia y desarrollo web a medida para negocios de todo el mundo.",
+      ogLocale: "es_ES",
+    },
+    cajas: {
+      title: "Cajas de Devoluciones de Amazon en Bolivia",
+      description:
+        "Cajas de devoluciones de Amazon en Bolivia con manifiesto verificado y certificación aduanera. Cajas de retorno por lote o sorpresa. Ve el catálogo.",
+      ogTitle: "Cajas de Devoluciones de Amazon en Bolivia | Casa de Insumos",
+      ogDescription:
+        "Lotes listados con manifiesto verificado o cajas sorpresa clasificadas por categoría, con certificación aduanera documentada en Bolivia.",
+    },
+    webdev: {
+      title: "Desarrollo Web a Medida | Casa de Insumos",
+      description:
+        "Desarrollo web a medida para negocios de cualquier país: sitios, sistemas, dashboards y chatbots. Paquetes con precio en dólares. Cotiza por WhatsApp.",
+      ogDescription:
+        "Sitios web, sistemas, dashboards y chatbots a medida para cualquier tipo de negocio, estés donde estés.",
+    },
+    organization:
+      "Cajas de retorno de Amazon en Bolivia con manifiesto verificado y desarrollo web a medida para negocios de cualquier país.",
+  },
   header: {
     navCatalog: "Catálogo",
     navServices: "Servicios",
@@ -147,6 +177,7 @@ const es = {
   boxVisual: {
     contentReserved: "Contenido reservado",
     featuredBadge: "Destacada",
+    imageAlt: "{name} — caja de devoluciones de Amazon en Bolivia, categoría {category}",
   },
   productPage: {
     backToCatalog: "Volver al catálogo",
@@ -198,6 +229,8 @@ const es = {
     maxItemsPrefix: "hasta",
     maxItemsSuffix: "artículos",
     undisclosedLabel: "Artículos sin revelar",
+    referenceImageAlt:
+      "Artículo de referencia {n} — ejemplo de producto en caja sorpresa de devoluciones de Amazon en Bolivia",
     footnote:
       "El desglose exacto de artículos, condición y valor por unidad se registra en el manifiesto interno y se reserva hasta el despacho.",
   },
@@ -297,17 +330,17 @@ const es = {
   },
   homeLanding: {
     description:
-      "Líderes en logística y distribución técnica por caja en Bolivia. Especialistas en cajas de devoluciones de Amazon, importaciones y desarrollo web a medida.",
+      "Cajas de devoluciones de Amazon para revendedores en Bolivia y desarrollo web a medida para negocios de cualquier país.",
     ctaCatalog: "Ver Catálogo de Cajas",
     ctaQuote: "Solicitar Cotización",
     aboutEyebrow: "Sobre nosotros",
     aboutTitle: "Dos líneas de negocio, un mismo compromiso",
     aboutDescription:
-      "Casa de Insumos nació para resolver dos necesidades del revendedor boliviano: acceso a mercadería de liquidación con trazabilidad real, y herramientas digitales propias para vender mejor. Somos un equipo local, con atención directa y resultados medibles.",
+      "Casa de Insumos resuelve dos necesidades: mercadería de liquidación con trazabilidad real para revendedores en Bolivia, y herramientas digitales propias para negocios de cualquier país. Atención directa y resultados medibles.",
     aboutPoints: [
       {
-        titulo: "Equipo local en Bolivia",
-        descripcion: "Atendemos desde Bolivia y conocemos al revendedor boliviano.",
+        titulo: "Con base en Bolivia",
+        descripcion: "Cajas para revendedores en Bolivia y desarrollo web para clientes de todo el mundo.",
       },
       {
         titulo: "Atención directa",
@@ -328,8 +361,8 @@ const es = {
     scrollToServices: "Servicios",
     scrollToContact: "Contacto",
     choices: {
-      eyebrow: "Casa de Insumos · Bolivia",
-      title: "Cajas de devoluciones de Amazon y desarrollo web en Bolivia",
+      eyebrow: "Casa de Insumos",
+      title: "Cajas de devoluciones de Amazon en Bolivia y desarrollo web para todo el mundo",
       subtitle: "Elige el servicio que necesitas para empezar.",
       priceFrom: "Desde",
       cajas: {
@@ -373,7 +406,7 @@ const es = {
       {
         titulo: "Desarrollo Web a Medida",
         descripcion:
-          "Sitios web, sistemas, dashboards y chatbots — desarrollo web en Bolivia a medida para cualquier negocio.",
+          "Sitios web, sistemas, dashboards y chatbots a medida para negocios de cualquier país.",
         cta: "Ver paquetes",
       },
     ],
@@ -382,10 +415,10 @@ const es = {
   webdev: {
     backHome: "← Casa de Insumos",
     hero: {
-      eyebrow: "Desarrollo Web en Bolivia",
-      title: "Desarrollo web a medida para negocios en Bolivia",
+      eyebrow: "Desarrollo Web a Medida",
+      title: "Desarrollo web a medida para negocios de cualquier país",
       description:
-        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas, hechos a medida para cualquier tipo de negocio en Bolivia.",
+        "Sitios web, sistemas web, dashboards, chatbots y sistemas de ventas o reservas, hechos a medida para cualquier tipo de negocio, estés donde estés.",
       ctaPricing: "Ver paquetes",
       ctaTypes: "Qué desarrollamos",
       ctaQuote: "Cotizar por WhatsApp",
@@ -411,7 +444,10 @@ const es = {
     pricing: {
       eyebrow: "Paquetes",
       title: "Elegí el alcance que necesitás",
-      description: "Precios referenciales — la cotización final se ajusta según el alcance exacto de tu proyecto.",
+      description:
+        "Precios referenciales en dólares (USD) — la cotización final se ajusta según el alcance exacto de tu proyecto.",
+      currencyLabel: "Ver precios en",
+      currencyBobNote: "Montos referenciales en bolivianos, a Bs {rate} por dólar.",
       recommended: "Recomendado",
       quoteCta: "Cotizar por WhatsApp",
       quoteFallback: "Configurá un número de contacto para cotizar",
@@ -462,7 +498,7 @@ const es = {
       eyebrow: "Contacto",
       title: "Contanos tu proyecto",
       footerDescription:
-        "Desarrollo web a medida en Bolivia: sitios web, sistemas, dashboards y chatbots para cualquier tipo de negocio.",
+        "Desarrollo web a medida para negocios de cualquier país: sitios web, sistemas, dashboards y chatbots.",
       description: "Escríbenos por WhatsApp qué necesitas y te respondemos con una propuesta y un precio.",
       cta: "Escribir por WhatsApp",
       locationLabel: "Encuéntranos en Casa de Insumos",
@@ -487,6 +523,14 @@ const es = {
     registerLink: "Registrate",
     haveAccount: "¿Ya tenés cuenta?",
     loginLink: "Iniciar sesión",
+    errors: {
+      loginMissing: "Ingresa tu usuario y contraseña.",
+      loginInvalid: "Usuario o contraseña incorrectos.",
+      registerMissing: "Completa todos los campos.",
+      passwordTooShort: "La contraseña debe tener al menos 6 caracteres.",
+      passwordMismatch: "Las contraseñas no coinciden.",
+      usernameTaken: "Ese usuario ya está en uso.",
+    },
   },
   languageSwitcher: {
     label: "Idioma",
@@ -494,6 +538,36 @@ const es = {
 };
 
 const en: typeof es = {
+  meta: {
+    defaultTitle: "Casa de Insumos | Amazon Return Boxes in Bolivia and Web Development",
+    defaultDescription:
+      "Listed and mystery Amazon return boxes in Bolivia with verified manifests, plus custom web development for businesses in any country.",
+    home: {
+      title: "Casa de Insumos | Amazon Return Boxes in Bolivia and Web Development",
+      description:
+        "Amazon return boxes in Bolivia with verified manifests, and custom web development for businesses in any country. Get a quote now.",
+      ogDescription:
+        "Amazon return boxes in Bolivia and custom web development for businesses worldwide.",
+      ogLocale: "en_US",
+    },
+    cajas: {
+      title: "Amazon Return Boxes in Bolivia",
+      description:
+        "Amazon return boxes in Bolivia with verified manifests and customs certification. Return boxes by lot or as mystery boxes. Browse the catalog.",
+      ogTitle: "Amazon Return Boxes in Bolivia | Casa de Insumos",
+      ogDescription:
+        "Listed lots with verified manifests or mystery boxes classified by category, with documented customs certification in Bolivia.",
+    },
+    webdev: {
+      title: "Custom Web Development | Casa de Insumos",
+      description:
+        "Custom web development for businesses in any country: websites, systems, dashboards and chatbots. Packages priced in US dollars. Get a quote on WhatsApp.",
+      ogDescription:
+        "Custom websites, systems, dashboards and chatbots for any kind of business, wherever you are.",
+    },
+    organization:
+      "Amazon return boxes in Bolivia with verified manifests, and custom web development for businesses in any country.",
+  },
   header: {
     navCatalog: "Catalog",
     navServices: "Services",
@@ -640,6 +714,7 @@ const en: typeof es = {
   boxVisual: {
     contentReserved: "Content reserved",
     featuredBadge: "Featured",
+    imageAlt: "{name} — Amazon return box in Bolivia, {category} category",
   },
   productPage: {
     backToCatalog: "Back to catalog",
@@ -691,6 +766,7 @@ const en: typeof es = {
     maxItemsPrefix: "up to",
     maxItemsSuffix: "items",
     undisclosedLabel: "Undisclosed items",
+    referenceImageAlt: "Reference item {n} — sample product from an Amazon return mystery box in Bolivia",
     footnote:
       "The exact breakdown of items, condition and per-unit value is recorded in the internal manifest and reserved until dispatch.",
   },
@@ -790,17 +866,17 @@ const en: typeof es = {
   },
   homeLanding: {
     description:
-      "Leaders in logistics and technical distribution by box in Bolivia. Specialists in Amazon return boxes, importing and custom web development.",
+      "Amazon return boxes for resellers in Bolivia and custom web development for businesses in any country.",
     ctaCatalog: "View Box Catalog",
     ctaQuote: "Request a Quote",
     aboutEyebrow: "About us",
     aboutTitle: "Two business lines, one commitment",
     aboutDescription:
-      "Casa de Insumos was built to solve two needs for Bolivian resellers: access to traceable liquidation merchandise, and their own digital tools to sell better. We're a local team, with direct support and measurable results.",
+      "Casa de Insumos solves two needs: traceable liquidation merchandise for resellers in Bolivia, and custom digital tools for businesses in any country. Direct support and measurable results.",
     aboutPoints: [
       {
-        titulo: "Local team in Bolivia",
-        descripcion: "We work from Bolivia and know the Bolivian reseller.",
+        titulo: "Based in Bolivia",
+        descripcion: "Boxes for resellers in Bolivia and web development for clients worldwide.",
       },
       {
         titulo: "Direct support",
@@ -821,8 +897,8 @@ const en: typeof es = {
     scrollToServices: "Services",
     scrollToContact: "Contact",
     choices: {
-      eyebrow: "Casa de Insumos · Bolivia",
-      title: "Amazon return boxes and web development in Bolivia",
+      eyebrow: "Casa de Insumos",
+      title: "Amazon return boxes in Bolivia and web development worldwide",
       subtitle: "Choose the service you need to get started.",
       priceFrom: "From",
       cajas: {
@@ -851,7 +927,7 @@ const en: typeof es = {
     items: [
       {
         titulo: "Return Box Catalog",
-        descripcion: "Amazon return lots in mystery or listed mode, with a verifiable manifest.",
+        descripcion: "Amazon return lots in Bolivia, in mystery or listed mode, with a verifiable manifest.",
         cta: "View catalog",
       },
       {
@@ -874,9 +950,9 @@ const en: typeof es = {
     backHome: "← Casa de Insumos",
     hero: {
       eyebrow: "Custom Web Development",
-      title: "Custom web development for businesses in Bolivia",
+      title: "Custom web development for businesses in any country",
       description:
-        "Websites, web systems, dashboards, chatbots and sales or booking systems, built to measure for any kind of business in Bolivia.",
+        "Websites, web systems, dashboards, chatbots and sales or booking systems, built to measure for any kind of business, wherever you are.",
       ctaPricing: "View packages",
       ctaTypes: "What we build",
       ctaQuote: "Get a quote on WhatsApp",
@@ -902,7 +978,10 @@ const en: typeof es = {
     pricing: {
       eyebrow: "Packages",
       title: "Choose the scope you need",
-      description: "Reference prices — the final quote is adjusted to the exact scope of your project.",
+      description:
+        "Reference prices in US dollars (USD) — the final quote is adjusted to the exact scope of your project.",
+      currencyLabel: "Show prices in",
+      currencyBobNote: "Reference amounts in bolivianos, at Bs {rate} per US dollar.",
       recommended: "Recommended",
       quoteCta: "Quote via WhatsApp",
       quoteFallback: "Set up a contact number to request quotes",
@@ -953,7 +1032,7 @@ const en: typeof es = {
       eyebrow: "Contact",
       title: "Tell us about your project",
       footerDescription:
-        "Custom web development in Bolivia: websites, systems, dashboards and chatbots for any kind of business.",
+        "Custom web development for businesses in any country: websites, systems, dashboards and chatbots.",
       description: "Message us on WhatsApp with what you need and we'll reply with a proposal and a price.",
       cta: "Message us on WhatsApp",
       locationLabel: "Find us at Casa de Insumos",
@@ -978,6 +1057,14 @@ const en: typeof es = {
     registerLink: "Sign up",
     haveAccount: "Already have an account?",
     loginLink: "Log in",
+    errors: {
+      loginMissing: "Enter your username and password.",
+      loginInvalid: "Incorrect username or password.",
+      registerMissing: "Fill in all the fields.",
+      passwordTooShort: "The password must be at least 6 characters long.",
+      passwordMismatch: "The passwords don't match.",
+      usernameTaken: "That username is already taken.",
+    },
   },
   languageSwitcher: {
     label: "Language",

@@ -17,14 +17,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { StorageUploader, type StorageAsset } from "@/components/admin/storage-uploader";
+import { TraduccionIngles } from "@/components/admin/traduccion-ingles";
 import type { TrabajoRealizadoInput } from "@/lib/data/desarrollo";
 
 const FOLDER = "casa-de-insumos/desarrollo-web/trabajos";
 
 const EMPTY_VALUES: TrabajoRealizadoInput = {
   titulo: "",
+  tituloEn: null,
   categoria: "",
+  categoriaEn: null,
   descripcion: "",
+  descripcionEn: null,
   imagenUrl: null,
   imagenPath: null,
   enlace: null,
@@ -60,7 +64,7 @@ export function TrabajoFormDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={trigger}>{triggerContent}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle className="font-mono-technical text-sm uppercase tracking-wider">
@@ -143,6 +147,44 @@ export function TrabajoFormDialog({
                 }
               />
             </div>
+
+            <TraduccionIngles>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="tr-titulo-en" className="text-xs">
+                  Title
+                </Label>
+                <Input
+                  id="tr-titulo-en"
+                  placeholder="Restaurant website"
+                  value={values.tituloEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, tituloEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="tr-categoria-en" className="text-xs">
+                  Category / industry
+                </Label>
+                <Input
+                  id="tr-categoria-en"
+                  placeholder="Restaurant"
+                  value={values.categoriaEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, categoriaEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="tr-descripcion-en" className="text-xs">
+                  Description
+                </Label>
+                <Textarea
+                  id="tr-descripcion-en"
+                  rows={3}
+                  value={values.descripcionEn ?? ""}
+                  onChange={(e) =>
+                    setValues((cur) => ({ ...cur, descripcionEn: e.target.value }))
+                  }
+                />
+              </div>
+            </TraduccionIngles>
 
             <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="tr-activo" className="text-xs">

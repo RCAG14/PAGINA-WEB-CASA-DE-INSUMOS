@@ -2,6 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { toDecimalNumber } from "@/lib/data/decimal";
 import { deleteFromSupabaseStorage } from "@/lib/supabase";
+import type { Locale } from "@/lib/i18n/dictionaries";
+
+// Todos los montos de desarrollo web están en dólares (USD). Los campos `*En`
+// son la traducción al inglés: si están vacíos, la vista pública usa el español.
 
 function throwFriendlyUniqueError(error: unknown, message: string): never {
   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
@@ -10,10 +14,21 @@ function throwFriendlyUniqueError(error: unknown, message: string): never {
   throw error;
 }
 
+/** Texto en el idioma del visitante, o el español si falta la traducción. */
+function traducir(es: string, en: string | null | undefined, locale: Locale) {
+  return locale === "en" && en?.trim() ? en : es;
+}
+
+function textoOpcional(value: unknown) {
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
 export interface DesgloseItem {
   concepto: string;
   monto: number;
   motivo: string;
+  conceptoEn: string | null;
+  motivoEn: string | null;
 }
 
 /** Normaliza la columna JSON `desglose` — descarta entradas mal formadas. */
@@ -21,18 +36,29 @@ function parseDesglose(value: Prisma.JsonValue): DesgloseItem[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item) => {
     if (!item || typeof item !== "object" || Array.isArray(item)) return [];
-    const { concepto, monto, motivo } = item as Record<string, unknown>;
+    const { concepto, monto, motivo, conceptoEn, motivoEn } = item as Record<string, unknown>;
     if (typeof concepto !== "string" || typeof monto !== "number") return [];
-    return [{ concepto, monto, motivo: typeof motivo === "string" ? motivo : "" }];
+    return [
+      {
+        concepto,
+        monto,
+        motivo: typeof motivo === "string" ? motivo : "",
+        conceptoEn: textoOpcional(conceptoEn),
+        motivoEn: textoOpcional(motivoEn),
+      },
+    ];
   });
 }
 
 export interface PaqueteDesarrolloInput {
   nombre: string;
+  nombreEn: string | null;
   tagline: string;
+  taglineEn: string | null;
   precio: number;
   mantenimientoMensual: number | null;
   features: string[];
+  featuresEn: string[];
   desglose: DesgloseItem[];
   destacado: boolean;
   activo: boolean;
@@ -42,8 +68,11 @@ export async function getPaquetesDesarrolloAdmin() {
   const rows = await prisma.paqueteDesarrollo.findMany({ orderBy: { orden: "asc" } });
   // El campo `precio` es un Decimal de Prisma — no es un objeto plano serializable
   // a través del límite Server → Client Component, por eso se convierte a number aquí.
-  return rows.map(({ mantenimiento_mensual, ...p }) => ({
+  return rows.map(({ mantenimiento_mensual, nombre_en, tagline_en, features_en, ...p }) => ({
     ...p,
+    nombreEn: nombre_en,
+    taglineEn: tagline_en,
+    featuresEn: features_en,
     precio: toDecimalNumber(p.precio),
     desglose: parseDesglose(p.desglose),
     mantenimientoMensual:
@@ -51,25 +80,32 @@ export async function getPaquetesDesarrolloAdmin() {
   }));
 }
 
-export async function getPaquetesDesarrollo() {
+/** Paquetes visibles, con los textos ya en el idioma del visitante. */
+export async function getPaquetesDesarrollo(locale: Locale) {
   const rows = await prisma.paqueteDesarrollo.findMany({
     where: { activo: true },
     orderBy: { orden: "asc" },
   });
   return rows.map((p) => ({
     id: p.id,
-    nombre: p.nombre,
-    tagline: p.tagline,
+    nombre: traducir(p.nombre, p.nombre_en, locale),
+    // El mensaje de WhatsApp llega al negocio: siempre con el nombre en español.
+    nombreEs: p.nombre,
+    tagline: traducir(p.tagline, p.tagline_en, locale),
     precio: toDecimalNumber(p.precio),
     mantenimientoMensual:
       p.mantenimiento_mensual === null ? null : toDecimalNumber(p.mantenimiento_mensual),
-    features: p.features,
-    desglose: parseDesglose(p.desglose),
+    features: locale === "en" && p.features_en.length > 0 ? p.features_en : p.features,
+    desglose: parseDesglose(p.desglose).map((d) => ({
+      concepto: traducir(d.concepto, d.conceptoEn, locale),
+      monto: d.monto,
+      motivo: traducir(d.motivo, d.motivoEn, locale),
+    })),
     destacado: p.destacado,
   }));
 }
 
-/** Precio del paquete activo más barato — referencia "desde" de la portada. */
+/** Precio (USD) del paquete activo más barato — referencia "desde" de la portada. */
 export async function getPrecioMinimoPaquetes(): Promise<number | null> {
   const { _min } = await prisma.paqueteDesarrollo.aggregate({
     where: { activo: true },
@@ -78,17 +114,29 @@ export async function getPrecioMinimoPaquetes(): Promise<number | null> {
   return _min.precio === null ? null : toDecimalNumber(_min.precio);
 }
 
+function toPaqueteData({
+  mantenimientoMensual,
+  desglose,
+  nombreEn,
+  taglineEn,
+  featuresEn,
+  ...rest
+}: PaqueteDesarrolloInput) {
+  return {
+    ...rest,
+    nombre_en: nombreEn?.trim() || null,
+    tagline_en: taglineEn?.trim() || null,
+    features_en: featuresEn,
+    desglose: desglose as unknown as Prisma.InputJsonValue,
+    mantenimiento_mensual: mantenimientoMensual,
+  };
+}
+
 export async function crearPaqueteDesarrollo(input: PaqueteDesarrolloInput) {
   const count = await prisma.paqueteDesarrollo.count();
-  const { mantenimientoMensual, desglose, ...rest } = input;
   try {
     return await prisma.paqueteDesarrollo.create({
-      data: {
-        ...rest,
-        desglose: desglose as unknown as Prisma.InputJsonValue,
-        mantenimiento_mensual: mantenimientoMensual,
-        orden: count,
-      },
+      data: { ...toPaqueteData(input), orden: count },
     });
   } catch (error) {
     throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
@@ -96,15 +144,10 @@ export async function crearPaqueteDesarrollo(input: PaqueteDesarrolloInput) {
 }
 
 export async function actualizarPaqueteDesarrollo(id: string, input: PaqueteDesarrolloInput) {
-  const { mantenimientoMensual, desglose, ...rest } = input;
   try {
     return await prisma.paqueteDesarrollo.update({
       where: { id },
-      data: {
-        ...rest,
-        desglose: desglose as unknown as Prisma.InputJsonValue,
-        mantenimiento_mensual: mantenimientoMensual,
-      },
+      data: toPaqueteData(input),
     });
   } catch (error) {
     throwFriendlyUniqueError(error, "Ya existe un paquete con ese nombre.");
@@ -121,50 +164,57 @@ export async function actualizarOrdenPaqueteDesarrollo(id: string, orden: number
 
 export interface ExtraDesarrolloInput {
   nombre: string;
+  nombreEn: string | null;
   motivo: string;
+  motivoEn: string | null;
   precio: number;
   unidad: string | null;
+  unidadEn: string | null;
   precioDesde: boolean;
   activo: boolean;
 }
 
-function mapExtra(e: {
-  id: string;
-  nombre: string;
-  motivo: string;
-  precio: Prisma.Decimal;
-  unidad: string | null;
-  precio_desde: boolean;
-  activo: boolean;
-  orden: number;
-}) {
+function toExtraData({ precioDesde, nombreEn, motivoEn, unidadEn, ...rest }: ExtraDesarrolloInput) {
   return {
-    id: e.id,
-    nombre: e.nombre,
-    motivo: e.motivo,
-    precio: toDecimalNumber(e.precio),
-    unidad: e.unidad,
-    precioDesde: e.precio_desde,
-    activo: e.activo,
-    orden: e.orden,
+    ...rest,
+    nombre_en: nombreEn?.trim() || null,
+    motivo_en: motivoEn?.trim() || null,
+    unidad_en: unidadEn?.trim() || null,
+    precio_desde: precioDesde,
   };
-}
-
-function toExtraData({ precioDesde, ...rest }: ExtraDesarrolloInput) {
-  return { ...rest, precio_desde: precioDesde };
 }
 
 export async function getExtrasDesarrolloAdmin() {
   const rows = await prisma.extraDesarrollo.findMany({ orderBy: { orden: "asc" } });
-  return rows.map(mapExtra);
+  return rows.map((e) => ({
+    id: e.id,
+    nombre: e.nombre,
+    nombreEn: e.nombre_en,
+    motivo: e.motivo,
+    motivoEn: e.motivo_en,
+    precio: toDecimalNumber(e.precio),
+    unidad: e.unidad,
+    unidadEn: e.unidad_en,
+    precioDesde: e.precio_desde,
+    activo: e.activo,
+    orden: e.orden,
+  }));
 }
 
-export async function getExtrasDesarrollo() {
+/** Extras visibles, con los textos ya en el idioma del visitante. */
+export async function getExtrasDesarrollo(locale: Locale) {
   const rows = await prisma.extraDesarrollo.findMany({
     where: { activo: true },
     orderBy: { orden: "asc" },
   });
-  return rows.map(mapExtra);
+  return rows.map((e) => ({
+    id: e.id,
+    nombre: traducir(e.nombre, e.nombre_en, locale),
+    motivo: traducir(e.motivo, e.motivo_en, locale),
+    precio: toDecimalNumber(e.precio),
+    unidad: e.unidad === null ? null : traducir(e.unidad, e.unidad_en, locale),
+    precioDesde: e.precio_desde,
+  }));
 }
 
 export async function crearExtraDesarrollo(input: ExtraDesarrolloInput) {
@@ -194,38 +244,61 @@ export async function actualizarOrdenExtraDesarrollo(id: string, orden: number) 
 
 export interface TrabajoRealizadoInput {
   titulo: string;
+  tituloEn: string | null;
   categoria: string;
+  categoriaEn: string | null;
   descripcion: string;
+  descripcionEn: string | null;
   imagenUrl: string | null;
   imagenPath: string | null;
   enlace: string | null;
   activo: boolean;
 }
 
+function toTrabajoData(input: TrabajoRealizadoInput) {
+  return {
+    titulo: input.titulo,
+    titulo_en: input.tituloEn?.trim() || null,
+    categoria: input.categoria,
+    categoria_en: input.categoriaEn?.trim() || null,
+    descripcion: input.descripcion,
+    descripcion_en: input.descripcionEn?.trim() || null,
+    imagen_url: input.imagenUrl,
+    imagen_path: input.imagenPath,
+    enlace: input.enlace,
+    activo: input.activo,
+  };
+}
+
 export async function getTrabajosRealizadosAdmin() {
   return prisma.trabajoRealizado.findMany({ orderBy: { orden: "asc" } });
 }
 
-export async function getTrabajosRealizados() {
-  return prisma.trabajoRealizado.findMany({
+/** Trabajos visibles, con los textos ya en el idioma del visitante. */
+export async function getTrabajosRealizados(locale: Locale) {
+  const rows = await prisma.trabajoRealizado.findMany({
     where: { activo: true },
     orderBy: { orden: "asc" },
   });
+  return rows.map((t) => ({
+    id: t.id,
+    titulo: traducir(t.titulo, t.titulo_en, locale),
+    categoria: traducir(t.categoria, t.categoria_en, locale),
+    descripcion: traducir(t.descripcion, t.descripcion_en, locale),
+    imagenUrl: t.imagen_url,
+    enlace: t.enlace,
+  }));
+}
+
+/** Cantidad de trabajos visibles — dato "Proyectos realizados" del hero. */
+export async function contarTrabajosRealizados() {
+  return prisma.trabajoRealizado.count({ where: { activo: true } });
 }
 
 export async function crearTrabajoRealizado(input: TrabajoRealizadoInput) {
   const count = await prisma.trabajoRealizado.count();
   return prisma.trabajoRealizado.create({
-    data: {
-      titulo: input.titulo,
-      categoria: input.categoria,
-      descripcion: input.descripcion,
-      imagen_url: input.imagenUrl,
-      imagen_path: input.imagenPath,
-      enlace: input.enlace,
-      activo: input.activo,
-      orden: count,
-    },
+    data: { ...toTrabajoData(input), orden: count },
   });
 }
 
@@ -234,15 +307,7 @@ export async function actualizarTrabajoRealizado(id: string, input: TrabajoReali
 
   await prisma.trabajoRealizado.update({
     where: { id },
-    data: {
-      titulo: input.titulo,
-      categoria: input.categoria,
-      descripcion: input.descripcion,
-      imagen_url: input.imagenUrl,
-      imagen_path: input.imagenPath,
-      enlace: input.enlace,
-      activo: input.activo,
-    },
+    data: toTrabajoData(input),
   });
 
   // Si el admin reemplazó la imagen (nuevo path), limpia el asset viejo en Supabase Storage.

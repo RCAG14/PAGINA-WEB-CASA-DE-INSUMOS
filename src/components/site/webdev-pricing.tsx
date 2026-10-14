@@ -4,7 +4,6 @@ import {
   getExtrasDesarrollo,
   getPaquetesDesarrollo,
 } from "@/lib/data/desarrollo";
-import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 // Columnas fijas compartidas por el encabezado y cada fila de extras, para que
@@ -15,13 +14,14 @@ import { getDictionary } from "@/lib/i18n/locale";
 import { HOME_CONTAINER } from "@/lib/layout";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { WebDevPricingCard } from "@/components/site/webdev-pricing-card";
+import { MonedaToggle, PrecioDesarrollo } from "@/components/site/precio-desarrollo";
 
 export async function WebDevPricing() {
-  const [paquetes, extras, whatsappNumero, { dict }] = await Promise.all([
-    getPaquetesDesarrollo(),
-    getExtrasDesarrollo(),
+  const { locale, dict } = await getDictionary();
+  const [paquetes, extras, whatsappNumero] = await Promise.all([
+    getPaquetesDesarrollo(locale),
+    getExtrasDesarrollo(locale),
     getNumeroWhatsappPrincipal(),
-    getDictionary(),
   ]);
 
   if (paquetes.length === 0) return null;
@@ -42,6 +42,7 @@ export async function WebDevPricing() {
           <p className="max-w-2xl text-pretty text-base text-muted-foreground">
             {dict.webdev.pricing.description}
           </p>
+          <MonedaToggle className="mt-2" />
         </ScrollReveal>
 
         <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-5">
@@ -120,7 +121,7 @@ export async function WebDevPricing() {
                               {dict.webdev.pricing.extrasFrom}
                             </span>
                           )}
-                          {formatPrice(extra.precio)}
+                          <PrecioDesarrollo usd={extra.precio} />
                         </span>
                         {extra.unidad && (
                           <span className="text-[11px] text-muted-foreground">

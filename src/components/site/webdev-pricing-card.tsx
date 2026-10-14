@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/format";
+import { PrecioDesarrollo } from "@/components/site/precio-desarrollo";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { getPaquetesDesarrollo } from "@/lib/data/desarrollo";
 
@@ -49,7 +49,7 @@ export function WebDevPricingCard({
   dict: Dictionary["webdev"]["pricing"];
   whatsappNumero: string | null;
 }) {
-  const mensaje = `Hola, quiero cotizar el paquete ${paquete.nombre} de desarrollo web.`;
+  const mensaje = `Hola, quiero cotizar el paquete ${paquete.nombreEs} de desarrollo web.`;
   // El foco inicial va al título: si fuera al primer elemento enfocable (el
   // botón de cotizar, al fondo), el modal se abriría desplazado hacia abajo.
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -76,13 +76,13 @@ export function WebDevPricingCard({
 
         <div className="flex flex-col gap-1">
           <p className="font-heading text-3xl font-bold text-primary">
-            {formatPrice(paquete.precio)}
+            <PrecioDesarrollo usd={paquete.precio} />
           </p>
           {/* El mantenimiento es un costo recurrente: se muestra antes de abrir
               el detalle para que el precio no sorprenda después. */}
           {paquete.mantenimientoMensual !== null && (
             <p className="text-xs text-muted-foreground">
-              + {formatPrice(paquete.mantenimientoMensual)} {dict.maintenanceSuffix}{" "}
+              + <PrecioDesarrollo usd={paquete.mantenimientoMensual} /> {dict.maintenanceSuffix}{" "}
               {dict.maintenanceCardNote}
             </p>
           )}
@@ -140,14 +140,14 @@ export function WebDevPricingCard({
             <div>
               <p className={SECTION_LABEL}>{dict.priceLabel}</p>
               <p className="font-heading text-2xl font-bold text-primary">
-                {formatPrice(paquete.precio)}
+                <PrecioDesarrollo usd={paquete.precio} />
               </p>
             </div>
             <div>
               <p className={SECTION_LABEL}>{dict.maintenanceLabel}</p>
               {paquete.mantenimientoMensual !== null ? (
                 <p className="font-heading text-2xl font-bold">
-                  {formatPrice(paquete.mantenimientoMensual)}{" "}
+                  <PrecioDesarrollo usd={paquete.mantenimientoMensual} />{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     {dict.maintenanceSuffix}
                   </span>
@@ -195,14 +195,14 @@ export function WebDevPricingCard({
                           )}
                         </div>
                         <span className="shrink-0 font-mono-technical text-sm font-semibold text-primary">
-                          {formatPrice(item.monto)}
+                          <PrecioDesarrollo usd={item.monto} />
                         </span>
                       </li>
                     ))}
                     <li className="flex items-center justify-between gap-4 pt-2.5">
                       <span className="text-sm font-semibold">{dict.breakdownTotal}</span>
                       <span className="font-mono-technical text-sm font-bold text-primary">
-                        {formatPrice(paquete.precio)}
+                        <PrecioDesarrollo usd={paquete.precio} />
                       </span>
                     </li>
                   </ul>

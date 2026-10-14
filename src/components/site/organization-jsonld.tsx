@@ -6,12 +6,14 @@ const MAPS_LINK = "https://maps.app.goo.gl/w8YaHofM24kX5KN97";
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
 
 interface OrganizationJsonLdProps {
+  description: string;
   logoUrl?: string | null;
   telefono?: string | null;
   redesSociales?: { plataforma: string; url: string }[];
 }
 
 export function OrganizationJsonLd({
+  description,
   logoUrl,
   telefono,
   redesSociales = [],
@@ -30,8 +32,7 @@ export function OrganizationJsonLd({
     alternateName: "Casa Insumos",
     url: SITE_URL,
     ...(logoUrl ? { logo: logoUrl } : {}),
-    description:
-      "Venta de cajas de retorno de Amazon listadas y sorpresa, con manifiesto verificado, certificación aduanera y margen documentado para revendedores.",
+    description,
     ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
     ...(telefono ? { telephone: telefono.startsWith("+") ? telefono : `+${telefono}` } : {}),
     sameAs,

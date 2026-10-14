@@ -6,26 +6,36 @@ import { WebDevPricing } from "@/components/site/webdev-pricing";
 import { WebDevPortfolio } from "@/components/site/webdev-portfolio";
 import { WebDevContact } from "@/components/site/webdev-contact";
 import { SiteFooter } from "@/components/site/site-footer";
+import { getTipoCambioUsdBob } from "@/lib/data/ajustes";
+import { getDictionary } from "@/lib/i18n/locale";
+import { MonedaProvider } from "@/lib/moneda/moneda-context";
+import { getMoneda } from "@/lib/moneda/moneda";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: { absolute: "Desarrollo Web en Bolivia a Medida | Casa de Insumos" },
-  description:
-    "Desarrollo web en Bolivia: sitios, sistemas, dashboards y chatbots a medida para cualquier negocio. Paquetes Básico, Estándar y Premium. Cotiza por WhatsApp.",
-  alternates: { canonical: "/desarrollo-web" },
-  openGraph: {
-    title: "Desarrollo Web en Bolivia a Medida | Casa de Insumos",
-    description:
-      "Sitios web, sistemas, dashboards y chatbots a medida — desarrollo web en Bolivia para cualquier tipo de negocio.",
-    url: "/desarrollo-web",
-    type: "website",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  const m = dict.meta.webdev;
 
-export default function DesarrolloWebPage() {
+  return {
+    title: { absolute: m.title },
+    description: m.description,
+    alternates: { canonical: "/desarrollo-web" },
+    openGraph: {
+      title: m.title,
+      description: m.ogDescription,
+      url: "/desarrollo-web",
+      type: "website",
+    },
+  };
+}
+
+export default async function DesarrolloWebPage() {
+  const [moneda, tipoCambio] = await Promise.all([getMoneda(), getTipoCambioUsdBob()]);
+
+  // Los precios se cargan en dólares; MonedaProvider permite verlos en Bs.
   return (
-    <>
+    <MonedaProvider initialMoneda={moneda} tipoCambio={tipoCambio}>
       <VisitTracker />
       <SiteNavbar seccion="webdev" />
       <WebDevHero />
@@ -37,6 +47,6 @@ export default function DesarrolloWebPage() {
           haya reseñas reales para mostrar (WebDevReviews). */}
       {/* id="pie": "#contacto" ya es el bloque de contacto de esta página. */}
       <SiteFooter seccion="webdev" id="pie" />
-    </>
+    </MonedaProvider>
   );
 }

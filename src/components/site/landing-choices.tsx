@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowDown, ArrowRight, Boxes, Check, MonitorCog, type LucideIcon } from "lucide-react";
 import { getPrecioMinimoCajas } from "@/lib/data/cajas";
 import { getPrecioMinimoPaquetes } from "@/lib/data/desarrollo";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, formatUsd } from "@/lib/format";
 import { HOME_CONTAINER } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 import { getDictionary } from "@/lib/i18n/locale";
@@ -13,7 +13,8 @@ type Opcion = {
   href: string;
   icon: LucideIcon;
   imagenUrl: string;
-  precioDesde: number | null;
+  /** Ya formateado: las cajas cotizan en Bs y desarrollo web en dólares. */
+  precioDesde: string | null;
   eyebrow: string;
   titulo: string;
   puntos: string[];
@@ -40,14 +41,14 @@ export async function LandingChoices() {
       href: "/cajas-devoluciones-amazon-bolivia",
       icon: Boxes,
       imagenUrl: "/portada/servicio-cajas.svg",
-      precioDesde: precioCajas,
+      precioDesde: precioCajas === null ? null : formatPrice(precioCajas),
       ...t.cajas,
     },
     {
       href: "/desarrollo-web",
       icon: MonitorCog,
       imagenUrl: "/portada/servicio-webdev.svg",
-      precioDesde: precioPaquetes,
+      precioDesde: precioPaquetes === null ? null : formatUsd(precioPaquetes),
       ...t.webdev,
     },
   ];
@@ -142,7 +143,7 @@ export async function LandingChoices() {
                         <span className="flex flex-col leading-tight">
                           <span className="text-xs text-white/70">{t.priceFrom}</span>
                           <span className="font-mono-technical text-lg font-semibold">
-                            {formatPrice(precioDesde)}
+                            {precioDesde}
                           </span>
                         </span>
                       )}

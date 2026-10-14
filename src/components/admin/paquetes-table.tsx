@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPrice } from "@/lib/format";
+import { formatUsd } from "@/lib/format";
 import { toast, getErrorMessage } from "@/lib/toast";
 import type { getPaquetesDesarrolloAdmin } from "@/lib/data/desarrollo";
 
@@ -120,7 +120,7 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                   <p className="text-xs text-muted-foreground">{p.tagline}</p>
                 </TableCell>
                 <TableCell className="text-right font-mono-technical text-xs font-semibold text-primary">
-                  {formatPrice(p.precio)}
+                  {formatUsd(p.precio)}
                 </TableCell>
                 <TableCell className="text-xs text-muted-foreground">
                   {p.features.length} ítem{p.features.length === 1 ? "" : "s"}
@@ -160,10 +160,13 @@ export function PaquetesTable({ paquetes }: { paquetes: PaqueteDesarrolloRow[] }
                       paquete={{
                         id: p.id,
                         nombre: p.nombre,
+                        nombreEn: p.nombreEn,
                         tagline: p.tagline,
+                        taglineEn: p.taglineEn,
                         precio: p.precio,
                         mantenimientoMensual: p.mantenimientoMensual,
                         features: p.features,
+                        featuresEn: p.featuresEn,
                         desglose: p.desglose,
                         destacado: p.destacado,
                         activo: p.activo,

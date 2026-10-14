@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPrice } from "@/lib/format";
+import { formatUsd } from "@/lib/format";
 import { toast, getErrorMessage } from "@/lib/toast";
 import type { getExtrasDesarrolloAdmin } from "@/lib/data/desarrollo";
 
@@ -110,7 +110,7 @@ export function ExtrasTable({ extras }: { extras: ExtraDesarrolloRow[] }) {
                 </TableCell>
                 <TableCell className="text-right font-mono-technical text-xs font-semibold whitespace-nowrap text-primary">
                   {e.precioDesde && "desde "}
-                  {formatPrice(e.precio)}
+                  {formatUsd(e.precio)}
                   {e.unidad && (
                     <span className="font-normal text-muted-foreground"> {e.unidad}</span>
                   )}
@@ -150,9 +150,12 @@ export function ExtrasTable({ extras }: { extras: ExtraDesarrolloRow[] }) {
                       extra={{
                         id: e.id,
                         nombre: e.nombre,
+                        nombreEn: e.nombreEn,
                         motivo: e.motivo,
+                        motivoEn: e.motivoEn,
                         precio: e.precio,
                         unidad: e.unidad,
+                        unidadEn: e.unidadEn,
                         precioDesde: e.precioDesde,
                         activo: e.activo,
                       }}

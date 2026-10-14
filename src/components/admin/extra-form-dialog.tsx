@@ -16,13 +16,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { TraduccionIngles } from "@/components/admin/traduccion-ingles";
 import type { ExtraDesarrolloInput } from "@/lib/data/desarrollo";
 
 const EMPTY_VALUES: ExtraDesarrolloInput = {
   nombre: "",
+  nombreEn: null,
   motivo: "",
+  motivoEn: null,
   precio: 0,
   unidad: null,
+  unidadEn: null,
   precioDesde: false,
   activo: true,
 };
@@ -56,7 +60,7 @@ export function ExtraFormDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={trigger}>{triggerContent}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle className="font-mono-technical text-sm uppercase tracking-wider">
@@ -98,7 +102,7 @@ export function ExtraFormDialog({
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="ex-precio" className="text-xs">
-                  Precio (Bs)
+                  Precio (US$)
                 </Label>
                 <Input
                   id="ex-precio"
@@ -124,6 +128,42 @@ export function ExtraFormDialog({
                 />
               </div>
             </div>
+
+            <TraduccionIngles>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="ex-nombre-en" className="text-xs">
+                  Name
+                </Label>
+                <Input
+                  id="ex-nombre-en"
+                  placeholder="Extra section or page"
+                  value={values.nombreEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, nombreEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="ex-motivo-en" className="text-xs">
+                  Why it costs
+                </Label>
+                <Textarea
+                  id="ex-motivo-en"
+                  rows={3}
+                  value={values.motivoEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, motivoEn: e.target.value }))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="ex-unidad-en" className="text-xs">
+                  Unit
+                </Label>
+                <Input
+                  id="ex-unidad-en"
+                  placeholder="each, per hour, per year..."
+                  value={values.unidadEn ?? ""}
+                  onChange={(e) => setValues((cur) => ({ ...cur, unidadEn: e.target.value }))}
+                />
+              </div>
+            </TraduccionIngles>
 
             <div className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
               <Label htmlFor="ex-desde" className="text-xs">
