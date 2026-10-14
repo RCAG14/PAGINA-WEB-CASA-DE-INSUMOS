@@ -456,7 +456,7 @@ const es = {
       priceLabel: "Precio del proyecto",
       maintenanceLabel: "Mantenimiento mensual",
       maintenanceSuffix: "/ mes",
-      maintenanceCardNote: "de mantenimiento desde el 2º año",
+      maintenanceCardNote: "de mantenimiento desde la entrega",
       breakdownHint: "Ver en qué se divide el precio",
       moreFeatures: "más incluidos",
       extrasToggle: "Ver extras opcionales",
@@ -465,7 +465,7 @@ const es = {
       breakdownLabel: "¿Qué estás pagando?",
       breakdownTotal: "Total",
       maintenanceExplain:
-        "Desde el 2º año cubre la renovación del dominio y el hosting, respaldos y cambios menores de contenido.",
+        "Se cobra cada mes desde la entrega. Cubre la corrección de problemas, las modificaciones y cambios de contenido que necesites después de la entrega y los respaldos; desde el 2º año, también la renovación del dominio y el hosting. Las funciones nuevas se cotizan aparte.",
       extrasEyebrow: "Extras opcionales",
       extrasTitle: "Sumá solo lo que tu proyecto necesita",
       extrasDescription:
@@ -990,7 +990,7 @@ const en: typeof es = {
       priceLabel: "Project price",
       maintenanceLabel: "Monthly maintenance",
       maintenanceSuffix: "/ mo",
-      maintenanceCardNote: "maintenance from year 2",
+      maintenanceCardNote: "maintenance from delivery",
       breakdownHint: "See how the price breaks down",
       moreFeatures: "more included",
       extrasToggle: "See optional extras",
@@ -999,7 +999,7 @@ const en: typeof es = {
       breakdownLabel: "What are you paying for?",
       breakdownTotal: "Total",
       maintenanceExplain:
-        "From year 2 it covers domain and hosting renewal, backups and minor content changes.",
+        "Billed monthly from delivery. It covers bug fixes, the changes and content updates you need after delivery, and backups; from year 2, it also covers domain and hosting renewal. New features are quoted separately.",
       extrasEyebrow: "Optional extras",
       extrasTitle: "Add only what your project needs",
       extrasDescription:
